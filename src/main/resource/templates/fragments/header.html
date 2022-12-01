@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+	<header id="app-header" class="row navbar bg-blue border-bottom border-dark py-0 pl-0">
+		<div class="navbar-brand font-weight-bold text-white py-0 d-flex align-items-center">
+			<img class="mr-5" src="https://i.postimg.cc/7Y2Hrb9q/Logo.png" height="44" alt="">
+			FSOFT HR UTILITY
+		</div>
+		<div class="login-control text-white">
+			<div class="user-infor mb-0 small p-0">Welcome, <a href="#" class="text-white" sec:authentication="principal.fullName"></a></div>
+			<div class="logout-btn">
+				<a th:href="@{/logout}" class="logout-link text-white small">Logout</a>
+			</div>
+		</div>
+	</header>
+</body>
+</html>
