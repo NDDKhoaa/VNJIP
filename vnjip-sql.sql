@@ -1,11 +1,9 @@
 /* Role */
-INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('1', 'Admin');
 INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('2', 'Agent');
 INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('3', 'Client');
 /* Role Privileges */
-INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('1','ROLE_ADMIN');
-INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('2','ROLE_AGENT');
-INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('3','ROLE_CLIENT');
+INSERT INTO `vnjip`.`role_privileges`(`role_role_number` , `privileges` ) VALUES ('2','ROLE_AGENT');
+INSERT INTO `vnjip`.`role_privileges`(`role_role_number` , `privileges` ) VALUES ('3','ROLE_CLIENT');
 /* Account Status */
 INSERT INTO `vnjip`.`accountstatus` (`account_status_short`, `account_status_desc`) VALUES ('A', 'Active');
 INSERT INTO `vnjip`.`accountstatus` (`account_status_short`, `account_status_desc`) VALUES ('T', 'Terminated');
