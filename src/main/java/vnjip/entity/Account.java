@@ -10,10 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.Role;
 
 @Entity
@@ -23,19 +25,23 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "account_number", nullable = false, unique = true)
 	private Long accountNumber;
-	@Column(name = "username", nullable = true, unique = true)
+	@Column(name = "username", nullable = true, unique = true, length = 30)
 	private String username;
-	@Column(name = "email", nullable = true, unique = true)
+	@Column(name = "email", nullable = true, unique = true, length = 30)
 	private String email;
-	@Column(name = "password", nullable = true)
+	@Column(name = "password", nullable = true, length = 30)
 	private String password;
-	@Column(name = "status", nullable = true)
-	private String status;
+
 	@Transient
 	private String passwordConfirm;
 
 	@ManyToMany
+	@JoinColumn(name = "role_number", nullable = true)
 	private Set<Role> roles;
+
+	@ManyToOne
+	@JoinColumn(name = "account_status_short", nullable = true)
+	private AccountStatus accountStatus;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "agent_number", nullable = true)
@@ -81,14 +87,6 @@ public class Account {
 		this.password = password;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getPasswordConfirm() {
 		return passwordConfirm;
 	}
@@ -119,6 +117,14 @@ public class Account {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public AccountStatus getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(AccountStatus accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 
 }

@@ -14,9 +14,8 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import vnjip.entity.base.Country;
-import vnjip.entity.base.Gender;
-import vnjip.entity.base.MaritalStatus;
+import vnjip.entity.base.AccountStatus;
+import vnjip.entity.base.AccountType;
 
 @Entity
 @Table(name = "agent")
@@ -25,31 +24,104 @@ public class Agent {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "agent_number", nullable = false, unique = true)
 	private Long agentNumber;
-	@Column(name = "first_name", nullable = true, length = 60)
-	private String firstName;
-	@Column(name = "last_name", nullable = true, length = 60)
-	private String lastName;
+	@Column(name = "agent_name", nullable = true, length = 60)
+	private String agentName;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "date_of_birth", nullable = true)
 	private Date dateOfBirth;
-	@Column(name = "identity_number", nullable = true, length = 15)
-	private String identityNumber;
-	@Column(name = "address", nullable = true, length = 120)
-	private String address;
+	@Column(name = "license_number", nullable = true, length = 20)
+	private String licenseNumber;
+	@Column(name = "company_code", nullable = true, length = 8)
+	private String companyCode;
+	@Column(name = "company_name", nullable = true, length = 60)
+	private String companyName;
 
 	@ManyToOne
-	@JoinColumn(name = "gender_number", nullable = true)
-	private Gender gender;
+	@JoinColumn(name = "account_status_short", nullable = true)
+	private AccountStatus accountStatus;
 
 	@ManyToOne
-	@JoinColumn(name = "marital_number", nullable = true)
-	private MaritalStatus maritalStatus;
-
-	@ManyToOne
-	@JoinColumn(name = "country_number", nullable = true)
-	private Country country;
+	@JoinColumn(name = "account_type_short", nullable = true)
+	private AccountType accountType;
 
 	@OneToOne
 	@JoinColumn(name = "account_number", nullable = true, unique = true)
 	private Account account;
+
+	public Agent() {
+		super();
+	}
+
+	public Long getAgentNumber() {
+		return agentNumber;
+	}
+
+	public void setAgentNumber(Long agentNumber) {
+		this.agentNumber = agentNumber;
+	}
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getLicenseNumber() {
+		return licenseNumber;
+	}
+
+	public void setLicenseNumber(String licenseNumber) {
+		this.licenseNumber = licenseNumber;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public AccountStatus getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(AccountStatus accountStatus) {
+		this.accountStatus = accountStatus;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 }

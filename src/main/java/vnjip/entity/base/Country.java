@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import vnjip.entity.Agent;
 import vnjip.entity.Client;
 
 @Entity
@@ -20,8 +19,6 @@ public class Country {
 	@Column(name = "country_name", nullable = true, length = 15)
 	private String countryName;
 
-	@OneToMany(mappedBy = "country")
-	private List<Agent> agents;
 	@OneToMany(mappedBy = "country")
 	private List<Client> clients;
 
@@ -43,14 +40,6 @@ public class Country {
 
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
-	}
-
-	public List<Agent> getAgents() {
-		return agents;
-	}
-
-	public void setAgents(List<Agent> agents) {
-		this.agents = agents;
 	}
 
 	public List<Client> getClients() {
