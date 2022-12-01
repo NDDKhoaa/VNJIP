@@ -1,6 +1,7 @@
 package vnjip.model;
 
 import java.sql.Date;
+import java.util.Set;
 
 import vnjip.entity.Account;
 import vnjip.entity.Agent;
@@ -9,6 +10,7 @@ import vnjip.entity.base.Country;
 import vnjip.entity.base.Gender;
 import vnjip.entity.base.MaritalStatus;
 import vnjip.entity.base.Role;
+import vnjip.entity.enumtype.PrivilegesEnum;
 
 public class BaseModel {
 
@@ -51,9 +53,18 @@ public class BaseModel {
 	private Role role;
 	private Long roleNumber;
 	private String roleName;
+	private Set<PrivilegesEnum> privileges;
 
 	public BaseModel() {
 		super();
+	}
+
+	public Set<PrivilegesEnum> getPrivileges() {
+		return privileges;
+	}
+
+	public void setPrivileges(Set<PrivilegesEnum> privileges) {
+		this.privileges = privileges;
 	}
 
 	public Account getAccount() {

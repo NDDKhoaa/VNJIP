@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vnjip.entity.Account;
 import vnjip.entity.base.Role;
-import vnjip.repository.UserRepository;
+import vnjip.repository.AccountRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	private UserRepository userRepository;
+	private AccountRepository userRepository;
 
 	@Override
 	@Transactional(readOnly = true)

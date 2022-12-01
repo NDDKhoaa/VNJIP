@@ -5,10 +5,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -35,8 +37,8 @@ public class Account {
 	@Transient
 	private String passwordConfirm;
 
-	@ManyToMany
-	@JoinColumn(name = "role_number", nullable = true)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_number", referencedColumnName = "account_number"), inverseJoinColumns = @JoinColumn(name = "role_number", referencedColumnName = "role_number", table = "role"))
 	private Set<Role> roles;
 
 	@ManyToOne
@@ -53,6 +55,15 @@ public class Account {
 
 	public Account() {
 		super();
+	}
+
+	public Account(String username, String email, String password, Set<Role> roles, AccountStatus accountStatus) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.roles = roles;
+		this.accountStatus = accountStatus;
 	}
 
 	public Long getAccountNumber() {

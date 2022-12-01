@@ -7,12 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Qualifier("userDetailsServiceImpl")
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -24,8 +30,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/resources/**", "/registration").permitAll().anyRequest().authenticated()
-				.and().formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+
+		http.authorizeRequests().antMatchers("/viewAccounts", "/viewRoles").access("hasRole('ROLE_ADMIN')");
+		http.sessionManagement().sessionFixation().migrateSession();
+		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
+				.defaultSuccessUrl("/dashboard", true).permitAll().and().rememberMe()
+				.tokenRepository(this.persistentTokenRepository()) //
+				.tokenValiditySeconds(24 * 1 * 60 * 60)// 24h
+				.and().logout().deleteCookies("JSESSIONID").permitAll();
 	}
 
 	@Bean
@@ -36,5 +48,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/resources/**", "/static/**");
+	}
+
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		InMemoryTokenRepositoryImpl memory = new InMemoryTokenRepositoryImpl();
+
+		return memory;
 	}
 }

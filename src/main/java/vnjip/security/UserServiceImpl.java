@@ -7,13 +7,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vnjip.entity.Account;
+import vnjip.repository.AccountRepository;
 import vnjip.repository.RoleRepository;
-import vnjip.repository.UserRepository;
 
 @Service
 public class UserServiceImpl {
 	@Autowired
-	private UserRepository userRepository;
+	private AccountRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired
