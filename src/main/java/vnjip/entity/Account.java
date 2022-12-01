@@ -31,7 +31,7 @@ public class Account {
 	private String username;
 	@Column(name = "email", nullable = true, unique = true, length = 30)
 	private String email;
-	@Column(name = "password", nullable = true, length = 30)
+	@Column(name = "password", nullable = true, length = 255)
 	private String password;
 
 	@Transient

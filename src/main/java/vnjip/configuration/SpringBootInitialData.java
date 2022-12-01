@@ -14,15 +14,15 @@ import vnjip.entity.Account;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.Role;
 import vnjip.entity.enumtype.PrivilegesEnum;
+import vnjip.repository.AccountRepository;
 import vnjip.repository.RoleRepository;
-import vnjip.repository.UserRepository;
 import vnjip.services.Impl.AccountStatusServiceImpl;
 
 @Component
 public class SpringBootInitialData implements ApplicationRunner {
 
 	@Autowired
-	private UserRepository userRepository;
+	private AccountRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired

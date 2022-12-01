@@ -2,6 +2,10 @@
 INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('1', 'Admin');
 INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('2', 'Agent');
 INSERT INTO `vnjip`.`role` (`role_number`, `role_name`) VALUES ('3', 'Client');
+/* Role Privileges */
+INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('1','ROLE_ADMIN');
+INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('2','ROLE_AGENT');
+INSERT INTO `vnjip`.`role_privileges`(role_role_id , privileges ) VALUES ('3','ROLE_CLIENT');
 /* Account Status */
 INSERT INTO `vnjip`.`accountstatus` (`account_status_short`, `account_status_desc`) VALUES ('A', 'Active');
 INSERT INTO `vnjip`.`accountstatus` (`account_status_short`, `account_status_desc`) VALUES ('T', 'Terminated');
@@ -30,6 +34,3 @@ INSERT INTO `vnjip`.`maritalstatus` (`marital_short`, `marital_status`) VALUES (
 /* Policy Status */
 INSERT INTO `vnjip`.`policy_status` (`policy_status_short`, `policy_status_desc`) VALUES ('PN', 'Pending');
 INSERT INTO `vnjip`.`policy_status` (`policy_status_short`, `policy_status_desc`) VALUES ('IF', 'In force');
-/* Admin Account */
-INSERT INTO `vnjip`.`account` (`account_number`, `email`, `password`, `username`, `account_status_short`) VALUES ('1', 'admin@gmail.com', '123456', 'admin', 'A');
-INSERT INTO `vnjip`.`account_roles` (`account_account_number`, `roles_role_number`) VALUES ('1', '1');
