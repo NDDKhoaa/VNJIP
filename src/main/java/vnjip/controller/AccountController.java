@@ -104,6 +104,19 @@ public class AccountController {
 	@RequestMapping("/modifyAccount")
 	public ModelAndView modifyAccount(@RequestParam("accountNumber") long accountNumber) {
 		ModelAndView mav = new ModelAndView("/account/modifyAccount");
+		Account account = accountServiceImpl.findByNumber(accountNumber);
+		AccountStatus accountStatus = account.getAccountStatus();
+		List<Role> roles = new ArrayList<Role>();
+		for (Role role : account.getRoles()) {
+			roles.add(role);
+		}
+		mav.addObject("updateAccount", account);
+		mav.addObject("updateAccountStatus", accountStatus);
+		mav.addObject("updateRole", roles);
+		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
+		mav.addObject("accountStatusList", accountStatusList);
+		List<Role> roleList = roleServiceImpl.listAll();
+		mav.addObject("roleList", roleList);
 		return mav;
 	}
 
