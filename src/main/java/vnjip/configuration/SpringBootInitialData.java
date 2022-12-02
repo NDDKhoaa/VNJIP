@@ -36,7 +36,7 @@ public class SpringBootInitialData implements ApplicationRunner {
 		if (roles.isEmpty()) {
 			Set<PrivilegesEnum> privilegesEnumSet = new HashSet<>();
 			privilegesEnumSet.add(PrivilegesEnum.ROLE_ADMIN);
-			Role role = new Role("Admin", privilegesEnumSet);
+			Role role = new Role("ROLE_ADMIN", privilegesEnumSet);
 			roleRepository.save(role);
 			roles = roleRepository.findAll();
 			String pwdEncrypt = bCryptPasswordEncoder.encode("123456");

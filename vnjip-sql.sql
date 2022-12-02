@@ -1,6 +1,6 @@
 /* Role */
-INSERT INTO vnjip.dbo.role (role_number, role_name) VALUES ('2', 'Agent');
-INSERT INTO vnjip.dbo.role (role_number, role_name) VALUES ('3', 'Client');
+INSERT INTO vnjip.dbo.role (role_number, role_name) VALUES ('2', 'ROLE_AGENT');
+INSERT INTO vnjip.dbo.role (role_number, role_name) VALUES ('3', 'ROLE_CLIENT');
 /* Role Privileges */
 INSERT INTO vnjip.dbo.role_privileges(role_role_number , privileges ) VALUES ('2','ROLE_AGENT');
 INSERT INTO vnjip.dbo.role_privileges(role_role_number , privileges ) VALUES ('3','ROLE_CLIENT');

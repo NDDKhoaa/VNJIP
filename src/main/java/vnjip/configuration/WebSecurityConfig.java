@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/viewAccounts1", "/viewRoles").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/viewAccounts", "/viewRoles").access("hasRole('ROLE_ADMIN')");
 		http.sessionManagement().sessionFixation().migrateSession();
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
 				.defaultSuccessUrl("/viewAccounts", true).permitAll().and().rememberMe()
