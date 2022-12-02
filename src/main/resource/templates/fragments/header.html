@@ -4,14 +4,14 @@
 </head>
 <body>
 	<header id="app-header" class="row navbar border-bottom border-dark py-0 pl-0" style="background-color: white;">
-		<div class="navbar-brand font-weight-bold text-white py-0 d-flex align-items-center">
+		<div class="navbar-brand font-weight-bold text_black py-0 d-flex align-items-center">
 			<a href="https://www.dxc.technology/"><img class="mr-5" src="https://upload.wikimedia.org/wikipedia/commons/8/88/DXC_Logo_2021_Purple_Black.png" height="44" alt=""></a>
 			DXC Technology
 		</div>
-		<div class="login-control text-white">
-			<div class="user-infor mb-0 small p-0">Welcome, <a href="#" class="text-white" sec:authentication="principal.fullName"></a></div>
+		<div class="login-control text-black">
+			<div class="user-infor mb-0 small p-0">Welcome, <a href="#" class="text-black" sec:authentication="principal.username"></a></div>
 			<div class="logout-btn">
-				<a th:href="@{/logout}" class="logout-link text-white small">Logout</a>
+				<a th:href="@{/logout}" class="logout-link text-red small">Logout</a>
 			</div>
 		</div>
 	</header>

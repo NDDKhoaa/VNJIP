@@ -48,15 +48,19 @@ public class AccountController {
 	public String viewAccount(Model model) {
 		List<BaseModel> listBaseModel = new ArrayList<BaseModel>();
 		List<Account> listAccount = accountServiceImpl.listAll();
-		if (listAccount != null) {
-			for (Account account : listAccount) {
-				AccountStatus accountStatus = account.getAccountStatus();
-				BaseModel baseModel = new BaseModel(account, accountStatus);
-				listBaseModel.add(baseModel);
+
+		for (Account account : listAccount) {
+			if (listAccount != null) {
+				String accountStatusShort = account.getAccountStatus().getAccountStatusShort();
+				AccountStatus accountStatus = accountStatusServiceImpl.findByShort(accountStatusShort);
+				if (accountStatus != null) {
+					BaseModel baseModel = new BaseModel(account, accountStatus);
+					listBaseModel.add(baseModel);
+				}
 			}
 		}
-		model.addAttribute("listAccount", listAccount);
-		return "/viewAccounts";
+		model.addAttribute("listAccount", listBaseModel);
+		return "/account/viewAccounts";
 	}
 
 	@RequestMapping(value = "/viewAccountDetails", method = RequestMethod.GET)

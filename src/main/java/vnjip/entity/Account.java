@@ -39,6 +39,7 @@ public class Account {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_number", referencedColumnName = "account_number"), inverseJoinColumns = @JoinColumn(name = "role_number", referencedColumnName = "role_number", table = "role"))
+	@JoinColumn(name = "role_number", nullable = true)
 	private Set<Role> roles;
 
 	@ManyToOne

@@ -242,7 +242,7 @@
                                         <th style="width: 300px;">Email</th>
                                         <th style="width: 200px;">Status</th>
                                     </tr>
-                                    <tr th:each="account,custStat:${listAccounts}">
+                                    <tr th:each="account,custStat:${listAccount}">
                                         <td><input type="checkbox" class="chkCheckBoxId" th:value="${account.accountNumber }" name="chkCheckBoxId" /></td>
                                         <td th:text="${custStat.count}"></td>
                                         <td>
@@ -250,7 +250,7 @@
                                         </td>
                                         <td th:text="${account.accountUsername }"></td>
                                         <td th:text="${account.accountEmail }"></td>
-                                        <td th:text="${account.accountStatus}"></td>
+                                        <td th:text="${account.accountStatusDesc}"></td>
                                     </tr>
                                 </table>
                                 <div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN')">

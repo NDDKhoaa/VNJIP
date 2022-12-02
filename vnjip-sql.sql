@@ -32,3 +32,5 @@ INSERT INTO vnjip.dbo.maritalstatus (marital_short, marital_status) VALUES ('D',
 /* Policy Status */
 INSERT INTO vnjip.dbo.policy_status (policy_status_short, policy_status_desc) VALUES ('PN', 'Pending');
 INSERT INTO vnjip.dbo.policy_status (policy_status_short, policy_status_desc) VALUES ('IF', 'In force');
+/* Update Admin account*/
+update vnjip.dbo.account set account_status_short='A' where username='admin'
