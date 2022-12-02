@@ -23,7 +23,7 @@ import vnjip.model.BaseModel;
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "role_number", unique = true, nullable = false)
 	private long roleNumber;
 

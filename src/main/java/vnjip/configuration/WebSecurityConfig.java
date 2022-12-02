@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/viewAccounts", "/viewRoles").access("hasRole('ROLE_ADMIN')");
 		http.sessionManagement().sessionFixation().migrateSession();
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
-				.defaultSuccessUrl("/dashboard", true).permitAll().and().rememberMe()
+				.defaultSuccessUrl("/viewAccounts", true).permitAll().and().rememberMe()
 				.tokenRepository(this.persistentTokenRepository()) //
 				.tokenValiditySeconds(24 * 1 * 60 * 60)// 24h
 				.and().logout().deleteCookies("JSESSIONID").permitAll();
