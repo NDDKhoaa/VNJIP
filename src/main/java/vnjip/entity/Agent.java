@@ -46,7 +46,7 @@ public class Agent {
 	private AccountType accountType;
 
 	@OneToOne
-	@JoinColumn(name = "account_number", nullable = true, unique = true)
+	@JoinColumn(name = "account_number", nullable = true)
 	private Account account;
 
 	public Agent() {

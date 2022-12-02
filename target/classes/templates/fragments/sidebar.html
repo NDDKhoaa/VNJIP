@@ -52,15 +52,7 @@
 			</li>
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
 				<li class="nav-item">
-					<a  th:href="@{/ViewRoles}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-						Role Management
-					</a>
-				</li>
-				<li class="nav-item">
-					<a th:href="@{/ViewAccounts}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
+					<a th:href="@{/viewAccounts}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
 					<span class="nav-link-dot mr-2">
 						<i class="fa-solid fa-circle"></i>
 					</span>

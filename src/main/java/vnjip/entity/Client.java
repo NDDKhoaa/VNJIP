@@ -51,7 +51,7 @@ public class Client {
 	private Country country;
 
 	@OneToOne
-	@JoinColumn(name = "account_number", nullable = true, unique = true)
+	@JoinColumn(name = "account_number", nullable = true)
 	private Account account;
 
 	public Client() {
