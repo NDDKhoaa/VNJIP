@@ -1,8 +1,11 @@
 package vnjip.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +19,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import vnjip.entity.Account;
+import vnjip.entity.base.AccountStatus;
+import vnjip.model.BaseModel;
+import vnjip.services.Impl.AccountServiceImpl;
+import vnjip.services.Impl.AccountStatusServiceImpl;
 
 @Controller
 public class AccountController {
+
+	@Autowired
+	private AccountServiceImpl accountServiceImpl;
+
+	@Autowired
+	private AccountStatusServiceImpl accountStatusServiceImpl;
 
 	@GetMapping("/login")
 	public String login(Model model, String error, String logout) {
@@ -33,7 +46,17 @@ public class AccountController {
 
 	@RequestMapping("/viewAccounts")
 	public String viewAccount(Model model) {
-		return "/account/viewAccounts";
+		List<BaseModel> listBaseModel = new ArrayList<BaseModel>();
+		List<Account> listAccount = accountServiceImpl.listAll();
+		if (listAccount != null) {
+			for (Account account : listAccount) {
+				AccountStatus accountStatus = account.getAccountStatus();
+				BaseModel baseModel = new BaseModel(account, accountStatus);
+				listBaseModel.add(baseModel);
+			}
+		}
+		model.addAttribute("listAccount", listAccount);
+		return "/viewAccounts";
 	}
 
 	@RequestMapping(value = "/viewAccountDetails", method = RequestMethod.GET)

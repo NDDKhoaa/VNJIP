@@ -6,9 +6,13 @@ import java.util.Set;
 import vnjip.entity.Account;
 import vnjip.entity.Agent;
 import vnjip.entity.Client;
+import vnjip.entity.base.AccountStatus;
+import vnjip.entity.base.AccountType;
+import vnjip.entity.base.BillingCurrency;
 import vnjip.entity.base.Country;
 import vnjip.entity.base.Gender;
 import vnjip.entity.base.MaritalStatus;
+import vnjip.entity.base.PolicyStatus;
 import vnjip.entity.base.Role;
 import vnjip.entity.enumtype.PrivilegesEnum;
 
@@ -19,8 +23,6 @@ public class BaseModel {
 	private String accountUsername;
 	private String accountEmail;
 	private String accountPassword;
-	private String accountStatus;
-	private String accountPasswordConfirm;
 
 	private Agent agent;
 	private Long agentNumber;
@@ -55,8 +57,33 @@ public class BaseModel {
 	private String roleName;
 	private Set<PrivilegesEnum> privileges;
 
+	private AccountStatus accountStatus;
+	private String accountStatusShort;
+	private String accountStatusDesc;
+
+	private AccountType accountType;
+	private String accountTypeShort;
+	private String accountTypeDesc;
+
+	private BillingCurrency billingCurrency;
+	private String currencyShort;
+	private String currencyName;
+
+	private PolicyStatus policyStatus;
+	private String policyStatusShort;
+	private String policyStatusDesc;
+
 	public BaseModel() {
 		super();
+	}
+
+	public BaseModel(Account account2, AccountStatus accountStatus2) {
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.accountStatusShort = accountStatus2.getAccountStatusShort();
+		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
 	}
 
 	public Set<PrivilegesEnum> getPrivileges() {
@@ -107,20 +134,100 @@ public class BaseModel {
 		this.accountPassword = accountPassword;
 	}
 
-	public String getAccountStatus() {
+	public AccountStatus getAccountStatus() {
 		return accountStatus;
 	}
 
-	public void setAccountStatus(String accountStatus) {
+	public void setAccountStatus(AccountStatus accountStatus) {
 		this.accountStatus = accountStatus;
 	}
 
-	public String getAccountPasswordConfirm() {
-		return accountPasswordConfirm;
+	public String getAccountStatusShort() {
+		return accountStatusShort;
 	}
 
-	public void setAccountPasswordConfirm(String accountPasswordConfirm) {
-		this.accountPasswordConfirm = accountPasswordConfirm;
+	public void setAccountStatusShort(String accountStatusShort) {
+		this.accountStatusShort = accountStatusShort;
+	}
+
+	public String getAccountStatusDesc() {
+		return accountStatusDesc;
+	}
+
+	public void setAccountStatusDesc(String accountStatusDesc) {
+		this.accountStatusDesc = accountStatusDesc;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getAccountTypeShort() {
+		return accountTypeShort;
+	}
+
+	public void setAccountTypeShort(String accountTypeShort) {
+		this.accountTypeShort = accountTypeShort;
+	}
+
+	public String getAccountTypeDesc() {
+		return accountTypeDesc;
+	}
+
+	public void setAccountTypeDesc(String accountTypeDesc) {
+		this.accountTypeDesc = accountTypeDesc;
+	}
+
+	public BillingCurrency getBillingCurrency() {
+		return billingCurrency;
+	}
+
+	public void setBillingCurrency(BillingCurrency billingCurrency) {
+		this.billingCurrency = billingCurrency;
+	}
+
+	public String getCurrencyShort() {
+		return currencyShort;
+	}
+
+	public void setCurrencyShort(String currencyShort) {
+		this.currencyShort = currencyShort;
+	}
+
+	public String getCurrencyName() {
+		return currencyName;
+	}
+
+	public void setCurrencyName(String currencyName) {
+		this.currencyName = currencyName;
+	}
+
+	public PolicyStatus getPolicyStatus() {
+		return policyStatus;
+	}
+
+	public void setPolicyStatus(PolicyStatus policyStatus) {
+		this.policyStatus = policyStatus;
+	}
+
+	public String getPolicyStatusShort() {
+		return policyStatusShort;
+	}
+
+	public void setPolicyStatusShort(String policyStatusShort) {
+		this.policyStatusShort = policyStatusShort;
+	}
+
+	public String getPolicyStatusDesc() {
+		return policyStatusDesc;
+	}
+
+	public void setPolicyStatusDesc(String policyStatusDesc) {
+		this.policyStatusDesc = policyStatusDesc;
 	}
 
 	public Agent getAgent() {
