@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import vnjip.entity.Account;
+import vnjip.entity.Agent;
+import vnjip.entity.Client;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.Role;
 import vnjip.model.BaseModel;
@@ -75,6 +78,23 @@ public class AccountController {
 	@RequestMapping(value = "/viewAccountDetails", method = RequestMethod.GET)
 	public ModelAndView viewAccountDetails(@RequestParam(value = "accountNumber") long accountNumber) {
 		ModelAndView mav = new ModelAndView("/account/viewAccountDetails");
+		Account account = accountServiceImpl.findByNumber(accountNumber);
+		AccountStatus accountStatus = account.getAccountStatus();
+		Set<Role> listRole = account.getRoles();
+		Agent agent = account.getAgent();
+		Client client = account.getClient();
+		if (agent == null && client != null) {
+			BaseModel baseModel = new BaseModel(account, accountStatus, listRole, client);
+			mav.addObject("baseModel", baseModel);
+		}
+		if (agent != null && client == null) {
+			BaseModel baseModel = new BaseModel(account, accountStatus, listRole, agent);
+			mav.addObject("baseModel", baseModel);
+		}
+		if (agent == null && client == null) {
+			BaseModel baseModel = new BaseModel(account, accountStatus, listRole);
+			mav.addObject("baseModel", baseModel);
+		}
 		return mav;
 	}
 
@@ -117,6 +137,7 @@ public class AccountController {
 		mav.addObject("accountStatusList", accountStatusList);
 		List<Role> roleList = roleServiceImpl.listAll();
 		mav.addObject("roleList", roleList);
+		mav.addObject("accountForm", new BaseModel());
 		return mav;
 	}
 

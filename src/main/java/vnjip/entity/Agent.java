@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.AccountType;
+import vnjip.model.BaseModel;
 
 @Entity
 @Table(name = "agent")
@@ -50,6 +51,17 @@ public class Agent {
 
 	public Agent() {
 		super();
+	}
+
+	public Agent(BaseModel model, AccountType accountType2, AccountStatus accountStatus2) {
+		super();
+		this.agentName = model.getAgentName();
+		this.dateOfBirth = model.getAgentDOB();
+		this.licenseNumber = model.getAgentLicenseNumber();
+		this.companyCode = model.getAgentCompanyCode();
+		this.companyName = model.getAgentCompanyName();
+		this.accountStatus = accountStatus2;
+		this.accountType = accountType2;
 	}
 
 	public Long getAgentNumber() {

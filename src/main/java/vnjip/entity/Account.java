@@ -15,7 +15,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.Role;
@@ -33,9 +32,6 @@ public class Account {
 	private String email;
 	@Column(name = "password", nullable = true, length = 255)
 	private String password;
-
-	@Transient
-	private String passwordConfirm;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "accounts_roles", joinColumns = @JoinColumn(name = "account_number", referencedColumnName = "account_number"), inverseJoinColumns = @JoinColumn(name = "role_number", referencedColumnName = "role_number", table = "role"))
@@ -97,14 +93,6 @@ public class Account {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
 	}
 
 	public Agent getAgent() {

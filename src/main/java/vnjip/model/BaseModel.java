@@ -23,14 +23,15 @@ public class BaseModel {
 	private String accountUsername;
 	private String accountEmail;
 	private String accountPassword;
+	private Set<Role> roles;
 
 	private Agent agent;
 	private Long agentNumber;
-	private String agentFirstName;
-	private String agentLastName;
+	private String agentName;
 	private Date agentDOB;
-	private String agentIdentityNumber;
-	private String agentAddress;
+	private String agentLicenseNumber;
+	private String agentCompanyCode;
+	private String agentCompanyName;
 
 	private Client client;
 	private Long clientNumber;
@@ -84,6 +85,159 @@ public class BaseModel {
 		this.accountPassword = account2.getPassword();
 		this.accountStatusShort = accountStatus2.getAccountStatusShort();
 		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
+	}
+
+	public BaseModel(Agent agent2, AccountType accountType2, AccountStatus accountStatus2) {
+		this.agent = agent2;
+		this.agentNumber = agent2.getAgentNumber();
+		this.agentName = agent2.getAgentName();
+		this.agentDOB = agent2.getDateOfBirth();
+		this.agentLicenseNumber = agent2.getLicenseNumber();
+		this.agentCompanyCode = agent2.getCompanyCode();
+		this.agentCompanyName = agent2.getCompanyName();
+		this.accountStatus = accountStatus2;
+		this.accountStatusShort = accountStatus2.getAccountStatusShort();
+		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
+		this.accountType = accountType2;
+		this.accountTypeShort = accountType2.getAccountTypeShort();
+		this.accountTypeDesc = accountType2.getAccountTypeDesc();
+	}
+
+	public BaseModel(Agent agent2, AccountType accountType2, AccountStatus accountStatus2, Account account2) {
+		this.account = account2;
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.agent = agent2;
+		this.agentNumber = agent2.getAgentNumber();
+		this.agentName = agent2.getAgentName();
+		this.agentDOB = agent2.getDateOfBirth();
+		this.agentLicenseNumber = agent2.getLicenseNumber();
+		this.agentCompanyCode = agent2.getCompanyCode();
+		this.agentCompanyName = agent2.getCompanyName();
+		this.accountStatus = accountStatus2;
+		this.accountStatusShort = accountStatus2.getAccountStatusShort();
+		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
+		this.accountType = accountType2;
+		this.accountTypeShort = accountType2.getAccountTypeShort();
+		this.accountTypeDesc = accountType2.getAccountTypeDesc();
+	}
+
+	public BaseModel(Account account2, AccountStatus accountStatus2, Set<Role> listRole, Client client2) {
+		this.account = account2;
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.client = client2;
+		this.clientNumber = client2.getClientNumber();
+		this.clientFirstName = client2.getFirstName();
+		this.clientLastName = client2.getLastName();
+		this.clientDOB = client2.getDateOfBirth();
+		this.clientIdentityNumber = client2.getIdentityNumber();
+		this.clientAddress = client2.getAddress();
+		this.country = client2.getCountry();
+		this.countryShort = client2.getCountry().getCountryShort();
+		this.countryName = client2.getCountry().getCountryName();
+		this.gender = client2.getGender();
+		this.genderShort = client2.getGender().getGenderShort();
+		this.genderName = client2.getGender().getGenderName();
+		this.maritalStatusObject = client.getMaritalStatus();
+		this.maritalShort = client.getMaritalStatus().getMaritalShort();
+		this.maritalStatus = client.getMaritalStatus().getMaritalStatus();
+		this.roles = listRole;
+		this.accountStatus = account2.getAccountStatus();
+		this.accountStatusShort = account2.getAccountStatus().getAccountStatusShort();
+		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
+	}
+
+	public BaseModel(Account account2, AccountStatus accountStatus2, Set<Role> listRole, Agent agent2) {
+		this.agent = agent2;
+		this.agentNumber = agent2.getAgentNumber();
+		this.agentName = agent2.getAgentName();
+		this.agentDOB = agent2.getDateOfBirth();
+		this.agentLicenseNumber = agent2.getLicenseNumber();
+		this.agentCompanyCode = agent2.getCompanyCode();
+		this.agentCompanyName = agent2.getCompanyName();
+		this.accountType = agent2.getAccountType();
+		this.accountTypeDesc = agent2.getAccountType().getAccountTypeDesc();
+		this.accountTypeShort = agent2.getAccountType().getAccountTypeShort();
+		this.account = account2;
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.roles = listRole;
+		this.accountStatus = account2.getAccountStatus();
+		this.accountStatusShort = account2.getAccountStatus().getAccountStatusShort();
+		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
+	}
+
+	public BaseModel(Account account2, AccountStatus accountStatus2, Set<Role> listRole) {
+		this.account = account2;
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.roles = listRole;
+		this.accountStatus = account2.getAccountStatus();
+		this.accountStatusShort = account2.getAccountStatus().getAccountStatusShort();
+		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
+	}
+
+	public BaseModel(Client client2, Country country2, Gender gender2, MaritalStatus maritalStatus2) {
+		this.client = client2;
+		this.clientNumber = client2.getClientNumber();
+		this.clientFirstName = client2.getFirstName();
+		this.clientLastName = client2.getLastName();
+		this.clientDOB = client2.getDateOfBirth();
+		this.clientIdentityNumber = client2.getIdentityNumber();
+		this.clientAddress = client2.getAddress();
+		this.country = country2;
+		this.countryShort = country2.getCountryShort();
+		this.countryName = country2.getCountryName();
+		this.gender = gender2;
+		this.genderShort = gender2.getGenderShort();
+		this.genderName = gender2.getGenderName();
+		this.maritalStatusObject = maritalStatus2;
+		this.maritalShort = maritalStatus2.getMaritalShort();
+		this.maritalStatus = maritalStatus2.getMaritalStatus();
+	}
+
+	public BaseModel(Client client2, Country country2, Gender gender2, MaritalStatus maritalStatus2, Account account2) {
+		this.client = client2;
+		this.clientNumber = client2.getClientNumber();
+		this.clientFirstName = client2.getFirstName();
+		this.clientLastName = client2.getLastName();
+		this.clientDOB = client2.getDateOfBirth();
+		this.clientIdentityNumber = client2.getIdentityNumber();
+		this.clientAddress = client2.getAddress();
+		this.country = country2;
+		this.countryShort = country2.getCountryShort();
+		this.countryName = country2.getCountryName();
+		this.gender = gender2;
+		this.genderShort = gender2.getGenderShort();
+		this.genderName = gender2.getGenderName();
+		this.maritalStatusObject = maritalStatus2;
+		this.maritalShort = maritalStatus2.getMaritalShort();
+		this.maritalStatus = maritalStatus2.getMaritalStatus();
+		this.account = account2;
+		this.accountNumber = account2.getAccountNumber();
+		this.accountUsername = account2.getUsername();
+		this.accountEmail = account2.getEmail();
+		this.accountPassword = account2.getPassword();
+		this.accountStatus = account2.getAccountStatus();
+		this.accountStatusShort = account2.getAccountStatus().getAccountStatusShort();
+		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public Set<PrivilegesEnum> getPrivileges() {
@@ -246,22 +400,6 @@ public class BaseModel {
 		this.agentNumber = agentNumber;
 	}
 
-	public String getAgentFirstName() {
-		return agentFirstName;
-	}
-
-	public void setAgentFirstName(String agentFirstName) {
-		this.agentFirstName = agentFirstName;
-	}
-
-	public String getAgentLastName() {
-		return agentLastName;
-	}
-
-	public void setAgentLastName(String agentLastName) {
-		this.agentLastName = agentLastName;
-	}
-
 	public Date getAgentDOB() {
 		return agentDOB;
 	}
@@ -270,20 +408,36 @@ public class BaseModel {
 		this.agentDOB = agentDOB;
 	}
 
-	public String getAgentIdentityNumber() {
-		return agentIdentityNumber;
+	public String getAgentName() {
+		return agentName;
 	}
 
-	public void setAgentIdentityNumber(String agentIdentityNumber) {
-		this.agentIdentityNumber = agentIdentityNumber;
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
 	}
 
-	public String getAgentAddress() {
-		return agentAddress;
+	public String getAgentLicenseNumber() {
+		return agentLicenseNumber;
 	}
 
-	public void setAgentAddress(String agentAddress) {
-		this.agentAddress = agentAddress;
+	public void setAgentLicenseNumber(String agentLicenseNumber) {
+		this.agentLicenseNumber = agentLicenseNumber;
+	}
+
+	public String getAgentCompanyCode() {
+		return agentCompanyCode;
+	}
+
+	public void setAgentCompanyCode(String agentCompanyCode) {
+		this.agentCompanyCode = agentCompanyCode;
+	}
+
+	public String getAgentCompanyName() {
+		return agentCompanyName;
+	}
+
+	public void setAgentCompanyName(String agentCompanyName) {
+		this.agentCompanyName = agentCompanyName;
 	}
 
 	public Client getClient() {
