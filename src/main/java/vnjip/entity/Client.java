@@ -69,6 +69,19 @@ public class Client {
 		this.country = country2;
 	}
 
+	public Client(String firstName, String lastName, Date dateOfBirth, String identityNumber, String address,
+			Gender gender, MaritalStatus maritalStatus, Country country) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dateOfBirth = dateOfBirth;
+		this.identityNumber = identityNumber;
+		this.address = address;
+		this.gender = gender;
+		this.maritalStatus = maritalStatus;
+		this.country = country;
+	}
+
 	public Long getClientNumber() {
 		return clientNumber;
 	}

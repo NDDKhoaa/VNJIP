@@ -29,6 +29,8 @@ import vnjip.entity.base.Role;
 import vnjip.model.BaseModel;
 import vnjip.services.Impl.AccountServiceImpl;
 import vnjip.services.Impl.AccountStatusServiceImpl;
+import vnjip.services.Impl.AgentServiceImpl;
+import vnjip.services.Impl.ClientServiceImpl;
 import vnjip.services.Impl.RoleServiceImpl;
 
 @Controller
@@ -45,7 +47,13 @@ public class AccountController {
 	@Autowired
 	private RoleServiceImpl roleServiceImpl;
 
-	@GetMapping("/login")
+	@Autowired
+	private ClientServiceImpl clientServiceImpl;
+
+	@Autowired
+	private AgentServiceImpl agentServiceImpl;
+
+	@GetMapping(value = { "/login", "/" })
 	public String login(Model model, String error, String logout) {
 		if (error != null)
 			model.addAttribute("error", "Your username and password is invalid.");
@@ -101,10 +109,14 @@ public class AccountController {
 	@RequestMapping("/createAccount")
 	public String createAccount(Model model) {
 		model.addAttribute("accountForm", new BaseModel());
-		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
-		model.addAttribute("accountStatusList", accountStatusList);
-		List<Role> roleList = roleServiceImpl.listAll();
-		model.addAttribute("roleList", roleList);
+		List<AccountStatus> listAccountStatus = accountStatusServiceImpl.listAll();
+		model.addAttribute("listAccountStatus", listAccountStatus);
+		List<Role> listRoles = roleServiceImpl.listAll();
+		model.addAttribute("listRoles", listRoles);
+		List<Client> listClients = clientServiceImpl.listAll();
+		model.addAttribute("listClient", listClients);
+		List<Agent> listAgent = agentServiceImpl.listAll();
+		model.addAttribute("listAgent", listAgent);
 		return "/account/createAccount";
 	}
 
@@ -115,9 +127,23 @@ public class AccountController {
 		Role role = roleServiceImpl.findByNumber(baseModel.getRoleNumber());
 		roles.add(role);
 		String pwdEncrypt = bCryptPasswordEncoder.encode(baseModel.getAccountPassword());
-		Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
-				new HashSet<>(roles), accountStatus);
-		accountServiceImpl.save(account);
+		Agent agent = agentServiceImpl.findByNumber(baseModel.getAgentNumber());
+		Client client = clientServiceImpl.findByNumber(baseModel.getClientNumber());
+		if (agent != null && client == null) {
+			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
+					new HashSet<>(roles), accountStatus, agent);
+			accountServiceImpl.save(account);
+		}
+		if (agent == null && client != null) {
+			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
+					new HashSet<>(roles), accountStatus, client);
+			accountServiceImpl.save(account);
+		}
+		if (agent == null && client == null) {
+			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
+					new HashSet<>(roles), accountStatus);
+			accountServiceImpl.save(account);
+		}
 		return "redirect:/viewAccounts";
 	}
 
@@ -126,6 +152,8 @@ public class AccountController {
 		ModelAndView mav = new ModelAndView("/account/modifyAccount");
 		Account account = accountServiceImpl.findByNumber(accountNumber);
 		AccountStatus accountStatus = account.getAccountStatus();
+		Agent agent = account.getAgent();
+		Client client = account.getClient();
 		List<Role> roles = new ArrayList<Role>();
 		for (Role role : account.getRoles()) {
 			roles.add(role);
@@ -133,6 +161,8 @@ public class AccountController {
 		mav.addObject("updateAccount", account);
 		mav.addObject("updateAccountStatus", accountStatus);
 		mav.addObject("updateRole", roles);
+		mav.addObject("updateAgent", agent);
+		mav.addObject("updateClient", client);
 		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
 		mav.addObject("accountStatusList", accountStatusList);
 		List<Role> roleList = roleServiceImpl.listAll();

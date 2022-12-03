@@ -1,5 +1,7 @@
 package vnjip.configuration;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +19,8 @@ import vnjip.entity.enumtype.PrivilegesEnum;
 import vnjip.repository.AccountRepository;
 import vnjip.repository.RoleRepository;
 import vnjip.services.Impl.AccountStatusServiceImpl;
+import vnjip.services.Impl.AgentServiceImpl;
+import vnjip.services.Impl.ClientServiceImpl;
 
 @Component
 public class SpringBootInitialData implements ApplicationRunner {
@@ -29,6 +33,10 @@ public class SpringBootInitialData implements ApplicationRunner {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private AccountStatusServiceImpl accountStatusServiceImpl;
+	@Autowired
+	private ClientServiceImpl clientServiceImpl;
+	@Autowired
+	private AgentServiceImpl agentServiceImpl;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -43,6 +51,9 @@ public class SpringBootInitialData implements ApplicationRunner {
 			AccountStatus accountStatus = accountStatusServiceImpl.findByShort("A");
 			Account account = new Account("admin", "admin@gmail.com", pwdEncrypt, new HashSet<>(roles), accountStatus);
 			userRepository.save(account);
+			String sClientDOB = "20221203";
+			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMdd");
+			Date clientDOB = formatter1.parse(sClientDOB);
 		}
 	}
 }

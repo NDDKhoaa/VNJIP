@@ -1,5 +1,6 @@
 package vnjip.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -61,6 +62,28 @@ public class Account {
 		this.password = password;
 		this.roles = roles;
 		this.accountStatus = accountStatus;
+	}
+
+	public Account(String accountUsername, String accountEmail, String pwdEncrypt, HashSet<Role> hashSet,
+			AccountStatus accountStatus2, Agent agent2) {
+		super();
+		this.username = accountUsername;
+		this.email = accountEmail;
+		this.password = pwdEncrypt;
+		this.roles = hashSet;
+		this.accountStatus = accountStatus2;
+		this.agent = agent2;
+	}
+
+	public Account(String accountUsername, String accountEmail, String pwdEncrypt, HashSet<Role> hashSet,
+			AccountStatus accountStatus2, Client client2) {
+		super();
+		this.username = accountUsername;
+		this.email = accountEmail;
+		this.password = pwdEncrypt;
+		this.roles = hashSet;
+		this.accountStatus = accountStatus2;
+		this.client = client2;
 	}
 
 	public Long getAccountNumber() {
