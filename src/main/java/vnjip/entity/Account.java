@@ -86,6 +86,26 @@ public class Account {
 		this.client = client2;
 	}
 
+	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole, Client client2) {
+		super();
+		this.username = updateAccount.getUsername();
+		this.email = updateAccount.getEmail();
+		this.password = updateAccount.getPassword();
+		this.roles = listRole;
+		this.accountStatus = accountStatus2;
+		this.client = client2;
+	}
+
+	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole, Agent agent2) {
+		super();
+		this.username = updateAccount.getUsername();
+		this.email = updateAccount.getEmail();
+		this.password = updateAccount.getPassword();
+		this.roles = listRole;
+		this.accountStatus = accountStatus2;
+		this.agent = agent2;
+	}
+
 	public Long getAccountNumber() {
 		return accountNumber;
 	}

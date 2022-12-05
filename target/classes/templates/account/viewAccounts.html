@@ -99,7 +99,7 @@
         
         .deleteButton {
             position: relative;
-            margin-left: 435px;
+            margin-left: 505px;
         }
         
         .newButton {
@@ -110,7 +110,7 @@
         
         .updateButton {
             position: absolute;
-            margin-left: 210px;
+            margin-left: 260px;
             margin-top: -30px;
         }
         
@@ -263,17 +263,18 @@
                             </form>
                             <div class="col-lg-4">
                                 <div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                                    <a th:href="createAccount" style="color: black;"><button
-                                        class="newButton" style="width: 180px;">
-                                        <i class="fas fa-plus-circle"></i> Create Account
+                                    <a th:href="createAgentAccount" style="color: black;"><button
+                                        class="newButton" style="width: 250px;">
+                                        <i class="fas fa-plus-circle"></i> Create Admin/Agent Account
                                     </button></a>
                                 </div>
                                 <div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                                    <a th:href="viewAccount" style="color: black;"><button
-                                        style="width: 180px;" class="updateButton">
-                                        <i class="fas fa-arrow-alt-circle-up"></i> Modify Account
+                                    <a th:href="createClientAccount" style="color: black;"><button
+                                        class="updateButton" style="width: 220px;">
+                                        <i class="fas fa-plus-circle"></i> Create Client Account
                                     </button></a>
                                 </div>
+                                
                             </div>
                         </div>
                     </main>

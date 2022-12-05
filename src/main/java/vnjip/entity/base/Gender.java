@@ -26,6 +26,12 @@ public class Gender {
 		super();
 	}
 
+	public Gender(String genderShort, String genderName) {
+		super();
+		this.genderShort = genderShort;
+		this.genderName = genderName;
+	}
+
 	public String getGenderShort() {
 		return genderShort;
 	}

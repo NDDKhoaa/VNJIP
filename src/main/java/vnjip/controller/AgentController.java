@@ -107,6 +107,20 @@ public class AgentController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/saveModify", method = RequestMethod.POST)
+	public String saveModify(@ModelAttribute("updateAgent") Agent updateAgent,
+			@ModelAttribute("updateAccountStatus") AccountStatus updateAccountStatus,
+			@ModelAttribute("updateAccountType") AccountType updateAccountType,
+			@ModelAttribute("agentForm") BaseModel model, @RequestParam("agentNumber") long agentNumber) {
+		Agent agentID = agentServiceImpl.findByNumber(agentNumber);
+		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(model.getAccountStatusShort());
+		AccountType accountType = accountTypeServiceImpl.findByShort(model.getAccountTypeShort());
+		Agent agent = new Agent(updateAgent, accountStatus, accountType);
+		agent.setAgentNumber(agentID.getAgentNumber());
+		agentServiceImpl.save(agent);
+		return "redirect:/viewAgents";
+	}
+
 	@RequestMapping("/deleteAgent")
 	public String deleteAgent(@RequestParam("agentNumber") long agentNumber) {
 		agentServiceImpl.deleteByNumber(agentNumber);

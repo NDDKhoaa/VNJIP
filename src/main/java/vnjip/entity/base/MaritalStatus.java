@@ -26,6 +26,12 @@ public class MaritalStatus {
 		super();
 	}
 
+	public MaritalStatus(String maritalShort, String maritalStatus) {
+		super();
+		this.maritalShort = maritalShort;
+		this.maritalStatus = maritalStatus;
+	}
+
 	public String getMaritalShort() {
 		return maritalShort;
 	}

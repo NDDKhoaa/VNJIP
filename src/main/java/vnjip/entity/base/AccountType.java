@@ -26,6 +26,12 @@ public class AccountType {
 		super();
 	}
 
+	public AccountType(String accountTypeShort, String accountTypeDesc) {
+		super();
+		this.accountTypeShort = accountTypeShort;
+		this.accountTypeDesc = accountTypeDesc;
+	}
+
 	public String getAccountTypeShort() {
 		return accountTypeShort;
 	}

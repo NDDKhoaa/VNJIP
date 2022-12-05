@@ -1,7 +1,5 @@
 package vnjip.configuration;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,46 +12,139 @@ import org.springframework.stereotype.Component;
 
 import vnjip.entity.Account;
 import vnjip.entity.base.AccountStatus;
+import vnjip.entity.base.AccountType;
+import vnjip.entity.base.BillingCurrency;
+import vnjip.entity.base.Country;
+import vnjip.entity.base.Gender;
+import vnjip.entity.base.MaritalStatus;
+import vnjip.entity.base.PolicyStatus;
 import vnjip.entity.base.Role;
 import vnjip.entity.enumtype.PrivilegesEnum;
-import vnjip.repository.AccountRepository;
-import vnjip.repository.RoleRepository;
+import vnjip.services.Impl.AccountServiceImpl;
 import vnjip.services.Impl.AccountStatusServiceImpl;
-import vnjip.services.Impl.AgentServiceImpl;
-import vnjip.services.Impl.ClientServiceImpl;
+import vnjip.services.Impl.AccountTypeServiceImpl;
+import vnjip.services.Impl.BillingCurrencyServiceImpl;
+import vnjip.services.Impl.CountryServiceImpl;
+import vnjip.services.Impl.GenderServiceImpl;
+import vnjip.services.Impl.MaritalStatusServiceImpl;
+import vnjip.services.Impl.PolicyStatusServiceImpl;
+import vnjip.services.Impl.RoleServiceImpl;
 
 @Component
 public class SpringBootInitialData implements ApplicationRunner {
 
 	@Autowired
-	private AccountRepository userRepository;
+	private AccountServiceImpl userRepository;
 	@Autowired
-	private RoleRepository roleRepository;
+	private RoleServiceImpl roleRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private AccountStatusServiceImpl accountStatusServiceImpl;
 	@Autowired
-	private ClientServiceImpl clientServiceImpl;
+	private AccountTypeServiceImpl accountTypeServiceImpl;
 	@Autowired
-	private AgentServiceImpl agentServiceImpl;
+	private BillingCurrencyServiceImpl billingCurrencyServiceImpl;
+	@Autowired
+	private CountryServiceImpl countryServiceImpl;
+	@Autowired
+	private GenderServiceImpl genderServiceImpl;
+	@Autowired
+	private MaritalStatusServiceImpl maritalStatusServiceImpl;
+	@Autowired
+	private PolicyStatusServiceImpl policyStatusServiceImpl;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		List<Role> roles = roleRepository.findAll();
-		if (roles.isEmpty()) {
+		List<Role> roleAdmin = roleRepository.listAll();
+		if (roleAdmin.isEmpty()) {
+
+			/* Role Entity Start */
 			Set<PrivilegesEnum> privilegesEnumSet = new HashSet<>();
 			privilegesEnumSet.add(PrivilegesEnum.ROLE_ADMIN);
-			Role role = new Role("ROLE_ADMIN", privilegesEnumSet);
-			roleRepository.save(role);
-			roles = roleRepository.findAll();
+			Set<PrivilegesEnum> privilegesEnumSet2 = new HashSet<>();
+			privilegesEnumSet2.add(PrivilegesEnum.ROLE_AGENT);
+			Set<PrivilegesEnum> privilegesEnumSet3 = new HashSet<>();
+			privilegesEnumSet3.add(PrivilegesEnum.ROLE_CLIENT);
+			Role roleAdmin1 = new Role("ROLE_ADMIN", privilegesEnumSet);
+			Role roleAgent = new Role("ROLE_AGENT", privilegesEnumSet);
+			Role roleClient = new Role("ROLE_CLIENT", privilegesEnumSet);
+			roleRepository.save(roleAdmin1);
+			roleRepository.save(roleAgent);
+			roleRepository.save(roleClient);
+			/* Role Entity End */
+
+			/* Account Status Start */
+			AccountStatus accountStatusActive = new AccountStatus("A", "Active");
+			AccountStatus accountStatusTerminated = new AccountStatus("T", "Terminated");
+			accountStatusServiceImpl.save(accountStatusActive);
+			accountStatusServiceImpl.save(accountStatusTerminated);
+			/* Account Status End */
+
+			/* Account Tyoe Start */
+			AccountType accountTypeAgent = new AccountType("A", "Agent");
+			AccountType accountTypeBroker = new AccountType("B", "Broker");
+			AccountType accountTypeCoinsurer = new AccountType("C", "Coinsurer");
+			AccountType accountTypeReinsurer = new AccountType("R", "Reinsurer");
+			accountTypeServiceImpl.save(accountTypeAgent);
+			accountTypeServiceImpl.save(accountTypeBroker);
+			accountTypeServiceImpl.save(accountTypeCoinsurer);
+			accountTypeServiceImpl.save(accountTypeReinsurer);
+			/* Account Type End */
+
+			/* Billing Currency Start */
+			BillingCurrency billingCurrencyVND = new BillingCurrency("VND", "Vietnam Dong");
+			BillingCurrency billingCurrencyUSD = new BillingCurrency("USD", "US Dollar");
+			BillingCurrency billingCurrencySGD = new BillingCurrency("SGD", "Singapore Dollar");
+			billingCurrencyServiceImpl.save(billingCurrencyVND);
+			billingCurrencyServiceImpl.save(billingCurrencyUSD);
+			billingCurrencyServiceImpl.save(billingCurrencySGD);
+			/* Billing Currency End */
+
+			/* Country Start */
+			Country countryVNI = new Country("VNI", "Vietnam");
+			Country countryUSA = new Country("USA", "United State of America");
+			Country countrySIN = new Country("SIN", "Singapore");
+			Country countryMAL = new Country("MAL", "Malaysia");
+			countryServiceImpl.save(countryVNI);
+			countryServiceImpl.save(countryUSA);
+			countryServiceImpl.save(countrySIN);
+			countryServiceImpl.save(countryMAL);
+			/* Country End */
+
+			/* Gender Start */
+			Gender genderM = new Gender("M", "Male");
+			Gender genderF = new Gender("F", "Female");
+			Gender genderU = new Gender("U", "Unknown");
+			genderServiceImpl.save(genderM);
+			genderServiceImpl.save(genderF);
+			genderServiceImpl.save(genderU);
+			/* Gender End */
+
+			/* Marital Status Start */
+			MaritalStatus maritalStatusM = new MaritalStatus("M", "Married");
+			MaritalStatus maritalStatusS = new MaritalStatus("S", "Single");
+			MaritalStatus maritalStatusD = new MaritalStatus("D", "Divorced");
+			maritalStatusServiceImpl.save(maritalStatusM);
+			maritalStatusServiceImpl.save(maritalStatusS);
+			maritalStatusServiceImpl.save(maritalStatusD);
+			/* Marital Status End */
+
+			/* Policy Status Start */
+			PolicyStatus policyStatusPN = new PolicyStatus("PN", "Pending");
+			PolicyStatus policyStatusIF = new PolicyStatus("IF", "Pending");
+			policyStatusServiceImpl.save(policyStatusPN);
+			policyStatusServiceImpl.save(policyStatusIF);
+			/* Policy Status End */
+
+			/* Admin Account Start */
+			roleAdmin = roleRepository.listAll();
 			String pwdEncrypt = bCryptPasswordEncoder.encode("123456");
 			AccountStatus accountStatus = accountStatusServiceImpl.findByShort("A");
-			Account account = new Account("admin", "admin@gmail.com", pwdEncrypt, new HashSet<>(roles), accountStatus);
+			Account account = new Account("admin", "admin@gmail.com", pwdEncrypt, new HashSet<>(roleAdmin),
+					accountStatus);
 			userRepository.save(account);
-			String sClientDOB = "20221203";
-			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMdd");
-			Date clientDOB = formatter1.parse(sClientDOB);
+			/* Admin Account End */
 		}
 	}
 }

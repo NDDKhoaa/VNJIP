@@ -26,6 +26,12 @@ public class BillingCurrency {
 		super();
 	}
 
+	public BillingCurrency(String currencyShort, String currencyName) {
+		super();
+		this.currencyShort = currencyShort;
+		this.currencyName = currencyName;
+	}
+
 	public String getCurrencyShort() {
 		return currencyShort;
 	}

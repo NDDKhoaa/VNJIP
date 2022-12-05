@@ -30,6 +30,12 @@ public class AccountStatus {
 		super();
 	}
 
+	public AccountStatus(String accountStatusShort, String accountStatusDesc) {
+		super();
+		this.accountStatusShort = accountStatusShort;
+		this.accountStatusDesc = accountStatusDesc;
+	}
+
 	public String getAccountStatusShort() {
 		return accountStatusShort;
 	}

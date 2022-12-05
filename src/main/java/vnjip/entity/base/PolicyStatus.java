@@ -26,6 +26,12 @@ public class PolicyStatus {
 		super();
 	}
 
+	public PolicyStatus(String policyStatusShort, String policyStatusDesc) {
+		super();
+		this.policyStatusShort = policyStatusShort;
+		this.policyStatusDesc = policyStatusDesc;
+	}
+
 	public String getPolicyStatusShort() {
 		return policyStatusShort;
 	}

@@ -26,6 +26,12 @@ public class Country {
 		super();
 	}
 
+	public Country(String countryShort, String countryName) {
+		super();
+		this.countryShort = countryShort;
+		this.countryName = countryName;
+	}
+
 	public String getCountryShort() {
 		return countryShort;
 	}

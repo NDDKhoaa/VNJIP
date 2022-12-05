@@ -54,12 +54,30 @@ public class Agent {
 	}
 
 	public Agent(BaseModel model, AccountType accountType2, AccountStatus accountStatus2) {
-		super();
 		this.agentName = model.getAgentName();
 		this.dateOfBirth = model.getAgentDOB();
 		this.licenseNumber = model.getAgentLicenseNumber();
 		this.companyCode = model.getAgentCompanyCode();
 		this.companyName = model.getAgentCompanyName();
+		this.accountStatus = accountStatus2;
+		this.accountType = accountType2;
+	}
+
+	public Agent(Agent updateAgent) {
+		this.agentName = updateAgent.getAgentName();
+		this.dateOfBirth = updateAgent.getDateOfBirth();
+		this.licenseNumber = updateAgent.getLicenseNumber();
+		this.companyCode = updateAgent.getCompanyCode();
+		this.companyName = updateAgent.getCompanyName();
+		this.accountStatus = getAccountStatus();
+	}
+
+	public Agent(Agent updateAgent, AccountStatus accountStatus2, AccountType accountType2) {
+		this.agentName = updateAgent.getAgentName();
+		this.dateOfBirth = updateAgent.getDateOfBirth();
+		this.licenseNumber = updateAgent.getLicenseNumber();
+		this.companyCode = updateAgent.getCompanyCode();
+		this.companyName = updateAgent.getCompanyName();
 		this.accountStatus = accountStatus2;
 		this.accountType = accountType2;
 	}
