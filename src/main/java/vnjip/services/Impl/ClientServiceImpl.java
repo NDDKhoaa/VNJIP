@@ -37,4 +37,7 @@ public class ClientServiceImpl implements ClientService {
 		clientRepository.deleteById(clientNumber);
 	}
 
+	public Client findTopClientNumber() {
+		return clientRepository.findFirstByOrderByClientNumberDesc();
+	}
 }

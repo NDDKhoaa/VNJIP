@@ -1,64 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+<style>
+nav >ul>li> a{
+  color:black;
+  text-decoration:none;}
+  </style>
 </head>
 <body>
-	<nav id="app-sidebar" class="left-menu col col-2 nav flex-column bg-light-gray border-right border-dark">
+	<nav id="app-sidebar"
+		class="left-menu col col-2 nav flex-column bg-light-gray border-right border-dark">
 		<div class="nav-item text-right">
-			<button type="button" class="collapse-btn border-0 bg-transparent text-primary h5 pr-0">
+			<button type="button"
+				class="collapse-btn border-0 bg-transparent text-primary h5 pr-0">
 				<i class="fa-solid fa-angles-left"></i>
 			</button>
-		</div>		
+		</div>
 		<ul class="nav flex-column pl-0">
-			<li class="nav-item">
-				<a th:href="@{'/dashboard'}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-					Dashboard
-				</a>
-			</li>
-			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-				<a th:href="@{/viewAgents}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-					Agent Management
-				</a>
-			</li>
-			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')">
-				<a th:href="@{/viewClients}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-					Client Management
-				</a>
-			</li>
-			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')">
-				<a th:href="@{/viewPolicies}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-					Policy Management
-				</a>
-			</li>
-			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT','ROLE_CLIENT')">
-				<a th:href="@{/viewFileUpload}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-					File Management
-				</a>
+			<li class="nav-item"><a th:href="@{'/dashboard'}"
+				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center" > <span
+					class="nav-link-dot mr-2"style="width: 20px;" > <i
+						class="fa-solid fa-clapperboard fa-2x"></i>
+				</span> Dashboard
+			</a></li>
+			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')"><a
+				th:href="@{/viewAgents}"
+				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
+					class="nav-link-dot mr-2" style="width: 20px;"> <i
+						class="fa-solid fa-hat-cowboy fa-2x"></i>
+				</span> Agent Management
+			</a></li>
+			<li class="nav-item"
+				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')"><a
+				th:href="@{/viewClients}"
+				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
+					class="nav-link-dot mr-2"style="width: 20px;"> <i
+						class="fa-solid fa-person fa-2x"></i>
+				</span> Client Management
+			</a></li>
+			<li class="nav-item"
+				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')"><a
+				th:href="@{/viewPolicies}"
+				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
+					class="nav-link-dot mr-2" style="width: 20px;"> <i
+						class="fa-solid fa-envelope fa-2x"></i>
+				</span>  Policy Management
+			</a></li>
+			<li class="nav-item"
+				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT','ROLE_CLIENT')">
+				<a th:href="@{/viewFileUpload}"
+				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
+					class="nav-link-dot mr-2" style="width: 20px;"> <i class="fa-solid fa-file fa-2x"></i>
+				</span> File Management
+			</a>
 			</li>
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-				<li class="nav-item">
-					<a th:href="@{/viewAccounts}" class="nav-link pl-2 pr-0 py-1 d-flex align-items-center">
-					<span class="nav-link-dot mr-2">
-						<i class="fa-solid fa-circle"></i>
-					</span>
-						Account Management
-					</a>
-				</li>
+				<li class="nav-item"><a th:href="@{/viewAccounts}"
+					class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
+						class="nav-link-dot mr-2" style="width: 20px;"> <i
+							class="fa-solid fa-user-secret fa-2x"></i>
+					</span> Account Management
+				</a></li>
 			</div>
 		</ul>
 	</nav>

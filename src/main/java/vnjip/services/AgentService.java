@@ -16,4 +16,6 @@ public interface AgentService {
 
 	public void deleteByNumber(long agentNumber);
 
+	public Agent findTopAgentNumber();
+
 }

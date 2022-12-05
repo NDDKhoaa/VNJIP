@@ -80,7 +80,15 @@ public class ClientController {
 
 	@RequestMapping("/createClient")
 	public String createClient(Model model) {
-		model.addAttribute("clientForm", new BaseModel());
+		BaseModel baseModel = new BaseModel();
+		Client client = clientServiceImpl.findTopClientNumber();
+		if (client != null) {
+			baseModel.setClientNumber(client.getClientNumber() + 1);
+		} else {
+			long id = 1;
+			baseModel.setClientNumber(id);
+		}
+		model.addAttribute("clientForm", baseModel);
 		List<Gender> listGender = genderServiceImpl.listAll();
 		model.addAttribute("listGender", listGender);
 		List<Country> listCountry = countryServiceImpl.listAll();

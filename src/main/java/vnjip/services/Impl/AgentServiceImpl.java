@@ -37,4 +37,8 @@ public class AgentServiceImpl implements AgentService {
 		agentRepository.deleteById(agentNumber);
 	}
 
+	public Agent findTopAgentNumber() {
+		return agentRepository.findFirstByOrderByAgentNumberDesc();
+	}
+
 }

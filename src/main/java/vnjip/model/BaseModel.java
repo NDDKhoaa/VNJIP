@@ -1,7 +1,10 @@
 package vnjip.model;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import vnjip.entity.Account;
 import vnjip.entity.Agent;
@@ -28,6 +31,7 @@ public class BaseModel {
 	private Agent agent;
 	private Long agentNumber;
 	private String agentName;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date agentDOB;
 	private String agentLicenseNumber;
 	private String agentCompanyCode;
@@ -37,6 +41,7 @@ public class BaseModel {
 	private Long clientNumber;
 	private String clientFirstName;
 	private String clientLastName;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date clientDOB;
 	private String clientIdentityNumber;
 	private String clientAddress;
@@ -73,6 +78,7 @@ public class BaseModel {
 	private PolicyStatus policyStatus;
 	private String policyStatusShort;
 	private String policyStatusDesc;
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 	public BaseModel() {
 		super();
@@ -400,12 +406,28 @@ public class BaseModel {
 		this.agentNumber = agentNumber;
 	}
 
+	public void setAgentDOB(Date agentDOB) {
+		this.agentDOB = agentDOB;
+	}
+
+	public void setClientDOB(Date clientDOB) {
+		this.clientDOB = clientDOB;
+	}
+
+	public SimpleDateFormat getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(SimpleDateFormat formatter) {
+		this.formatter = formatter;
+	}
+
 	public Date getAgentDOB() {
 		return agentDOB;
 	}
 
-	public void setAgentDOB(Date agentDOB) {
-		this.agentDOB = agentDOB;
+	public Date getClientDOB() {
+		return clientDOB;
 	}
 
 	public String getAgentName() {
@@ -470,14 +492,6 @@ public class BaseModel {
 
 	public void setClientLastName(String clientLastName) {
 		this.clientLastName = clientLastName;
-	}
-
-	public Date getClientDOB() {
-		return clientDOB;
-	}
-
-	public void setClientDOB(Date clientDOB) {
-		this.clientDOB = clientDOB;
 	}
 
 	public String getClientIdentityNumber() {

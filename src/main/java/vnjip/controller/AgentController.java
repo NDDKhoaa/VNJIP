@@ -75,9 +75,17 @@ public class AgentController {
 	public String createAgent(Model model) {
 		List<AccountType> listAccountType = accountTypeServiceImpl.listAll();
 		List<AccountStatus> listAccountStatus = accountStatusServiceImpl.listAll();
+		BaseModel basemodel = new BaseModel();
+		Agent agentId = agentServiceImpl.findTopAgentNumber();
+		if (agentId != null) {
+			basemodel.setAgentNumber(agentId.getAgentNumber() + 1);
+		} else {
+			long id = 1;
+			basemodel.setAgentNumber(id);
+		}
 		model.addAttribute("listAccountType", listAccountType);
 		model.addAttribute("listAccountStatus", listAccountStatus);
-		model.addAttribute("agentForm", new BaseModel());
+		model.addAttribute("agentForm", basemodel);
 		return "/agent/createAgent";
 	}
 
