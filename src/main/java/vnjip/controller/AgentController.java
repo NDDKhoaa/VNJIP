@@ -107,8 +107,8 @@ public class AgentController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/saveModify", method = RequestMethod.POST)
-	public String saveModify(@ModelAttribute("updateAgent") Agent updateAgent,
+	@RequestMapping(value = "/saveAgentModify", method = RequestMethod.POST)
+	public String saveAgentModify(@ModelAttribute("updateAgent") Agent updateAgent,
 			@ModelAttribute("updateAccountStatus") AccountStatus updateAccountStatus,
 			@ModelAttribute("updateAccountType") AccountType updateAccountType,
 			@ModelAttribute("agentForm") BaseModel model, @RequestParam("agentNumber") long agentNumber) {

@@ -121,6 +121,19 @@ public class ClientController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/saveClientModify", method = RequestMethod.POST)
+	public String saveClientModify(@ModelAttribute("updateClient") Client updateClient,
+			@ModelAttribute("clientForm") BaseModel model, @RequestParam("clientNumber") long clientNumber) {
+		Client clientId = clientServiceImpl.findByNumber(clientNumber);
+		Gender gender = genderServiceImpl.findByShort(model.getGenderShort());
+		Country country = countryServiceImpl.findByShort(model.getCountryShort());
+		MaritalStatus maritalStatus = maritalStatusServiceImpl.findByShort(model.getMaritalShort());
+		Client client = new Client(updateClient, gender, country, maritalStatus);
+		client.setClientNumber(clientId.getClientNumber());
+		clientServiceImpl.save(client);
+		return "redirect:/viewClients";
+	}
+
 	@RequestMapping("/deleteClient")
 	public String deleteClient(@RequestParam("clientNumber") long clientNumber) {
 		clientServiceImpl.deleteByNumber(clientNumber);

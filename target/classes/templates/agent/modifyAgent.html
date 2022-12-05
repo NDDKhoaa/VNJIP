@@ -121,7 +121,7 @@ a {
 							<div class="col-lg-9"
 								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
 								<form
-									th:action="@{/saveModify(agentNumber=${updateAgent.agentNumber})}"
+									th:action="@{/saveAgentModify(agentNumber=${updateAgent.agentNumber})}"
 									th:object="${agentForm}" enctype="multipart/form-data"
 									method="POST">
 									<div>

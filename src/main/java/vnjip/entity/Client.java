@@ -30,6 +30,7 @@ public class Client {
 	private String firstName;
 	@Column(name = "last_name", nullable = true, length = 60)
 	private String lastName;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "date_of_birth", nullable = true)
 	private Date dateOfBirth;
@@ -80,6 +81,17 @@ public class Client {
 		this.gender = gender;
 		this.maritalStatus = maritalStatus;
 		this.country = country;
+	}
+
+	public Client(Client updateClient, Gender gender2, Country country2, MaritalStatus maritalStatus2) {
+		this.firstName = updateClient.getFirstName();
+		this.lastName = updateClient.getLastName();
+		this.dateOfBirth = updateClient.getDateOfBirth();
+		this.identityNumber = updateClient.getIdentityNumber();
+		this.address = updateClient.getAddress();
+		this.gender = gender2;
+		this.maritalStatus = maritalStatus2;
+		this.country = country2;
 	}
 
 	public Long getClientNumber() {
