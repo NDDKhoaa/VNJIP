@@ -1,6 +1,5 @@
 package vnjip.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -9,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import vnjip.entity.Account;
 import vnjip.entity.Agent;
 import vnjip.entity.Client;
+import vnjip.entity.FileUpload;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.AccountType;
 import vnjip.entity.base.BillingCurrency;
@@ -78,7 +78,14 @@ public class BaseModel {
 	private PolicyStatus policyStatus;
 	private String policyStatusShort;
 	private String policyStatusDesc;
-	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+	private FileUpload fileUpload;
+	private long fileNumber;
+	private String fileName;
+	private String filefolderName;
+	private byte[] filecontent;
+	private long filesize;
+	private Date fileDateUpload;
 
 	public BaseModel() {
 		super();
@@ -236,6 +243,14 @@ public class BaseModel {
 		this.accountStatus = account2.getAccountStatus();
 		this.accountStatusShort = account2.getAccountStatus().getAccountStatusShort();
 		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
+	}
+
+	public Date getFileDateUpload() {
+		return fileDateUpload;
+	}
+
+	public void setFileDateUpload(Date fileDateUpload) {
+		this.fileDateUpload = fileDateUpload;
 	}
 
 	public Set<Role> getRoles() {
@@ -414,12 +429,52 @@ public class BaseModel {
 		this.clientDOB = clientDOB;
 	}
 
-	public SimpleDateFormat getFormatter() {
-		return formatter;
+	public FileUpload getFileUpload() {
+		return fileUpload;
 	}
 
-	public void setFormatter(SimpleDateFormat formatter) {
-		this.formatter = formatter;
+	public void setFileUpload(FileUpload fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+
+	public long getFileNumber() {
+		return fileNumber;
+	}
+
+	public void setFileNumber(long fileNumber) {
+		this.fileNumber = fileNumber;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFilefolderName() {
+		return filefolderName;
+	}
+
+	public void setFilefolderName(String filefolderName) {
+		this.filefolderName = filefolderName;
+	}
+
+	public byte[] getFilecontent() {
+		return filecontent;
+	}
+
+	public void setFilecontent(byte[] filecontent) {
+		this.filecontent = filecontent;
+	}
+
+	public long getFilesize() {
+		return filesize;
+	}
+
+	public void setFilesize(long filesize) {
+		this.filesize = filesize;
 	}
 
 	public Date getAgentDOB() {

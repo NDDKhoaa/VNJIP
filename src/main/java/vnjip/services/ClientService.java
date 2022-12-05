@@ -16,4 +16,5 @@ public interface ClientService {
 
 	public void deleteByNumber(long clientNumber);
 
+	public Client findTopClientNumber();
 }
