@@ -50,6 +50,14 @@ public class FileUpload {
 		this.dateUpload = model.getFileDateUpload();
 	}
 
+	public FileUpload(String fileName, String folderName, byte[] content, long size, Date dateUpload) {
+		this.fileName = fileName;
+		this.folderName = folderName;
+		this.content = content;
+		this.size = size;
+		this.dateUpload = dateUpload;
+	}
+
 	public Date getDateUpload() {
 		return dateUpload;
 	}

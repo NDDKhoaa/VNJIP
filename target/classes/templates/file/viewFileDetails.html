@@ -157,7 +157,8 @@ a {
 										<div class="row">
 											<div class="col-lg-2 tablesetting tablebackground">File</div>
 											<div class="col-lg-10 tablesetting inputedbackground">
-												<span></span>
+												<a th:href="@{/downloadFile(fileNumber=*{fileNumber})}"><span
+													th:text="*{fileName}"></span></a>
 											</div>
 										</div>
 

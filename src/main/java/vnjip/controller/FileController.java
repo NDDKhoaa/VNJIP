@@ -5,12 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,28 +102,70 @@ public class FileController {
 	public String saveFileModify(@ModelAttribute("updateFile") FileUpload updateFile,
 			@ModelAttribute("fileForm") BaseModel model, @RequestParam("fileNumber") long fileNumber,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
-		FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
-		String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		long fileSize = multipartFile.getSize();
-		byte[] content = multipartFile.getBytes();
-		model.setFilefolderName(fileFolderName);
-		model.setFilesize(fileSize);
-		model.setFilecontent(content);
-		if (model.getFileName() != null) {
-			String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			String[] result = fileFolderName1.split(".");
-			String newFileName = model.getFileName() + result[1];
-			model.setFileName(newFileName);
-			FileUpload file = new FileUpload(model);
-			file.setFileNumber(fileId.getFileNumber());
-			fileServiceImpl.save(file);
+		if (multipartFile.getSize() != 0) {
+			FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
+			String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			long fileSize = multipartFile.getSize();
+			byte[] content = multipartFile.getBytes();
+			model.setFilefolderName(fileFolderName);
+			model.setFilesize(fileSize);
+			model.setFilecontent(content);
+			model.setFileDateUpload(fileId.getDateUpload());
+			if (fileFolderName.equals(model.getFileName())) {
+				model.setFileName(fileFolderName);
+				FileUpload file = new FileUpload(model);
+				file.setFileNumber(fileId.getFileNumber());
+				fileServiceImpl.save(file);
+
+			} else {
+				String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				String[] result2 = model.getFileName().split("\\.");
+				String[] result = fileFolderName1.split("\\.");
+				String newFileName = result2[0] + "." + result[1];
+				model.setFileName(newFileName);
+				FileUpload file = new FileUpload(model);
+				file.setFileNumber(fileId.getFileNumber());
+				fileServiceImpl.save(file);
+			}
 		} else {
-			model.setFileName(fileFolderName);
-			FileUpload file = new FileUpload(model);
-			file.setFileNumber(fileId.getFileNumber());
-			fileServiceImpl.save(file);
+			FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
+			String fileFolderName = fileId.getFileName();
+			String fileName = fileId.getFileName();
+			long fileSize = fileId.getSize();
+			byte[] content = fileId.getContent();
+			Date UploadedDate = fileId.getDateUpload();
+			if (fileName.equals(model.getFileName())) {
+				FileUpload file = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
+				file.setFileNumber(fileId.getFileNumber());
+				fileServiceImpl.save(file);
+
+			} else {
+
+				String[] result = fileName.split("\\.");
+				String modelFileName = model.getFileName();
+				String[] result2 = modelFileName.split("\\.");
+				modelFileName = result2[0];
+				String newFileName = modelFileName + "." + result[1];
+				fileName = newFileName;
+				FileUpload file = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
+				file.setFileNumber(fileId.getFileNumber());
+				fileServiceImpl.save(file);
+			}
+
 		}
 		return "redirect:/viewFiles";
+	}
+
+	@GetMapping("/downloadFile")
+	public void downloadFile(@Param("fileNumber") long fileNumber, HttpServletResponse response) throws IOException {
+		FileUpload file = fileServiceImpl.findByNumber(fileNumber);
+		response.setContentType("application/octet-stream");
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=" + file.getFileName();
+		response.setHeader(headerKey, headerValue);
+		ServletOutputStream outputStream = response.getOutputStream();
+		outputStream.write(file.getContent());
+		outputStream.close();
 	}
 
 	@RequestMapping("/deleteFile")
