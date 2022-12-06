@@ -245,6 +245,17 @@ public class BaseModel {
 		this.accountStatusDesc = account2.getAccountStatus().getAccountStatusDesc();
 	}
 
+	public BaseModel(FileUpload file) {
+		super();
+		this.fileUpload = file;
+		this.fileNumber = file.getFileNumber();
+		this.fileName = file.getFileName();
+		this.filefolderName = file.getFolderName();
+		this.filecontent = file.getContent();
+		this.fileDateUpload = file.getDateUpload();
+		this.filesize = file.getSize();
+	}
+
 	public Date getFileDateUpload() {
 		return fileDateUpload;
 	}

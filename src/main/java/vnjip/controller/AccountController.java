@@ -64,6 +64,11 @@ public class AccountController {
 		return "login";
 	}
 
+	@RequestMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
+
 	@RequestMapping("/viewAccounts")
 	public String viewAccount(Model model) {
 		List<BaseModel> listBaseModel = new ArrayList<BaseModel>();

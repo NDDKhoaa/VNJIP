@@ -31,10 +31,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/viewAccounts", "/viewRoles").access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests()
+				.antMatchers("/viewAccounts", "/viewRoles", "/createAgentAccount", "/viewAccountDetails",
+						"/modifyAgentAccount", "/createClientAccount", "/modifyClientAccount", "viewAgents",
+						"/createAgents", "/viewAgentDetails", "/modifyAgent")
+				.access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/viewClients", "/createClient", "/viewClientDetails", "/modifyClient")
+				.access("hasAnyRole('ROLE_ADMIN','ROLE_AGENT')");
+		http.authorizeRequests().antMatchers("/viewFiles", "/createFile", "/viewFileDetails", "/modifyFile")
+				.access("hasAnyRole('ROLE_ADMIN','ROLE_AGENT','ROLE_CLIENT')");
 		http.sessionManagement().sessionFixation().migrateSession();
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
-				.defaultSuccessUrl("/viewAccounts", true).permitAll().and().rememberMe()
+				.defaultSuccessUrl("/dashboard", true).permitAll().and().rememberMe()
 				.tokenRepository(this.persistentTokenRepository()) //
 				.tokenValiditySeconds(24 * 1 * 60 * 60)// 24h
 				.and().logout().deleteCookies("JSESSIONID").permitAll();

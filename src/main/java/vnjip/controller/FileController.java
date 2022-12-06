@@ -40,7 +40,8 @@ public class FileController {
 	public ModelAndView viewFileDetails(@RequestParam(value = "fileNumber") long fileNumber) {
 		ModelAndView mav = new ModelAndView("/file/viewFileDetails");
 		FileUpload file = fileServiceImpl.findByNumber(fileNumber);
-		mav.addObject("file", file);
+		BaseModel baseModel = new BaseModel(file);
+		mav.addObject("baseModel", baseModel);
 		return mav;
 	}
 
