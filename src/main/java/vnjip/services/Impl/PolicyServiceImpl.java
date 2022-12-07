@@ -37,4 +37,46 @@ public class PolicyServiceImpl implements PolicyService {
 		policyRepository.deleteById(policyNumber);
 	}
 
+	public Policy findTopByOrderByIdDesc() {
+		return policyRepository.findFirstByOrderByPolicyNumberDesc();
+	}
+
+	public boolean findByEngineNo(String engineNo) {
+		List<Policy> policy = policyRepository.findByEngineNo(engineNo);
+		if (policy.size() < 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean findByEngineNoModify(String engineNo) {
+		List<Policy> policy = policyRepository.findByEngineNo(engineNo);
+		if (policy.size() < 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean findByChassisNo(String chassisNo) {
+		List<Policy> policy = policyRepository.findByChassisNo(chassisNo);
+		if (policy.size() < 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean findByChassisNoModify(String chassisNo) {
+		List<Policy> policy = policyRepository.findByChassisNo(chassisNo);
+		if (policy.size() < 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public void deleteById(long id) {
+		policyRepository.deleteById(id);
+	}
 }

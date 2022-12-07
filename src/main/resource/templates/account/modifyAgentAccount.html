@@ -187,7 +187,7 @@ a {
 
 											<select class="col-lg-4 selectsetting"
 														th:field="*{roleNumber}" required="required">
-															<option th:each="role:${updateRole}"
+															<option th:each="r:${updateRole}"
 															th:value="${role.roleNumber }"
 															th:text="${role.roleName }"</option>
 														<option th:each="role:${roleList}"

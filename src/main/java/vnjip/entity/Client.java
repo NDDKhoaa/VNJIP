@@ -177,4 +177,9 @@ public class Client {
 		this.account = account;
 	}
 
+	@Override
+	public String toString() {
+		return clientNumber + "";
+	}
+
 }

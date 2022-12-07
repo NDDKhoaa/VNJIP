@@ -1,6 +1,7 @@
 package vnjip.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,10 +10,12 @@ import vnjip.entity.Account;
 import vnjip.entity.Agent;
 import vnjip.entity.Client;
 import vnjip.entity.FileUpload;
+import vnjip.entity.Policy;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.AccountType;
 import vnjip.entity.base.BillingCurrency;
 import vnjip.entity.base.Country;
+import vnjip.entity.base.ErrorPf;
 import vnjip.entity.base.Gender;
 import vnjip.entity.base.MaritalStatus;
 import vnjip.entity.base.PolicyStatus;
@@ -79,6 +82,24 @@ public class BaseModel {
 	private String policyStatusShort;
 	private String policyStatusDesc;
 
+	private Policy policy;
+	private long policyNumber;
+	private Date inceptionDate;
+	private Date expiryDate;
+	private long policyOwner;
+	private String engineNo;
+	private String chassisNo;
+	private String vehicleRegistrationNo;
+	private String sumInsured;
+	private double rate;
+	private double annualPremium;
+	private double postedPremium;
+
+	private ErrorPf errorPf;
+	private String errorCode;
+	private String errorDesc;
+	private List<String> errorList;
+
 	private FileUpload fileUpload;
 	private long fileNumber;
 	private String fileName;
@@ -135,6 +156,17 @@ public class BaseModel {
 		this.accountType = accountType2;
 		this.accountTypeShort = accountType2.getAccountTypeShort();
 		this.accountTypeDesc = accountType2.getAccountTypeDesc();
+	}
+
+	public BaseModel(Policy policy) {
+		super();
+		this.policyNumber = policy.getPolicyNumber();
+		this.policyOwner = policy.getPolicyOwner().getClientNumber();
+		this.inceptionDate = policy.getInceptionDate();
+		this.postedPremium = policy.getPostedPremium();
+		this.policyStatus = policy.getPolicyStatus();
+		this.policyStatusShort = policy.getPolicyStatus().getPolicyStatusShort();
+		this.policyStatusDesc = policy.getPolicyStatus().getPolicyStatusDesc();
 	}
 
 	public BaseModel(Account account2, AccountStatus accountStatus2, Set<Role> listRole, Client client2) {
@@ -216,6 +248,27 @@ public class BaseModel {
 		this.maritalStatusObject = maritalStatus2;
 		this.maritalShort = maritalStatus2.getMaritalShort();
 		this.maritalStatus = maritalStatus2.getMaritalStatus();
+	}
+
+	public BaseModel(Policy policy, BillingCurrency currency) {
+		super();
+		this.billingCurrency = currency;
+		this.currencyShort = currency.getCurrencyShort();
+		this.currencyName = currency.getCurrencyName();
+		this.policyStatus = policy.getPolicyStatus();
+		this.policyStatusShort = policy.getPolicyStatus().getPolicyStatusShort();
+		this.policyStatusDesc = policy.getPolicyStatus().getPolicyStatusDesc();
+		this.policy = policy;
+		this.inceptionDate = policy.getInceptionDate();
+		this.expiryDate = policy.getExpiryDate();
+		this.policyOwner = policy.getPolicyOwner().getClientNumber();
+		this.engineNo = policy.getEngineNo();
+		this.chassisNo = policy.getChassisNo();
+		this.vehicleRegistrationNo = policy.getVehicleRegistrationNo();
+		this.sumInsured = String.valueOf(policy.getSumInsured());
+		this.rate = policy.getRate();
+		this.annualPremium = policy.getAnnualPremium();
+		this.postedPremium = policy.getPostedPremium();
 	}
 
 	public BaseModel(Client client2, Country country2, Gender gender2, MaritalStatus maritalStatus2, Account account2) {
@@ -670,6 +723,134 @@ public class BaseModel {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public Policy getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(Policy policy) {
+		this.policy = policy;
+	}
+
+	public long getPolicyNumber() {
+		return policyNumber;
+	}
+
+	public void setPolicyNumber(long policyNumber) {
+		this.policyNumber = policyNumber;
+	}
+
+	public Date getInceptionDate() {
+		return inceptionDate;
+	}
+
+	public void setInceptionDate(Date inceptionDate) {
+		this.inceptionDate = inceptionDate;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public long getPolicyOwner() {
+		return policyOwner;
+	}
+
+	public void setPolicyOwner(long policyOwner) {
+		this.policyOwner = policyOwner;
+	}
+
+	public String getEngineNo() {
+		return engineNo;
+	}
+
+	public void setEngineNo(String engineNo) {
+		this.engineNo = engineNo;
+	}
+
+	public String getChassisNo() {
+		return chassisNo;
+	}
+
+	public void setChassisNo(String chassisNo) {
+		this.chassisNo = chassisNo;
+	}
+
+	public String getVehicleRegistrationNo() {
+		return vehicleRegistrationNo;
+	}
+
+	public void setVehicleRegistrationNo(String vehicleRegistrationNo) {
+		this.vehicleRegistrationNo = vehicleRegistrationNo;
+	}
+
+	public String getSumInsured() {
+		return sumInsured;
+	}
+
+	public void setSumInsured(String sumInsured) {
+		this.sumInsured = sumInsured;
+	}
+
+	public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+
+	public double getAnnualPremium() {
+		return annualPremium;
+	}
+
+	public void setAnnualPremium(double annualPremium) {
+		this.annualPremium = annualPremium;
+	}
+
+	public double getPostedPremium() {
+		return postedPremium;
+	}
+
+	public void setPostedPremium(double postedPremium) {
+		this.postedPremium = postedPremium;
+	}
+
+	public ErrorPf getErrorPf() {
+		return errorPf;
+	}
+
+	public void setErrorPf(ErrorPf errorPf) {
+		this.errorPf = errorPf;
+	}
+
+	public String getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getErrorDesc() {
+		return errorDesc;
+	}
+
+	public void setErrorDesc(String errorDesc) {
+		this.errorDesc = errorDesc;
+	}
+
+	public List<String> getErrorList() {
+		return errorList;
+	}
+
+	public void setErrorList(List<String> errorList) {
+		this.errorList = errorList;
 	}
 
 }
