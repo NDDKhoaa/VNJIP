@@ -13,7 +13,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <style>
 .menusetting {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 }
 
 .hrefsetting {
@@ -52,11 +52,11 @@ a {
 }
 
 .tablebackground {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 }
 
 .inputedbackground {
-	background-color: #DDDDDD;
+	background-color: #EEEEEE;
 }
 
 .pagesetting {
@@ -64,7 +64,7 @@ a {
 	border-style: solid solid solid solid;
 	padding: 7px;
 	border-color: black;
-	border-bottom-color: #FFFFFF;
+	border-bottom-color: #EEEEEE;
 }
 
 .nontabsetting {
@@ -84,7 +84,7 @@ a {
 }
 
 .submitbutton {
-	background-color: #073763;
+	background-color: #5f249f;
 	color: white;
 	border: 1px solid black;
 	padding: 3px;
@@ -104,20 +104,17 @@ a {
 
 .deleteButton {
 	position: relative;
-	margin-left: 470px;
-	margin-top: -35px;
+	margin-left: 520px;
 }
 
 .newButton {
 	position: absolute;
 	margin-left: 0px;
-	margin-top: 30px;
 }
 
 .updateButton {
 	position: absolute;
 	margin-left: 260px;
-	margin-top: 30px;
 }
 </style>
 </head>
@@ -138,100 +135,76 @@ a {
 								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
 								<form th:object="${baseModel}" enctype="multipart/form-data"
 									method="Get">
-									<div>
-										<div class="row tablesetting"
-											style="background-color: #95BCF2;">Account Information</div>
+									<div class="row tablesetting"
+										style="background-color: #5f249f; color: white">Account
+										Information</div>
 
 
 
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">
-												Account Number</div>
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{accountNumber}"></span>
-											</div>
-											<div class="col-lg-2 tablesetting tablebackground">Email</div>
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{accountEmail}"></span>
-											</div>
-
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">
+											Account Number</div>
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{accountNumber}"></span>
 										</div>
-
-
-
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">
-												Username</div>
-
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{accountUsername}"></span>
-											</div>
-											<div class="col-lg-2 tablesetting tablebackground">Account
-												Status</div>
-
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{accountStatusDesc}"></span>
-											</div>
-
-										</div>
-
-
-
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Agent</div>
-
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{agentName}"></span>
-											</div>
-
-											<div class="col-lg-2 tablesetting tablebackground">Client</div>
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="*{clientFirstName}"></span>
-											</div>
+										<div class="col-lg-2 tablesetting tablebackground">Email</div>
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{accountEmail}"></span>
 										</div>
 
 									</div>
+
+
+
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">
+											Username</div>
+
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{accountUsername}"></span>
+										</div>
+										<div class="col-lg-2 tablesetting tablebackground">Account
+											Status</div>
+
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{accountStatusDesc}"></span>
+										</div>
+
+									</div>
+
+
+
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">Agent</div>
+
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{agentName}"></span>
+										</div>
+
+										<div class="col-lg-2 tablesetting tablebackground">Client</div>
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="*{clientFirstName}"></span>
+										</div>
+									</div>
+
+
 								</form>
 								<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 									<div class="col-lg-2 newButton"
 										sec:authorize="hasAnyRole('ROLE_ADMIN')">
-										<a th:href="createAgentAccount" style="color: black;"><button
+										<a th:href="createAccount" style="color: black;"><button
 												style="width: 250px;">
-												<i class="fas fa-plus-circle"></i> Create Admin/Agent
-												Account
+												<i class="fas fa-plus-circle"></i> Create Account
 											</button></a>
 									</div>
 									<div class="col-lg-2 updateButton"
 										sec:authorize="hasAnyRole('ROLE_ADMIN')">
-										<a th:href="createClientAccount" style="color: black;"><button
-												style="width: 200px;">
-												<i class="fas fa-plus-circle"></i> Create Client Account
-											</button></a>
-									</div>
-								</div>
-								<div class="row" style="margin-top: 45px; margin-bottom: 20px;">
-									<div class="col-lg-2 newButton"
-										sec:authorize="hasAnyRole('ROLE_ADMIN')"
-										th:if="*{baseModel.agentNumber}">
 										<a
-											th:href="@{/modifyAgentAccount(accountNumber=*{baseModel.accountNumber})}"
+											th:href="@{/modifyAccount(accountNumber=*{baseModel.accountNumber})}"
 											style="color: black;"><button style="width: 250px;">
-												<i class="fas fa-arrow-alt-circle-up"></i> Modify
-												Admin/Agent Account
+												<i class="fas fa-arrow-alt-circle-up"></i> Modify Account
 											</button></a>
 									</div>
-									<div class="col-lg-2 updateButton"
-										sec:authorize="hasAnyRole('ROLE_ADMIN')"
-										th:if="*{baseModel.clientNumber}">
-										<a
-											th:href="@{/modifyClientAccount(accountNumber=*{baseModel.accountNumber})}"
-											style="color: black;"><button style="width: 200px;">
-												<i class="fas fa-arrow-alt-circle-up"></i> Modify Client
-												Account
-											</button></a>
-									</div>
-								</div>
-								<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 									<div class="col-lg-2 deleteButton"
 										sec:authorize="hasAnyRole('ROLE_ADMIN')">
 										<a
@@ -241,6 +214,10 @@ a {
 											</button></a>
 									</div>
 								</div>
+								<div class="row" style="margin-top: -5px; margin-bottom: 20px;">
+
+								</div>
+
 							</div>
 						</div>
 				</div>

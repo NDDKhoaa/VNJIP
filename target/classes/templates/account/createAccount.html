@@ -4,7 +4,7 @@
 <head>
 <link th:replace="fragments/head :: head-infor"></link>
 <meta charset="UTF-8">
-<title>Create Client Account</title>
+<title>Create Account</title>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -52,11 +52,11 @@ a {
 }
 
 .tablebackground {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 }
 
 .inputedbackground {
-	background-color: #DDDDDD;
+	background-color: #EEEEEE;
 }
 
 .pagesetting {
@@ -84,7 +84,7 @@ a {
 }
 
 .submitbutton {
-	background-color: #073763;
+	background-color: #5f249f;
 	color: white;
 	border: 1px solid black;
 	padding: 3px;
@@ -113,16 +113,17 @@ a {
 					<nav th:replace="fragments/sidebar :: #app-sidebar"></nav>
 					<main class="ol col-10 px-0 d-flex flex-column">
 						<div class="header border-bottom border-dark py-1 px-3">
-							<h4 class="m-0">Create Client Account</h4>
+							<h4 class="m-0">Create Account</h4>
 						</div>
 						<div class="content p-2 d-flex flex-column flex-grow-1">
 							<div class="col-lg-9"
 								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
-								<form th:action="@{/saveClientAccount}" th:object="${accountForm}"
-									method="POST">
+								<form th:action="@{/saveAccount}"
+									th:object="${accountForm}" method="POST">
 									<div>
 										<div class="row tablesetting"
-											style="background-color: #95BCF2;">Client Account Information</div>
+											style="background-color: #5f249f; color: white">Account
+											Information</div>
 
 
 
@@ -155,40 +156,27 @@ a {
 
 										</div>
 
-
-
 										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">Account
+												Status</div>
 
-											<div class="col-lg-2 tablesetting tablebackground">Client</div>
-										<select class="col-lg-4 selectsetting"
-												th:field="*{clientNumber}" required="required">
-										<option value="" selected="selected">Select Client</option>
-												<option th:each="client:${listClient}"
-													th:value="${client.clientNumber }"
-													th:text="${client.firstName}+${client.lastName}"></option>
+											<select class="col-lg-4 selectsetting"
+												th:field="*{accountStatusShort}" required="required">
+												<option value="" selected="selected">Select Account
+													Status</option>
+												<option th:each="accountStatus:${listAccountStatus}"
+													th:value="${accountStatus.accountStatusShort }"
+													th:text="${accountStatus.accountStatusDesc }"></option>
+											</select>
+											<div class="col-lg-2 tablesetting tablebackground">Role</div>
+
+											<select class="col-lg-4 selectsetting"
+												th:field="*{roleNumber}" required="required">
+												<option value="" selected="selected">Select Role</option>
+												<option th:each="role:${listRoles}"
+													th:value="${role.roleNumber }" th:text="${role.roleName }"></option>
 											</select>
 										</div>
-										
-												<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Account Status</div>
-
-											<select class="col-lg-4 selectsetting"
-														th:field="*{accountStatusShort}" required="required">
-														<option value="" selected="selected">Select Account Status</option>
-														<option th:each="accountStatus:${listAccountStatus}"
-															th:value="${accountStatus.accountStatusShort }"
-															th:text="${accountStatus.accountStatusDesc }"></option>
-													</select>
-														<div class="col-lg-2 tablesetting tablebackground">Role</div>
-
-											<select class="col-lg-4 selectsetting"
-														th:field="*{roleNumber}" required="required">
-														<option value="" selected="selected">Select Role</option>
-														<option th:each="role:${listRoles}"
-															th:value="${role.roleNumber }"
-															th:text="${role.roleName }"></option>
-													</select>
-											</div>
 
 										<div class="row" style="margin-top: 20px;">
 											<button class="submitbutton" type="submit">Submit</button>

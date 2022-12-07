@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import vnjip.entity.Account;
 import vnjip.entity.Agent;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.AccountType;
@@ -60,14 +59,8 @@ public class AgentController {
 		Agent agent = agentServiceImpl.findByNumber(agentNumber);
 		AccountType accountType = agent.getAccountType();
 		AccountStatus accountStatus = agent.getAccountStatus();
-		Account account = agent.getAccount();
-		if (account == null) {
-			BaseModel baseModel = new BaseModel(agent, accountType, accountStatus);
-			mav.addObject("baseModel", baseModel);
-		} else {
-			BaseModel baseModel = new BaseModel(agent, accountType, accountStatus, account);
-			mav.addObject("baseModel", baseModel);
-		}
+		BaseModel baseModel = new BaseModel(agent, accountType, accountStatus);
+		mav.addObject("baseModel", baseModel);
 		return mav;
 	}
 
@@ -133,6 +126,17 @@ public class AgentController {
 	public String deleteAgent(@RequestParam("agentNumber") long agentNumber) {
 		agentServiceImpl.deleteByNumber(agentNumber);
 		return "redirect:/viewAgents";
+	}
+
+	@RequestMapping(value = "/agent-multi-delete", method = RequestMethod.POST)
+	public String deleteAgents(@RequestParam long[] ids) {
+		for (long l : ids) {
+
+			agentServiceImpl.deleteByNumber(l);
+
+		}
+		return "redirect:/viewAgents";
+
 	}
 
 	@InitBinder

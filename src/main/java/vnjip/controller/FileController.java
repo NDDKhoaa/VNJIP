@@ -174,6 +174,16 @@ public class FileController {
 		return "redirect:/viewFiles";
 	}
 
+	@RequestMapping(value = "/file-multi-delete", method = RequestMethod.POST)
+	public String deleteFiles(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				fileServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -3,10 +3,6 @@
 	xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 <style>
-nav>ul>li>a {
-	color: black;
-	text-decoration: none;
-}
 </style>
 </head>
 <body>
@@ -19,14 +15,15 @@ nav>ul>li>a {
 			</button>
 		</div>
 		<ul class="nav flex-column pl-0">
-			<li class="nav-item"><a th:href="@{'/dashboard'}"
+			<li class=" nav-item"><a th:href="@{'/dashboard'}"
+				style="color: #000058;"
 				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
-					class="nav-link-dot mr-2" style="width: 20px;"> <i
+					class=" nav-link-dot mr-2" style="width: 20px;"> <i
 						class="fa-solid fa-clapperboard fa-2x"></i>
 				</span> Dashboard
 			</a></li>
 			<li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')"><a
-				th:href="@{/viewAgents}"
+				th:href="@{/viewAgents}" style="color: #000058;"
 				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
 					class="nav-link-dot mr-2" style="width: 20px;"> <i
 						class="fa-solid fa-hat-cowboy fa-2x"></i>
@@ -34,7 +31,7 @@ nav>ul>li>a {
 			</a></li>
 			<li class="nav-item"
 				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')"><a
-				th:href="@{/viewClients}"
+				th:href="@{/viewClients}" style="color: #000058;"
 				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
 					class="nav-link-dot mr-2" style="width: 20px;"> <i
 						class="fa-solid fa-person fa-2x"></i>
@@ -42,7 +39,7 @@ nav>ul>li>a {
 			</a></li>
 			<li class="nav-item"
 				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')"><a
-				th:href="@{/viewPolicies}"
+				th:href="@{/viewPolicies}" style="color: #000058;"
 				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
 					class="nav-link-dot mr-2" style="width: 20px;"> <i
 						class="fa-solid fa-envelope fa-2x"></i>
@@ -50,7 +47,7 @@ nav>ul>li>a {
 			</a></li>
 			<li class="nav-item"
 				sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT','ROLE_CLIENT')">
-				<a th:href="@{/viewFiles}"
+				<a th:href="@{/viewFiles}" style="color: #000058;"
 				class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
 					class="nav-link-dot mr-2" style="width: 20px;"> <i
 						class="fa-solid fa-file fa-2x"></i>
@@ -58,7 +55,8 @@ nav>ul>li>a {
 			</a>
 			</li>
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-				<li class="nav-item"><a th:href="@{/viewAccounts}"
+				<li class="nav-item"><a style="color: #000058;"
+					th:href="@{/viewAccounts}"
 					class="nav-link pl-2 pr-0 py-1 d-flex align-items-center"> <span
 						class="nav-link-dot mr-2" style="width: 20px;"> <i
 							class="fa-solid fa-user-secret fa-2x"></i>
@@ -66,10 +64,12 @@ nav>ul>li>a {
 				</a></li>
 			</div>
 		</ul>
-		<div th:if="${modelList != null}" id="errorMessage">
+		<div style="margin-top: 300px;" th:if="${modelList != null}"
+			id="errorMessage">
 			<ul>
-				<th:block th:each="item : ${modelList}">
-					<li th:utext="${item}">..</li>
+				<h5 style="color: #5f249f;">Error Messages</h5>
+				<th:block class="errorDisp" th:each="item : ${modelList}">
+					<li style="color: red;" th:utext="${item}">..</li>
 				</th:block>
 			</ul>
 		</div>

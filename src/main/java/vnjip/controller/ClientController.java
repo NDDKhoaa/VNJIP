@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import vnjip.entity.Account;
 import vnjip.entity.Client;
 import vnjip.entity.base.Country;
 import vnjip.entity.base.Gender;
@@ -67,14 +66,8 @@ public class ClientController {
 		Gender gender = client.getGender();
 		Country country = client.getCountry();
 		MaritalStatus maritalStatus = client.getMaritalStatus();
-		Account account = client.getAccount();
-		if (account == null) {
-			BaseModel baseModel = new BaseModel(client, country, gender, maritalStatus);
-			mav.addObject("baseModel", baseModel);
-		} else {
-			BaseModel baseModel = new BaseModel(client, country, gender, maritalStatus, account);
-			mav.addObject("baseModel", baseModel);
-		}
+		BaseModel baseModel = new BaseModel(client, country, gender, maritalStatus);
+		mav.addObject("baseModel", baseModel);
 		return mav;
 	}
 
@@ -146,6 +139,16 @@ public class ClientController {
 	public String deleteClient(@RequestParam("clientNumber") long clientNumber) {
 		clientServiceImpl.deleteByNumber(clientNumber);
 		return "redirect:/viewClients";
+	}
+
+	@RequestMapping(value = "/client-multi-delete", method = RequestMethod.POST)
+	public String deleteClients(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				clientServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
 	}
 
 	@InitBinder
