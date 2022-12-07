@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<link th:replace="fragments/head :: head-infor"></link>
+<title>Modify Uploaded File</title>
+<meta charset="UTF-8">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<style>
+.menusetting {
+	background-color: #CCCCCC;
+}
+
+.hrefsetting {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+a {
+	text-decoration: none;
+}
+
+.tablesetting {
+	padding: 10px;
+	height: 40px;
+	border: 1px solid black;
+}
+
+.inputsetting {
+	padding: 9px;
+	border: 1px solid black;
+}
+
+.datesetting {
+	height: 40px;
+	padding: 7px;
+	border: 1px solid black;
+}
+
+.selectsetting {
+	height: 40px;
+	border: 1px solid black;
+}
+
+.radiosetting {
+	padding: 3px;
+}
+
+.tablebackground {
+	background-color: #EEEEEE;
+}
+
+.inputedbackground {
+	background-color: #EEEEEE;
+}
+
+.pagesetting {
+	border: 1px solid black;
+	border-style: solid solid solid solid;
+	padding: 7px;
+	border-color: black;
+	border-bottom-color: #FFFFFF;
+}
+
+.nontabsetting {
+	border: 1px solid black;
+	border-style: solid solid solid solid;
+	padding: 7px;
+	border-color: black;
+}
+
+.pagesettingfordiv {
+	margin-top: 12px;
+}
+
+.tabsetting {
+	border-style: solid solid solid solid;
+	border: 1px solid black;
+}
+
+.submitbutton {
+	background-color: #5f249f;
+	color: white;
+	border: 1px solid black;
+	padding: 3px;
+	width: 75px;
+	margin-right: 25px;
+}
+
+.closebutton {
+	border: 1px solid black;
+	padding: 3px;
+	width: 75px;
+}
+
+.fa-arrow-left {
+	color: #CF2A28;
+}
+</style>
+</head>
+
+<body>
+	<div class="app container-fluid d-flex flex-column">
+		<header th:replace="fragments/header :: #app-header"></header>
+		<div class="row app-content flex-grow-1">
+			<div class="container-fluid">
+				<div class="row h-100">
+					<nav th:replace="fragments/sidebar :: #app-sidebar"></nav>
+					<main class="ol col-10 px-0 d-flex flex-column">
+						<div class="header border-bottom border-dark py-1 px-3">
+							<h4 class="m-0">Modify Uploaded File</h4>
+						</div>
+						<div class="content p-2 d-flex flex-column flex-grow-1">
+
+
+							<div class="col-lg-9"
+								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
+								<form
+									th:action="@{/saveFileModify(fileNumber=${updateFile.fileNumber})}"
+									th:object="${fileForm}" enctype="multipart/form-data"
+									method="POST">
+									<div>
+										<div>
+
+											<div class="row tablesetting"
+												style="background-color: #5f249f; color: white">File Information</div>
+											<div class="row">
+												<div class="col-lg-2 tablesetting tablebackground">
+													File Number</div>
+												<div class="col-lg-4 tablesetting inputedbackground">
+													<span th:text="${updateFile.fileNumber}"></span>
+												</div>
+
+
+												<div class="col-lg-2 tablesetting tablebackground">File
+													Name</div>  
+												<input class="col-lg-4 datesetting" type="text"
+													th:field="${updateFile.fileName}" required />
+											</div>
+
+											<div class="row">
+												<div class="col-lg-2 tablesetting tablebackground">
+													File Folder</div>
+												<div class="col-lg-4 tablesetting">
+													<input style="display: none;" type="file" name="file"
+														id="file" /><label
+															for="file" style="margin-right: 30px;">Upload New
+															CV </label><a
+														th:href="@{/downloadFile(fileNumber=${updateFile.fileNumber})}"
+														th:text="${updateFile.fileName}"></a>
+												</div>
+
+												<div class="col-lg-2 tablesetting tablebackground">Date
+													Uploaded</div>
+												<Span class="col-lg-4 tablesetting"
+													th:text="${updateFile.dateUpload}"></Span>
+											</div>
+
+											<div class="row" style="margin-top: 20px;">
+												<button class="submitbutton" type="submit">Submit</button>
+												<button class="closebutton" type="button"
+													onclick="history.back()">
+													<i class="fas fa-arrow-left"></i> Close
+												</button>
+											</div>
+										</div>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</main>
+				</div>
+			</div>
+		</div>
+		<footer th:replace="fragments/footer :: #app-footer"></footer>
+		<div th:replace="fragments/modal :: #app-modal"></div>
+	</div>
+	<script type="text/javascript" th:replace="fragments/script :: script"></script>
+	<!-- put your script here -->
+</body>
+
+</html>
