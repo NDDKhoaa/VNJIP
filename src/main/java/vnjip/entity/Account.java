@@ -64,6 +64,16 @@ public class Account {
 		this.accountStatus = accountStatus2;
 	}
 
+	public Account(String accountUsername, String accountEmail, String pwdEncrypt, HashSet<Role> hashSet,
+			AccountStatus accountStatus2, Client client2) {
+		super();
+		this.username = accountUsername;
+		this.email = accountEmail;
+		this.password = pwdEncrypt;
+		this.roles = hashSet;
+		this.accountStatus = accountStatus2;
+	}
+
 	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole) {
 		super();
 		this.username = updateAccount.getUsername();

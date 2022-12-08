@@ -224,6 +224,16 @@ public class ClientController {
 		return "redirect:/viewClients";
 	}
 
+	@RequestMapping(value = "/client-multi-delete", method = RequestMethod.POST)
+	public String deleteClients(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				clientServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

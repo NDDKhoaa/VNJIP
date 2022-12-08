@@ -153,6 +153,16 @@ public class AccountController {
 		return "redirect:/viewAccounts";
 	}
 
+	@RequestMapping(value = "/account-multi-delete", method = RequestMethod.POST)
+	public String deleteAccounts(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				accountServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

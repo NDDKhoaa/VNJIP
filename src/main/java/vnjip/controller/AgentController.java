@@ -196,6 +196,17 @@ public class AgentController {
 		return "redirect:/viewAgents";
 	}
 
+	@RequestMapping(value = "/agent-multi-delete", method = RequestMethod.POST)
+	public String deleteAgents(@RequestParam long[] ids) {
+		for (long l : ids) {
+
+			agentServiceImpl.deleteByNumber(l);
+
+		}
+		return "redirect:/viewAgents";
+
+	}
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -15,6 +15,7 @@ import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.AccountType;
 import vnjip.entity.base.BillingCurrency;
 import vnjip.entity.base.Country;
+import vnjip.entity.base.ErrorPf;
 import vnjip.entity.base.Gender;
 import vnjip.entity.base.MaritalStatus;
 import vnjip.entity.base.PolicyStatus;
@@ -25,6 +26,7 @@ import vnjip.services.Impl.AccountStatusServiceImpl;
 import vnjip.services.Impl.AccountTypeServiceImpl;
 import vnjip.services.Impl.BillingCurrencyServiceImpl;
 import vnjip.services.Impl.CountryServiceImpl;
+import vnjip.services.Impl.ErrorPfImpl;
 import vnjip.services.Impl.GenderServiceImpl;
 import vnjip.services.Impl.MaritalStatusServiceImpl;
 import vnjip.services.Impl.PolicyStatusServiceImpl;
@@ -53,6 +55,8 @@ public class SpringBootInitialData implements ApplicationRunner {
 	private MaritalStatusServiceImpl maritalStatusServiceImpl;
 	@Autowired
 	private PolicyStatusServiceImpl policyStatusServiceImpl;
+	@Autowired
+	private ErrorPfImpl errorPfImpl;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -103,7 +107,7 @@ public class SpringBootInitialData implements ApplicationRunner {
 
 			/* Country Start */
 			Country countryVNI = new Country("VNI", "Vietnam");
-			Country countryUSA = new Country("USA", "United State of America");
+			Country countryUSA = new Country("USA", "United State");
 			Country countrySIN = new Country("SIN", "Singapore");
 			Country countryMAL = new Country("MAL", "Malaysia");
 			countryServiceImpl.save(countryVNI);
@@ -136,6 +140,21 @@ public class SpringBootInitialData implements ApplicationRunner {
 			policyStatusServiceImpl.save(policyStatusPN);
 			policyStatusServiceImpl.save(policyStatusIF);
 			/* Policy Status End */
+
+			/* Error Start */
+			ErrorPf error181 = new ErrorPf("E181", "Expiry Date Must > Inception Date");
+			ErrorPf error182 = new ErrorPf("E182", "Must Be An Existing Client Number");
+			ErrorPf error183 = new ErrorPf("E183", "Combination Of Engine No And Chassis No Must Be Unique");
+			ErrorPf error184 = new ErrorPf("E184", "Must Not Be Negative");
+			ErrorPf error186 = new ErrorPf("E186", "Must Be Enter");
+			ErrorPf error189 = new ErrorPf("E189", "Is Error Type");
+			errorPfImpl.save(error181);
+			errorPfImpl.save(error182);
+			errorPfImpl.save(error183);
+			errorPfImpl.save(error184);
+			errorPfImpl.save(error186);
+			errorPfImpl.save(error189);
+			/* Error End */
 
 			/* Admin Account Start */
 			roleAdmin = roleRepository.listAll();

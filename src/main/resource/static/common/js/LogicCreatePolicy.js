@@ -17,6 +17,6 @@ function DateDiff(date1, date2) {
     return parseInt(datediff / (24 * 60 * 60 * 1000), 10);      
 }
 function logic() {
-	annualPremium.value = sumInsured.value * rate.value / 100;
 	postedPremium.value = sumInsured.value * DateDiff(expiryDate, inceptionDate) / 365;
+	annualPremium.value = sumInsured.value * rate.value / 100;
 }
