@@ -262,7 +262,7 @@ public class FileController {
 			baseModel.setErrorCode("E186");
 			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
-		if (baseModel.getFilesize() > 2) {
+		if (baseModel.getFilesize() > 20000000) {
 			baseModel.setErrorCode("E195");
 			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
@@ -277,7 +277,7 @@ public class FileController {
 			baseModel.setErrorCode("E186");
 			errorList.add("Agent DOB " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
-		if (baseModel.getFilesize() > 2) {
+		if (baseModel.getFilesize() > 20000000) {
 			baseModel.setErrorCode("E195");
 			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
