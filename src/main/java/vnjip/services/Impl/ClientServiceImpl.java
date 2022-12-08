@@ -40,4 +40,22 @@ public class ClientServiceImpl implements ClientService {
 	public Client findTopClientNumber() {
 		return clientRepository.findFirstByOrderByClientNumberDesc();
 	}
+
+	public boolean findByIdentityNumber(String id) {
+		List<Client> list = clientRepository.findByIdentityNumber(id);
+		if (list.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean findByIdentityNumberModify(String id) {
+		List<Client> list = clientRepository.findByIdentityNumber(id);
+		if (list.size() > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

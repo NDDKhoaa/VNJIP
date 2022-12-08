@@ -136,7 +136,7 @@ a {
 													<div class="col-lg-2 tablesetting tablebackground">Account
 														Name</div>
 													<input class="col-lg-4 tablesetting" type="text"
-														th:field="*{agentName}" placeholder="Agent Name" required />
+														th:field="*{agentName}" placeholder="Agent Name" />
 												</div>
 
 												<div class="row">
@@ -144,20 +144,20 @@ a {
 														Company Code</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="*{agentCompanyCode}" placeholder="Company Code"
-														required />
+														 />
 
 													<div class="col-lg-2 tablesetting tablebackground">Company
 														Name</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="*{agentCompanyName}" placeholder="Company Name"
-														required />
+														 />
 												</div>
 
 												<div class="row">
 													<div class="col-lg-2 tablesetting tablebackground">Account
 														Type</div>
 													<select class="col-lg-4 selectsetting"
-														th:field="*{accountTypeShort}" required="required">
+														th:field="*{accountTypeShort}">
 														<option value="" selected="selected">Select Account Type</option>
 														<option th:each="accountType:${listAccountType}"
 															th:value="${accountType.accountTypeShort }"
@@ -168,19 +168,19 @@ a {
 														Number</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="*{agentLicenseNumber}"
-														placeholder="License Number" required />
+														placeholder="License Number" />
 												</div>
 
 												<div class="row">
 													<div class="col-lg-2 tablesetting tablebackground">Date
 														Of Birth</div>
 													<input type="date" class="col-lg-4 datesetting"
-														th:field="*{agentDOB}" required />
+														th:field="*{agentDOB}" />
 
 													<div class="col-lg-2 tablesetting tablebackground">Account
 														Status</div>
 													<select class="col-lg-4 selectsetting"
-														th:field="*{accountStatusShort}" required="required">
+														th:field="*{accountStatusShort}">
 														<option value="" selected="selected">Select Account Status</option>
 														<option th:each="accountStatus:${listAccountStatus}"
 															th:value="${accountStatus.accountStatusShort }"

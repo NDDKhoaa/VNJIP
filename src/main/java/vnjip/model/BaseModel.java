@@ -309,6 +309,42 @@ public class BaseModel {
 		this.filesize = file.getSize();
 	}
 
+	public BaseModel(Client client, Gender gender, Country country, MaritalStatus maritalStatus) {
+		super();
+		this.client = client;
+		this.clientFirstName = client.getFirstName();
+		this.clientLastName = client.getLastName();
+		this.clientDOB = client.getDateOfBirth();
+		this.clientIdentityNumber = client.getIdentityNumber();
+		this.clientAddress = client.getAddress();
+		this.country = country;
+		this.countryShort = country.getCountryShort();
+		this.countryName = country.getCountryName();
+		this.gender = gender;
+		this.genderShort = gender.getGenderShort();
+		this.genderName = gender.getGenderName();
+		this.maritalStatusObject = maritalStatus;
+		this.maritalShort = maritalStatus.getMaritalShort();
+		this.maritalStatus = maritalStatus.getMaritalStatus();
+	}
+
+	public BaseModel(Agent agent, AccountStatus accountStatus, AccountType accountType) {
+		super();
+		this.agent = agent;
+		this.agentNumber = agent.getAgentNumber();
+		this.agentName = agent.getAgentName();
+		this.agentDOB = agent.getDateOfBirth();
+		this.agentLicenseNumber = agent.getLicenseNumber();
+		this.agentCompanyCode = agent.getCompanyCode();
+		this.agentCompanyName = agent.getCompanyName();
+		this.accountStatus = accountStatus;
+		this.accountStatusShort = accountStatus.getAccountStatusShort();
+		this.accountStatusDesc = accountStatus.getAccountStatusDesc();
+		this.accountType = accountType;
+		this.accountTypeShort = accountType.getAccountTypeShort();
+		this.accountTypeDesc = accountType.getAccountTypeDesc();
+	}
+
 	public Date getFileDateUpload() {
 		return fileDateUpload;
 	}

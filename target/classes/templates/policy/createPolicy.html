@@ -61,11 +61,11 @@ a {
 }
 
 .tablebackground {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 }
 
 .inputedbackground {
-	background-color: #DDDDDD;
+	background-color: #EEEEEE;
 }
 
 .pagesetting {
@@ -93,7 +93,7 @@ a {
 }
 
 .submitbutton {
-	background-color: #073763;
+	background-color: #5f249f;
 	color: white;
 	border: 1px solid black;
 	padding: 3px;
@@ -129,110 +129,107 @@ a {
 								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
 								<form th:action="@{/savePolicy}" th:object="${policyForm}"
 									method="POST" id="form">
-									<div>
-										<div class="row tablesetting"
-											style="background-color: #95BCF2;">Personal Information</div>
+									<div class="row tablesetting"
+										style="background-color: #5f249f; color: white">Personal
+										Information</div>
 
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">
-												Policy Number</div>
-											<div class="col-lg-4 tablesetting inputedbackground">
-												<span th:text="${policyNum}"></span>
-											</div>
-
-
-											<div class="col-lg-2 tablesetting tablebackground">Inception
-												Date</div>
-											<input type="date" class="col-lg-4 datesetting"
-												th:field="*{inceptionDate}" id="inceptionDate" />
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">
+											Policy Number</div>
+										<div class="col-lg-4 tablesetting inputedbackground">
+											<span th:text="${policyNum}"></span>
 										</div>
 
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">
-												Expiry Date</div>
-											<input type="date" class="col-lg-4 datesetting"
-												th:field="*{expiryDate}" id="expiryDate" />
 
-											<div class="col-lg-2 tablesetting tablebackground">Policy
-												Owner</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												th:field="*{policyOwner}" placeholder="Policy Owner"
-												 id="policyOwner" />
-										</div>
+										<div class="col-lg-2 tablesetting tablebackground">Inception
+											Date</div>
+										<input type="date" class="col-lg-4 datesetting"
+											th:field="*{inceptionDate}" id="inceptionDate" />
+									</div>
 
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Billing
-												Currency</div>
-											<select class="col-lg-4 selectsetting"
-												th:field="*{currencyShort}" >
-												<option value="" selected="selected">Select Billing
-													Currency</option>
-												<option th:each="list:${listBillingCurrency}"
-													th:value="${list.currencyShort }"
-													th:text="${list.currencyName }"></option>
-											</select>
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">
+											Expiry Date</div>
+										<input type="date" class="col-lg-4 datesetting"
+											th:field="*{expiryDate}" id="expiryDate" />
 
-											<div class="col-lg-2 tablesetting tablebackground">Chassis
-												No</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												id="chassisNo" th:field="*{chassisNo}"
-												placeholder="Chassis No" />
-										</div>
+										<div class="col-lg-2 tablesetting tablebackground">Policy
+											Owner</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											th:field="*{policyOwner}" placeholder="Policy Owner"
+											id="policyOwner" />
+									</div>
 
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Engine
-												No</div>
-											<input id="engineNo" class="col-lg-4 tablesetting"
-												type="text" th:field="*{engineNo}" placeholder="Engine No"
-												 />
-											<div class="col-lg-2 tablesetting tablebackground">Sum
-												Insured</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												th:field="*{sumInsured}" id="sumInsured"
-												placeholder="Sum Insured"  />
-										</div>
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Rate</div>
-											<input id="rate" class="col-lg-4 tablesetting" type="text"
-												th:field="*{rate}" placeholder="Rate"  />
-											<div class="col-lg-2 tablesetting tablebackground">Posted
-												Premium</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												th:field="*{postedPremium}" placeholder="Posted Premium"
-												 id="postedPremium" />
-										</div>
-										<div class="row">
-											<div class="col-lg-2 tablesetting tablebackground">Annual
-												Premium</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												th:field="*{annualPremium}" placeholder="Annual Premium"
-												 id="annualPremium" />
-											<div class="col-lg-2 tablesetting tablebackground">Vehicle
-												No</div>
-											<input class="col-lg-4 tablesetting" type="text"
-												th:field="*{vehicleRegistrationNo}"
-												placeholder="Vehicle Registration No"
-												id="vehicleRegistrationNo"  />
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">Billing
+											Currency</div>
+										<select class="col-lg-4 selectsetting"
+											th:field="*{currencyShort}">
+											<option value="" selected="selected">Select Billing
+												Currency</option>
+											<option th:each="list:${listBillingCurrency}"
+												th:value="${list.currencyShort }"
+												th:text="${list.currencyName }"></option>
+										</select>
 
-										</div>
+										<div class="col-lg-2 tablesetting tablebackground">Chassis
+											No</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											id="chassisNo" th:field="*{chassisNo}"
+											placeholder="Chassis No" />
+									</div>
+
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">Engine
+											No</div>
+										<input id="engineNo" class="col-lg-4 tablesetting" type="text"
+											th:field="*{engineNo}" placeholder="Engine No" />
+										<div class="col-lg-2 tablesetting tablebackground">Sum
+											Insured</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											th:field="*{sumInsured}" id="sumInsured"
+											placeholder="Sum Insured" />
+									</div>
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">Rate</div>
+										<input id="rate" class="col-lg-4 tablesetting" type="text"
+											th:field="*{rate}" placeholder="Rate" />
+										<div class="col-lg-2 tablesetting tablebackground">Posted
+											Premium</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											th:field="*{postedPremium}" placeholder="Posted Premium"
+											id="postedPremium" />
+									</div>
+									<div class="row">
+										<div class="col-lg-2 tablesetting tablebackground">Annual
+											Premium</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											th:field="*{annualPremium}" placeholder="Annual Premium"
+											id="annualPremium" />
+										<div class="col-lg-2 tablesetting tablebackground">Vehicle
+											No</div>
+										<input class="col-lg-4 tablesetting" type="text"
+											th:field="*{vehicleRegistrationNo}"
+											placeholder="Vehicle Registration No"
+											id="vehicleRegistrationNo" />
+
+									</div>
+									<div class="row" style="margin-top: 20px; margin-left: 20px;">
+
+										<button class="submitbutton" type="submit" onclick="logic()">Submit</button>
+										<button class="closebutton" type="button"
+											onclick="history.back()">
+											<i class="fas fa-arrow-left"></i> Close
+										</button>
 									</div>
 							</div>
-
-							<div class="row" style="margin-top: 20px; margin-left: 20px;">
-								<button class="submitbutton" type="submit" onclick="logic()">Submit</button>
-								<button class="closebutton" type="button"
-									onclick="history.back()">
-									<i class="fas fa-arrow-left"></i> Close
-								</button>
-							</div>
+							</form>
 						</div>
-						</form>
 				</div>
 			</div>
 			</main>
 		</div>
 	</div>
-	<button class="submitbutton" type="submit" onclick="split()">Submit</button>
 	</div>
 	<footer th:replace="fragments/footer :: #app-footer"></footer>
 	<div th:replace="fragments/modal :: #app-modal"></div>

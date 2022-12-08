@@ -3,7 +3,6 @@ package vnjip.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import vnjip.entity.base.AccountStatus;
@@ -43,14 +41,6 @@ public class Account {
 	@JoinColumn(name = "account_status_short", nullable = true)
 	private AccountStatus accountStatus;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "agent_number", nullable = true)
-	private Agent agent;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "client_number", nullable = true)
-	private Client client;
-
 	public Account() {
 		super();
 	}
@@ -65,45 +55,22 @@ public class Account {
 	}
 
 	public Account(String accountUsername, String accountEmail, String pwdEncrypt, HashSet<Role> hashSet,
-			AccountStatus accountStatus2, Agent agent2) {
+			AccountStatus accountStatus2) {
 		super();
 		this.username = accountUsername;
 		this.email = accountEmail;
 		this.password = pwdEncrypt;
 		this.roles = hashSet;
 		this.accountStatus = accountStatus2;
-		this.agent = agent2;
 	}
 
-	public Account(String accountUsername, String accountEmail, String pwdEncrypt, HashSet<Role> hashSet,
-			AccountStatus accountStatus2, Client client2) {
-		super();
-		this.username = accountUsername;
-		this.email = accountEmail;
-		this.password = pwdEncrypt;
-		this.roles = hashSet;
-		this.accountStatus = accountStatus2;
-		this.client = client2;
-	}
-
-	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole, Client client2) {
+	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole) {
 		super();
 		this.username = updateAccount.getUsername();
 		this.email = updateAccount.getEmail();
 		this.password = updateAccount.getPassword();
 		this.roles = listRole;
 		this.accountStatus = accountStatus2;
-		this.client = client2;
-	}
-
-	public Account(Account updateAccount, AccountStatus accountStatus2, Set<Role> listRole, Agent agent2) {
-		super();
-		this.username = updateAccount.getUsername();
-		this.email = updateAccount.getEmail();
-		this.password = updateAccount.getPassword();
-		this.roles = listRole;
-		this.accountStatus = accountStatus2;
-		this.agent = agent2;
 	}
 
 	public Long getAccountNumber() {
@@ -136,22 +103,6 @@ public class Account {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Agent getAgent() {
-		return agent;
-	}
-
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}
-
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
 	}
 
 	public Set<Role> getRoles() {

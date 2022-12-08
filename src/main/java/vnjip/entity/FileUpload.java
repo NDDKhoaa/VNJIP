@@ -58,6 +58,16 @@ public class FileUpload {
 		this.dateUpload = dateUpload;
 	}
 
+	public FileUpload(FileUpload file) {
+		super();
+		this.fileNumber = file.getFileNumber();
+		this.fileName = file.getFileName();
+		this.folderName = file.getFolderName();
+		this.content = file.getContent();
+		this.size = file.getSize();
+		this.dateUpload = file.getDateUpload();
+	}
+
 	public Date getDateUpload() {
 		return dateUpload;
 	}

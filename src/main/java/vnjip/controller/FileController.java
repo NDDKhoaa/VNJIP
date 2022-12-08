@@ -2,8 +2,12 @@ package vnjip.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import vnjip.entity.FileUpload;
 import vnjip.model.BaseModel;
+import vnjip.services.Impl.ErrorPfImpl;
 import vnjip.services.Impl.FileUploadServiceImpl;
 
 @Controller
@@ -33,6 +38,9 @@ public class FileController {
 
 	@Autowired
 	private FileUploadServiceImpl fileServiceImpl;
+
+	@Autowired
+	private ErrorPfImpl errorPfImpl;
 
 	@RequestMapping("/viewFiles")
 	public String viewFile(Model model) {
@@ -65,28 +73,65 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/saveFile", method = RequestMethod.POST)
-	public String saveFile(@ModelAttribute("fileForm") BaseModel model,
+	public ModelAndView saveFile(@ModelAttribute("fileForm") BaseModel model,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
+
+		FileUpload file = fileServiceImpl.findTopFileNumber();
 		String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		long fileSize = multipartFile.getSize();
 		byte[] content = multipartFile.getBytes();
+
 		model.setFilefolderName(fileFolderName);
 		model.setFilesize(fileSize);
 		model.setFilecontent(content);
-		if ("".equals(model.getFileName())) {
-			model.setFileName(fileFolderName);
-			FileUpload file = new FileUpload(model);
-			fileServiceImpl.save(file);
+		if (file != null) {
+			model.setFileNumber(file.getFileNumber() + 1);
 		} else {
-			String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			String[] result = fileFolderName1.split("\\.");
-			String newFileName = model.getFileName() + "." + result[1];
-			model.setFileName(newFileName);
-			FileUpload file = new FileUpload(model);
-			fileServiceImpl.save(file);
+			long id = 1;
+			model.setFileNumber(id);
 		}
+		List<String> errorList = new ArrayList<>();
+		validationNotNull(model, errorList);
+		if (errorList.size() == 0) {
+			validationType(model, errorList);
+		}
+		if (errorList.size() == 0) {
+			validate2010(model, errorList);
+		}
+		if (errorList.size() > 0) {
+			ModelAndView mav = new ModelAndView("/file/createFile");
 
-		return "redirect:/viewFiles";
+			model.setErrorList(errorList);
+			mav.addObject("modelList", errorList);
+			mav.addObject("fileForm", model);
+			System.out.println(errorList.size());
+			return mav;
+		} else {
+			ModelAndView mav = new ModelAndView("redirect:/viewFiles");
+			ModelAndView mav2 = new ModelAndView("/file/createFile");
+			model.setFilefolderName(fileFolderName);
+			model.setFilesize(fileSize);
+			model.setFilecontent(content);
+			if ("".equals(model.getFileName())) {
+				model.setFileName(fileFolderName);
+				validate2010(model, errorList);
+				if (errorList.size() > 0) {
+					return mav2;
+				} else {
+					FileUpload file2 = new FileUpload(model);
+					fileServiceImpl.save(file2);
+				}
+			} else {
+				String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				String[] result = fileFolderName1.split("\\.");
+				String newFileName = model.getFileName() + "." + result[1];
+				model.setFileName(newFileName);
+				FileUpload file2 = new FileUpload(model);
+				fileServiceImpl.save(file2);
+			}
+			return mav;
+
+		}
 	}
 
 	@RequestMapping("/modifyFile")
@@ -99,61 +144,82 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/saveFileModify", method = RequestMethod.POST)
-	public String saveFileModify(@ModelAttribute("updateFile") FileUpload updateFile,
-			@ModelAttribute("fileForm") BaseModel model, @RequestParam("fileNumber") long fileNumber,
+	public ModelAndView saveFileModify(@ModelAttribute("updateFile") FileUpload updateFile,
+			@ModelAttribute("fileForm") BaseModel md, @RequestParam("fileNumber") long fileNumber,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
-		if (multipartFile.getSize() != 0) {
-			FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
-			String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			long fileSize = multipartFile.getSize();
-			byte[] content = multipartFile.getBytes();
-			model.setFilefolderName(fileFolderName);
-			model.setFilesize(fileSize);
-			model.setFilecontent(content);
-			model.setFileDateUpload(fileId.getDateUpload());
-			if (fileFolderName.equals(model.getFileName())) {
-				model.setFileName(fileFolderName);
-				FileUpload file = new FileUpload(model);
-				file.setFileNumber(fileId.getFileNumber());
-				fileServiceImpl.save(file);
 
-			} else {
-				String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-				String[] result2 = model.getFileName().split("\\.");
-				String[] result = fileFolderName1.split("\\.");
-				String newFileName = result2[0] + "." + result[1];
-				model.setFileName(newFileName);
-				FileUpload file = new FileUpload(model);
-				file.setFileNumber(fileId.getFileNumber());
-				fileServiceImpl.save(file);
-			}
-		} else {
-			FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
-			String fileFolderName = fileId.getFileName();
-			String fileName = fileId.getFileName();
-			long fileSize = fileId.getSize();
-			byte[] content = fileId.getContent();
-			Date UploadedDate = fileId.getDateUpload();
-			if (fileName.equals(model.getFileName())) {
-				FileUpload file = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
-				file.setFileNumber(fileId.getFileNumber());
-				fileServiceImpl.save(file);
-
-			} else {
-
-				String[] result = fileName.split("\\.");
-				String modelFileName = model.getFileName();
-				String[] result2 = modelFileName.split("\\.");
-				modelFileName = result2[0];
-				String newFileName = modelFileName + "." + result[1];
-				fileName = newFileName;
-				FileUpload file = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
-				file.setFileNumber(fileId.getFileNumber());
-				fileServiceImpl.save(file);
-			}
-
+		BaseModel model = new BaseModel(updateFile);
+		List<String> errorList = new ArrayList<>();
+		validationNotNullModify(model, errorList);
+		if (errorList.size() == 0) {
+			validationType(model, errorList);
 		}
-		return "redirect:/viewFiles";
+		if (errorList.size() == 0) {
+			validate2011(model, errorList);
+		}
+
+		if (errorList.size() > 0) {
+			ModelAndView mav = new ModelAndView("/file/modifyFile");
+			mav.addObject("modelList", errorList);
+			mav.addObject("updateFile", updateFile);
+			mav.addObject("baseModel", model);
+			return mav;
+		} else {
+			ModelAndView mav = new ModelAndView("redirect:/viewFiles");
+			if (multipartFile.getSize() != 0) {
+				FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
+				String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				long fileSize = multipartFile.getSize();
+				byte[] content = multipartFile.getBytes();
+				model.setFilefolderName(fileFolderName);
+				model.setFilesize(fileSize);
+				model.setFilecontent(content);
+				model.setFileDateUpload(fileId.getDateUpload());
+				if (fileFolderName.equals(model.getFileName())) {
+					model.setFileName(fileFolderName);
+					FileUpload file2 = new FileUpload(model);
+					file2.setFileNumber(fileId.getFileNumber());
+					fileServiceImpl.save(file2);
+
+				} else {
+					String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+					String[] result2 = model.getFileName().split("\\.");
+					String[] result = fileFolderName1.split("\\.");
+					String newFileName = result2[0] + "." + result[1];
+					model.setFileName(newFileName);
+					FileUpload file2 = new FileUpload(model);
+					file2.setFileNumber(fileId.getFileNumber());
+					fileServiceImpl.save(file2);
+				}
+			} else {
+				FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
+				String fileFolderName = fileId.getFileName();
+				String fileName = fileId.getFileName();
+				long fileSize = fileId.getSize();
+				byte[] content = fileId.getContent();
+				Date UploadedDate = fileId.getDateUpload();
+				if (fileName.equals(model.getFileName())) {
+					FileUpload file2 = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
+					file2.setFileNumber(fileId.getFileNumber());
+					fileServiceImpl.save(file2);
+
+				} else {
+
+					String[] result = fileName.split("\\.");
+					String modelFileName = model.getFileName();
+					String[] result2 = modelFileName.split("\\.");
+					modelFileName = result2[0];
+					String newFileName = modelFileName + "." + result[1];
+					fileName = newFileName;
+					FileUpload file2 = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
+					file2.setFileNumber(fileId.getFileNumber());
+					fileServiceImpl.save(file2);
+				}
+			}
+			List<FileUpload> listFile = fileServiceImpl.listAll();
+			mav.addObject("listFile", listFile);
+			return mav;
+		}
 	}
 
 	@GetMapping("/downloadFile")
@@ -179,5 +245,115 @@ public class FileController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(true);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	}
+
+	@RequestMapping(value = "/file-multi-delete", method = RequestMethod.POST)
+	public String deleteFiles(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				fileServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
+	}
+
+	public void validationNotNull(BaseModel baseModel, List<String> errorList) {
+		if (baseModel.getFilesize() == 0) {
+			baseModel.setErrorCode("E186");
+			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (baseModel.getFilesize() > 2) {
+			baseModel.setErrorCode("E195");
+			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (baseModel.getFileDateUpload() == null) {
+			baseModel.setErrorCode("E186");
+			errorList.add("Agent DOB " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+	}
+
+	public void validationNotNullModify(BaseModel baseModel, List<String> errorList) {
+		if (baseModel.getFileDateUpload() == null) {
+			baseModel.setErrorCode("E186");
+			errorList.add("Agent DOB " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (baseModel.getFilesize() > 2) {
+			baseModel.setErrorCode("E195");
+			errorList.add("File Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+	}
+
+	public void validationType(BaseModel baseModel, List<String> errorList) {
+		if (isNumeric(baseModel.getFileName().trim())) {
+			baseModel.setErrorCode("E189");
+			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+
+		}
+	}
+
+	public void validate2010(BaseModel baseModel, List<String> errorList) {
+		if (checkSpecial(baseModel.getFileName().trim())) {
+			baseModel.setErrorCode("E191");
+			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (fileServiceImpl.findByFileName((baseModel.getFileName()))) {
+			baseModel.setErrorCode("E190");
+			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (daysBetween2Dates(baseModel.getFileDateUpload()) <= 0) {
+			baseModel.setErrorCode("E192");
+			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+	}
+
+	public void validate2011(BaseModel baseModel, List<String> errorList) {
+		if (checkSpecial(baseModel.getFileName().trim())) {
+			baseModel.setErrorCode("E191");
+			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (fileServiceImpl.findByFileNameModify((baseModel.getFileName()))) {
+			baseModel.setErrorCode("E190");
+			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (daysBetween2Dates(baseModel.getFileDateUpload()) <= 0) {
+			baseModel.setErrorCode("E192");
+			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+	}
+
+	public boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(strNum);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
+
+	public boolean checkSpecial(String str) {
+		Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+		Matcher matcher = pattern.matcher(str);
+		boolean isStringContainsSpecialCharacter = matcher.find();
+		if (isStringContainsSpecialCharacter)
+			return true;
+		else
+			return false;
+	}
+
+	public long daysBetween2Dates(Date date1) {
+
+		Date date2 = new Date(System.currentTimeMillis());
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+
+		c1.setTime(date1);
+		c2.setTime(date2);
+
+		long noDay = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+		return noDay;
+
 	}
 }

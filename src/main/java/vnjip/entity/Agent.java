@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,10 +46,6 @@ public class Agent {
 	@ManyToOne
 	@JoinColumn(name = "account_type_short", nullable = true)
 	private AccountType accountType;
-
-	@OneToOne
-	@JoinColumn(name = "account_number", nullable = true)
-	private Account account;
 
 	public Agent() {
 		super();
@@ -147,14 +142,6 @@ public class Agent {
 
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 }

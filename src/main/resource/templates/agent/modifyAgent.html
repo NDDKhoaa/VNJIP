@@ -139,7 +139,7 @@ a {
 												<div class="col-lg-2 tablesetting tablebackground">Agent
 													Name</div>
 												<input class="col-lg-4 tablesetting"
-													type="text" th:field="${updateAgent.agentName}" required />
+													type="text" th:field="${updateAgent.agentName}" />
 											</div>
 
 
@@ -149,13 +149,13 @@ a {
 													Company Code</div>
 												<input class="col-lg-4 tablesetting" type="text"
 													th:field="${updateAgent.companyCode}"
-													placeholder="Company Code" required />
+													placeholder="Company Code" />
 
 												<div class="col-lg-2 tablesetting tablebackground">Company
 													Name</div>
 												<input class="col-lg-4 tablesetting" type="text"
 													th:field="${updateAgent.companyName}"
-													placeholder="Company Name" required />
+													placeholder="Company Name" />
 
 											</div>
 
@@ -166,7 +166,7 @@ a {
 													Type</div>
 												<select class="col-lg-4 selectsetting"
 													th:field="${updateAccountType.accountTypeShort}"
-													required="required">
+													>
 													<option th:text="${updateAccountType.accountTypeDesc}"
 														th:value="${updateAccountType.accountTypeShort}"></option>
 													<option th:each="accountType:${listAccountType}"
@@ -178,7 +178,7 @@ a {
 													Number</div>
 												<input class="col-lg-4 tablesetting" type="text"
 													th:field="${updateAgent.licenseNumber}"
-													placeholder="License Number" required />
+													placeholder="License Number" />
 											</div>
 
 
@@ -186,12 +186,12 @@ a {
 												<div class="col-lg-2 tablesetting tablebackground">Date
 													Of Birth</div>
 												<input type="date" class="col-lg-4 datesetting"
-													th:field="${updateAgent.dateOfBirth}" required />
+													th:field="${updateAgent.dateOfBirth}" />
 
 												<div class="col-lg-2 tablesetting tablebackground">Account
 													Status</div>
 												<select class="col-lg-4 selectsetting"
-													th:field="*{accountStatusShort}" required="required">
+													th:field="*{accountStatusShort}">
 													<option th:text="${updateAccountStatus.accountStatusDesc}"
 														th:value="${updateAccountStatus.accountStatusShort}"></option>
 													<option th:each="accountStatus:${listAccountStatus}"

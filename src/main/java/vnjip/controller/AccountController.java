@@ -22,15 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import vnjip.entity.Account;
-import vnjip.entity.Agent;
-import vnjip.entity.Client;
 import vnjip.entity.base.AccountStatus;
 import vnjip.entity.base.Role;
 import vnjip.model.BaseModel;
 import vnjip.services.Impl.AccountServiceImpl;
 import vnjip.services.Impl.AccountStatusServiceImpl;
-import vnjip.services.Impl.AgentServiceImpl;
-import vnjip.services.Impl.ClientServiceImpl;
 import vnjip.services.Impl.RoleServiceImpl;
 
 @Controller
@@ -46,12 +42,6 @@ public class AccountController {
 
 	@Autowired
 	private RoleServiceImpl roleServiceImpl;
-
-	@Autowired
-	private ClientServiceImpl clientServiceImpl;
-
-	@Autowired
-	private AgentServiceImpl agentServiceImpl;
 
 	@GetMapping(value = { "/login", "/" })
 	public String login(Model model, String error, String logout) {
@@ -94,160 +84,64 @@ public class AccountController {
 		Account account = accountServiceImpl.findByNumber(accountNumber);
 		AccountStatus accountStatus = account.getAccountStatus();
 		Set<Role> listRole = account.getRoles();
-		Agent agent = account.getAgent();
-		Client client = account.getClient();
-		if (agent == null && client != null) {
-			BaseModel baseModel = new BaseModel(account, accountStatus, listRole, client);
-			mav.addObject("baseModel", baseModel);
-		}
-		if (agent != null && client == null) {
-			BaseModel baseModel = new BaseModel(account, accountStatus, listRole, agent);
-			mav.addObject("baseModel", baseModel);
-		}
-		if (agent == null && client == null) {
-			BaseModel baseModel = new BaseModel(account, accountStatus, listRole);
-			mav.addObject("baseModel", baseModel);
-		}
+		BaseModel baseModel = new BaseModel(account, accountStatus, listRole);
+		mav.addObject("baseModel", baseModel);
 		return mav;
 	}
 
-	@RequestMapping("/createAgentAccount")
-	public String createAgentAccount(Model model) {
+	@RequestMapping("/createAccount")
+	public String createAccount(Model model) {
 		model.addAttribute("accountForm", new BaseModel());
 		List<AccountStatus> listAccountStatus = accountStatusServiceImpl.listAll();
 		model.addAttribute("listAccountStatus", listAccountStatus);
 		List<Role> listRoles = roleServiceImpl.listAll();
 		model.addAttribute("listRoles", listRoles);
-		List<Agent> listAgent = agentServiceImpl.listAll();
-		model.addAttribute("listAgent", listAgent);
-		return "/account/createAgentAccount";
+		return "/account/createAccount";
 	}
 
-	@RequestMapping("/createClientAccount")
-	public String createClientAccount(Model model) {
-		model.addAttribute("accountForm", new BaseModel());
-		List<AccountStatus> listAccountStatus = accountStatusServiceImpl.listAll();
-		model.addAttribute("listAccountStatus", listAccountStatus);
-		List<Role> listRoles = roleServiceImpl.listAll();
-		model.addAttribute("listRoles", listRoles);
-		List<Client> listClients = clientServiceImpl.listAll();
-		model.addAttribute("listClient", listClients);
-		return "/account/createClientAccount";
-	}
-
-	@RequestMapping(value = "/saveAgentAccount", method = RequestMethod.POST)
-	public String saveAgentAccount(@ModelAttribute("accountForm") BaseModel baseModel) {
+	@RequestMapping(value = "/saveAccount", method = RequestMethod.POST)
+	public String saveAccount(@ModelAttribute("accountForm") BaseModel baseModel) {
 		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(baseModel.getAccountStatusShort());
 		List<Role> roles = new ArrayList<Role>();
 		Role role = roleServiceImpl.findByNumber(baseModel.getRoleNumber());
 		roles.add(role);
 		String pwdEncrypt = bCryptPasswordEncoder.encode(baseModel.getAccountPassword());
-		Agent agent = agentServiceImpl.findByNumber(baseModel.getAgentNumber());
-		if (agent != null) {
-			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
-					new HashSet<>(roles), accountStatus, agent);
-			accountServiceImpl.save(account);
-		}
-		if (agent == null) {
-			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
-					new HashSet<>(roles), accountStatus);
-			accountServiceImpl.save(account);
-		}
-		return "redirect:/viewAccounts";
-	}
-
-	@RequestMapping(value = "/saveClientAccount", method = RequestMethod.POST)
-	public String saveClientAccount(@ModelAttribute("accountForm") BaseModel baseModel) {
-		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(baseModel.getAccountStatusShort());
-		List<Role> roles = new ArrayList<Role>();
-		Role role = roleServiceImpl.findByNumber(baseModel.getRoleNumber());
-		roles.add(role);
-		String pwdEncrypt = bCryptPasswordEncoder.encode(baseModel.getAccountPassword());
-		Client client = clientServiceImpl.findByNumber(baseModel.getClientNumber());
-		if (client != null) {
-			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
-					new HashSet<>(roles), accountStatus, client);
-			accountServiceImpl.save(account);
-		}
-		if (client == null) {
-			Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
-					new HashSet<>(roles), accountStatus);
-			accountServiceImpl.save(account);
-		}
-		return "redirect:/viewAccounts";
-	}
-
-	@RequestMapping("/modifyAgentAccount")
-	public ModelAndView modifyAgentAccount(@RequestParam("accountNumber") long accountNumber) {
-		ModelAndView mav = new ModelAndView("/account/modifyAgentAccount");
-		Account account = accountServiceImpl.findByNumber(accountNumber);
-		AccountStatus accountStatus = account.getAccountStatus();
-		Agent agent = account.getAgent();
-		List<Role> roles = new ArrayList<Role>();
-		for (Role role : account.getRoles()) {
-			roles.add(role);
-		}
-		mav.addObject("updateAccount", account);
-		mav.addObject("updateAccountStatus", accountStatus);
-		mav.addObject("updateRole", roles);
-		mav.addObject("updateAgent", agent);
-		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
-		mav.addObject("accountStatusList", accountStatusList);
-		List<Role> roleList = roleServiceImpl.listAll();
-		mav.addObject("roleList", roleList);
-		List<Agent> listAgent = agentServiceImpl.listAll();
-		mav.addObject("listAgent", listAgent);
-		mav.addObject("accountForm", new BaseModel());
-		return mav;
-	}
-
-	@RequestMapping("/modifyClientAccount")
-	public ModelAndView modifyClientAccount(@RequestParam("accountNumber") long accountNumber) {
-		ModelAndView mav = new ModelAndView("/account/modifyClientAccount");
-		Account account = accountServiceImpl.findByNumber(accountNumber);
-		AccountStatus accountStatus = account.getAccountStatus();
-		Client client = account.getClient();
-		List<Role> roles = new ArrayList<Role>();
-		for (Role role : account.getRoles()) {
-			roles.add(role);
-		}
-		mav.addObject("updateAccount", account);
-		mav.addObject("updateAccountStatus", accountStatus);
-		mav.addObject("updateRole", roles);
-		mav.addObject("updateClient", client);
-		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
-		mav.addObject("accountStatusList", accountStatusList);
-		List<Role> roleList = roleServiceImpl.listAll();
-		mav.addObject("roleList", roleList);
-		mav.addObject("accountForm", new BaseModel());
-		return mav;
-	}
-
-	@RequestMapping(value = "/saveModifyClientAccount", method = RequestMethod.POST)
-	public String saveModifyClientAccount(@ModelAttribute("updateAccount") Account updateAccount,
-			@ModelAttribute("accountForm") BaseModel model, @RequestParam("accountNumber") long accountNumber) {
-		Account accountID = accountServiceImpl.findByNumber(accountNumber);
-		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(model.getAccountStatusShort());
-		Role role = roleServiceImpl.findByNumber(model.getRoleNumber());
-		List<Role> listRole = new ArrayList<Role>();
-		listRole.add(role);
-		Client client = clientServiceImpl.findByNumber(model.getClientNumber());
-		Account account = new Account(updateAccount, accountStatus, new HashSet<>(listRole), client);
-		account.setAccountNumber(accountID.getAccountNumber());
+		Account account = new Account(baseModel.getAccountUsername(), baseModel.getAccountEmail(), pwdEncrypt,
+				new HashSet<>(roles), accountStatus);
 		accountServiceImpl.save(account);
+
 		return "redirect:/viewAccounts";
 	}
 
-	@RequestMapping(value = "/saveModifyAgentAccount", method = RequestMethod.POST)
-	public String saveModifyAgentAccount(@ModelAttribute("updateAccount") Account updateAccount,
+	@RequestMapping("/modifyAccount")
+	public ModelAndView modifyAccount(@RequestParam("accountNumber") long accountNumber) {
+		ModelAndView mav = new ModelAndView("/account/modifyAccount");
+		Account account = accountServiceImpl.findByNumber(accountNumber);
+		AccountStatus accountStatus = account.getAccountStatus();
+		List<Role> roles = new ArrayList<Role>();
+		for (Role role : account.getRoles()) {
+			roles.add(role);
+		}
+		mav.addObject("updateAccount", account);
+		mav.addObject("updateAccountStatus", accountStatus);
+		mav.addObject("updateRole", roles);
+		List<AccountStatus> accountStatusList = accountStatusServiceImpl.listAll();
+		mav.addObject("accountStatusList", accountStatusList);
+		List<Role> roleList = roleServiceImpl.listAll();
+		mav.addObject("roleList", roleList);
+		mav.addObject("accountForm", new BaseModel());
+		return mav;
+	}
+
+	@RequestMapping(value = "/saveModifyAccount", method = RequestMethod.POST)
+	public String saveModifyAccount(@ModelAttribute("updateAccount") Account updateAccount,
 			@ModelAttribute("accountForm") BaseModel model, @RequestParam("accountNumber") long accountNumber) {
 		Account accountID = accountServiceImpl.findByNumber(accountNumber);
 		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(model.getAccountStatusShort());
 		Role role = roleServiceImpl.findByNumber(model.getRoleNumber());
 		List<Role> listRole = new ArrayList<Role>();
 		listRole.add(role);
-		Agent agent = agentServiceImpl.findByNumber(model.getAgentNumber());
-		Account account = new Account(updateAccount, accountStatus, new HashSet<>(listRole), agent);
+		Account account = new Account(updateAccount, accountStatus, new HashSet<>(listRole));
 		account.setAccountNumber(accountID.getAccountNumber());
 		accountServiceImpl.save(account);
 		return "redirect:/viewAccounts";
@@ -264,5 +158,15 @@ public class AccountController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setLenient(true);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	}
+
+	@RequestMapping(value = "/account-multi-delete", method = RequestMethod.POST)
+	public String deleteAccounts(@RequestParam long[] ids, Model model) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				accountServiceImpl.deleteByNumber(l);
+			}
+		}
+		return "redirect:/viewPolicies";
 	}
 }

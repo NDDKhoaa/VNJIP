@@ -139,7 +139,7 @@ a {
 													
 													<div class="col-lg-2 tablesetting tablebackground">Date Of Birth</div>
 													<input class="col-lg-4 datesetting" type="date"
-														th:field="${updateClient.dateOfBirth}" placeholder="Date Of Birth" required />
+														th:field="${updateClient.dateOfBirth}" placeholder="Date Of Birth" />
 												</div>
 
 												<div class="row">
@@ -147,27 +147,27 @@ a {
 														First Name</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="${updateClient.firstName}" placeholder="First Name"
-														required />
+														 />
 
 													<div class="col-lg-2 tablesetting tablebackground">Last
 														Name</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="${updateClient.lastName}" placeholder="Last Name"
-														required />
+														 />
 												</div>
 												<div class="row">
 													<div class="col-lg-2 tablesetting tablebackground">
 														Identity Number</div>
 													<input class="col-lg-4 tablesetting" type="text"
 														th:field="${updateClient.identityNumber}" placeholder="Identify Number"
-														required />
+														 />
 
 												</div>
 
 												<div class="row">
 													<div class="col-lg-2 tablesetting tablebackground">Gender</div>
 													<select class="col-lg-4 selectsetting"
-														th:field="*{genderShort}" required="required">
+														th:field="*{genderShort}">
 														<option th:text="${updateGender.genderName}"
 														th:value="${updateGender.genderShort}"></option>
 														<option th:each="g:${listGender}"
@@ -177,7 +177,7 @@ a {
 
 													<div class="col-lg-2 tablesetting tablebackground">Marital Status</div>
 													<select class="col-lg-4 selectsetting"
-														th:field="*{maritalShort}" required="required">
+														th:field="*{maritalShort}">
 														<option th:text="${updateMaritalStatus.maritalStatus}"
 														th:value="${updateMaritalStatus.maritalShort}"></option>
 														<option th:each="m:${listMaritalStatus}"
@@ -189,11 +189,11 @@ a {
 												<div class="row">
 													<div class="col-lg-2 tablesetting tablebackground">Address</div>
 													<input type="text" class="col-lg-4 tablesetting"
-														th:field="${updateClient.address}" required placeholder="Address"/>
+														th:field="${updateClient.address}"/>
 
 													<div class="col-lg-2 tablesetting tablebackground">Country</div>
 													<select class="col-lg-4 selectsetting"
-														th:field="*{countryShort}" required="required">
+														th:field="*{countryShort}">
 														<option th:text="${updateCountry.countryName}"
 														th:value="${updateCountry.countryShort}"></option>
 														<option th:each="c:${listCountry}"

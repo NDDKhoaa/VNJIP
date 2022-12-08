@@ -140,7 +140,7 @@ a {
 												<div class="col-lg-2 tablesetting tablebackground">File
 													Name</div>  
 												<input class="col-lg-4 datesetting" type="text"
-													th:field="${updateFile.fileName}" required />
+													th:field="${updateFile.fileName}" />
 											</div>
 
 											<div class="row">
@@ -157,8 +157,9 @@ a {
 
 												<div class="col-lg-2 tablesetting tablebackground">Date
 													Uploaded</div>
-												<Span class="col-lg-4 tablesetting"
-													th:text="${updateFile.dateUpload}"></Span>
+												<input type="date" class="col-lg-4 tablesetting"
+													th:field="${updateFile.dateUpload}"></input>
+													
 											</div>
 
 											<div class="row" style="margin-top: 20px;">

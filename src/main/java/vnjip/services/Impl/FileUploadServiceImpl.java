@@ -40,4 +40,22 @@ public class FileUploadServiceImpl implements FileUploadService {
 	public FileUpload findTopFileNumber() {
 		return fileRepository.findFirstByOrderByFileNumberDesc();
 	}
+
+	public boolean findByFileName(String fileName) {
+		List<FileUpload> list = fileRepository.findByFileName(fileName);
+		if (list.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean findByFileNameModify(String fileName) {
+		List<FileUpload> list = fileRepository.findByFileName(fileName);
+		if (list.size() > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

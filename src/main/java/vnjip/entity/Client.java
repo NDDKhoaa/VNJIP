@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,10 +52,6 @@ public class Client {
 	@ManyToOne
 	@JoinColumn(name = "country_short", nullable = true)
 	private Country country;
-
-	@OneToOne
-	@JoinColumn(name = "account_number", nullable = true)
-	private Account account;
 
 	public Client() {
 		super();
@@ -167,14 +162,6 @@ public class Client {
 
 	public void setCountry(Country country) {
 		this.country = country;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	@Override
