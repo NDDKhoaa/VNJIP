@@ -220,6 +220,21 @@ public class FileController {
 		}
 	}
 
+	@RequestMapping("/searchFile")
+	public ModelAndView searchFile(@RequestParam String word) {
+		ModelAndView mav = new ModelAndView("/file/searchFileResults");
+		List<BaseModel> modelList = new ArrayList<BaseModel>();
+		List<FileUpload> fileList = fileServiceImpl.search(word);
+		if (!fileList.isEmpty()) {
+			for (FileUpload file : fileList) {
+				BaseModel model = new BaseModel(file);
+				modelList.add(model);
+			}
+		}
+		mav.addObject("modelList", modelList);
+		return mav;
+	}
+
 	@GetMapping("/downloadFile")
 	public void downloadFile(@Param("fileNumber") long fileNumber, HttpServletResponse response) throws IOException {
 		FileUpload file = fileServiceImpl.findByNumber(fileNumber);

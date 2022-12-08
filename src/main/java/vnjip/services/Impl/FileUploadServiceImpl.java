@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import vnjip.entity.FileUpload;
@@ -57,5 +58,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 		} else {
 			return false;
 		}
+	}
+
+	public List<FileUpload> search(@Param("word") String word) {
+		return (List<FileUpload>) fileRepository.search(word);
 	}
 }

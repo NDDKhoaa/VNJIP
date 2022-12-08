@@ -4,7 +4,7 @@
 <head>
 <link th:replace="fragments/head :: head-infor"></link>
 <meta charset="UTF-8">
-<title>Account Management</title>
+<title>File Management</title>
 
 <script
 	src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -105,8 +105,8 @@ tr:nth-child(even) {
 }
 
 .deleteButton {
-		position: absolute;
-	margin-left: 490px;
+	position: relative;
+	margin-left: 435px;
 }
 
 .newButton {
@@ -116,7 +116,7 @@ tr:nth-child(even) {
 
 .updateButton {
 	position: absolute;
-	margin-left: 260px;
+	margin-left: 190px;
 }
 
 .menusetting {
@@ -205,6 +205,20 @@ tr:nth-child(even) {
 	color: #CF2A28;
 }
 </style>
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#chkCheckBoxAll').click(function() {
+                if ($(this).is(":checked"))
+                    $('.chkCheckBoxId').prop('checked', true);
+                else
+                    $('.chkCheckBoxId').prop('checked', false);
+            });
+        });
+        var checkboxValues = [];
+        $('input[name=chkCheckBoxId]:checked').map(function() {
+            checkboxValues.push($(this).val());
+        });
+    </script>
 </head>
 
 <body>
@@ -216,50 +230,49 @@ tr:nth-child(even) {
 					<nav th:replace="fragments/sidebar :: #app-sidebar"></nav>
 					<main class="ol col-10 px-0 d-flex flex-column">
 						<div class="header border-bottom border-dark py-1 px-3">
-							<h4 class="m-0">Account Listing</h4>
+							<h4 class="m-0">Search Results</h4>
 						</div>
 						<div class="content p-2 d-flex flex-column flex-grow-1">
-							<form th:action="deleteAccounts" method="post">
 								<table class="text-center"
 									style="margin-top: 25px; margin-bottom: 30px;">
 									<tr>
 										<th style="width: 50px;"><input type="checkbox"
 											id="chkCheckBoxAll"></th>
 										<th style="width: 100px;">#</th>
-										<th style="width: 100px;">Account Number</th>
-										<th style="width: 150px;">Username</th>
-										<th style="width: 300px;">Email</th>
-										<th style="width: 200px;">Status</th>
+										<th style="width: 100px;">File Number</th>
+										<th style="width: 150px;">File Name</th>
+										<th style="width: 300px;">Size</th>
+										<th style="width: 200px;">Upload Date</th>
 									</tr>
-									<tr th:each="account,custStat:${listAccount}">
+									<tr th:each="file,custStat:${modelList}">
 										<td><input type="checkbox" class="chkCheckBoxId"
-											th:value="${account.accountNumber }" name="chkCheckBoxId" /></td>
+											th:value="${file.fileNumber }" name="chkCheckBoxId" /></td>
 										<td th:text="${custStat.count}"></td>
 										<td><a
-											th:href="@{/viewAccountDetails(accountNumber=*{account.accountNumber})}"
-											th:text="${account.accountNumber }"></a></td>
-										<td th:text="${account.accountUsername }"></td>
-										<td th:text="${account.accountEmail }"></td>
-										<td th:text="${account.accountStatusDesc}"></td>
+											th:href="@{/viewFileDetails(fileNumber=*{file.fileNumber})}"
+											th:text="${file.fileNumber }"></a></td>
+										<td th:text="${file.fileName }"></td>
+										<td th:text="${file.filesize }"></td>
+										<td th:text="${file.fileDateUpload}"></td>
 									</tr>
 								</table>
-								
-							</form>
+
 							<div class="col-lg-4">
-								<div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-									<a th:href="createAccount" style="color: black;"><button
-											class="newButton" style="width: 250px;">
-											<i class="fas fa-plus-circle"></i> Create Account
+								<div class="col-lg-2"
+									sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT','ROLE_CLIENT')">
+									<a th:href="createFile" style="color: black;"><button
+											class="newButton" style="width: 180px;">
+											<i class="fas fa-plus-circle"></i> Upload File
 										</button></a>
 								</div>
-								<div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+								<div class="col-lg-2"
+									sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_AGENT')">
 									<a style="color: black;"><button class="updateButton"
 											type="submit" style="width: 180px;" onClick="deleteItems()">
-											<i class="fas fa-times-circle"></i> Delete Accounts
+											<i class="fas fa-times-circle"></i> Delete Files
 										</button></a>
 
 								</div>
-
 							</div>
 						</div>
 					</main>
@@ -294,7 +307,7 @@ tr:nth-child(even) {
         const checkboxes = document.querySelectorAll('input[name=chkCheckBoxId]:checked')
         for (let i = 0; i < checkboxes.length; ++i)
             array.push(checkboxes[i].value);
-        fetch("/account-multi-delete?ids=" + array, {method: "POST"}).then(() => location.reload())
+        fetch("/file-multi-delete?ids=" + array, {method: "POST"}).then(() => location.reload())
     }
 </script>
 </body>
