@@ -64,9 +64,7 @@
 				</a></li>
 			</div>
 		</ul>
-		<div style="margin-top: 30%;" th:if="${modelList != null}"
-		<div style="margin-top: 300px;" th:if="${modelList != null}"
-			id="errorMessage">
+		<div style="margin-top: 30%;" th:if="${modelList != null}" id="errorMessage">
 			<ul>
 				<h5 style="color: #5f249f;">Error Messages</h5>
 				<th:block class="errorDisp" th:each="item : ${modelList}">

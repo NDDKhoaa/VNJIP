@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import vnjip.entity.Account;
 import vnjip.entity.Agent;
 import vnjip.entity.Client;
+import vnjip.entity.Company;
 import vnjip.entity.FileUpload;
 import vnjip.entity.Policy;
 import vnjip.entity.base.AccountStatus;
@@ -37,8 +38,6 @@ public class BaseModel {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date agentDOB;
 	private String agentLicenseNumber;
-	private String agentCompanyCode;
-	private String agentCompanyName;
 
 	private Client client;
 	private Long clientNumber;
@@ -108,6 +107,10 @@ public class BaseModel {
 	private long filesize;
 	private Date fileDateUpload;
 
+	private Company company;
+	private long companyCode;
+	private String companyName;
+
 	public BaseModel() {
 		super();
 	}
@@ -121,35 +124,30 @@ public class BaseModel {
 		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
 	}
 
-	public BaseModel(Agent agent2, AccountType accountType2, AccountStatus accountStatus2) {
+	public BaseModel(Agent agent2, Company company2, AccountType accountType2, AccountStatus accountStatus2) {
 		this.agent = agent2;
 		this.agentNumber = agent2.getAgentNumber();
 		this.agentName = agent2.getAgentName();
 		this.agentDOB = agent2.getDateOfBirth();
 		this.agentLicenseNumber = agent2.getLicenseNumber();
-		this.agentCompanyCode = agent2.getCompanyCode();
-		this.agentCompanyName = agent2.getCompanyName();
 		this.accountStatus = accountStatus2;
 		this.accountStatusShort = accountStatus2.getAccountStatusShort();
 		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
 		this.accountType = accountType2;
 		this.accountTypeShort = accountType2.getAccountTypeShort();
 		this.accountTypeDesc = accountType2.getAccountTypeDesc();
+		this.company = company2;
+		this.companyCode = company2.getCompanyCode();
+		this.companyName = company2.getCompanyName();
+
 	}
 
-	public BaseModel(Agent agent2, AccountType accountType2, AccountStatus accountStatus2, Account account2) {
-		this.account = account2;
-		this.accountNumber = account2.getAccountNumber();
-		this.accountUsername = account2.getUsername();
-		this.accountEmail = account2.getEmail();
-		this.accountPassword = account2.getPassword();
+	public BaseModel(Agent agent2, AccountType accountType2, AccountStatus accountStatus2) {
 		this.agent = agent2;
 		this.agentNumber = agent2.getAgentNumber();
 		this.agentName = agent2.getAgentName();
 		this.agentDOB = agent2.getDateOfBirth();
 		this.agentLicenseNumber = agent2.getLicenseNumber();
-		this.agentCompanyCode = agent2.getCompanyCode();
-		this.agentCompanyName = agent2.getCompanyName();
 		this.accountStatus = accountStatus2;
 		this.accountStatusShort = accountStatus2.getAccountStatusShort();
 		this.accountStatusDesc = accountStatus2.getAccountStatusDesc();
@@ -203,8 +201,6 @@ public class BaseModel {
 		this.agentName = agent2.getAgentName();
 		this.agentDOB = agent2.getDateOfBirth();
 		this.agentLicenseNumber = agent2.getLicenseNumber();
-		this.agentCompanyCode = agent2.getCompanyCode();
-		this.agentCompanyName = agent2.getCompanyName();
 		this.accountType = agent2.getAccountType();
 		this.accountTypeDesc = agent2.getAccountType().getAccountTypeDesc();
 		this.accountTypeShort = agent2.getAccountType().getAccountTypeShort();
@@ -328,21 +324,46 @@ public class BaseModel {
 		this.maritalStatus = maritalStatus.getMaritalStatus();
 	}
 
-	public BaseModel(Agent agent, AccountStatus accountStatus, AccountType accountType) {
+	public BaseModel(Agent agent, Company company2, AccountStatus accountStatus, AccountType accountType) {
 		super();
 		this.agent = agent;
 		this.agentNumber = agent.getAgentNumber();
 		this.agentName = agent.getAgentName();
 		this.agentDOB = agent.getDateOfBirth();
 		this.agentLicenseNumber = agent.getLicenseNumber();
-		this.agentCompanyCode = agent.getCompanyCode();
-		this.agentCompanyName = agent.getCompanyName();
 		this.accountStatus = accountStatus;
 		this.accountStatusShort = accountStatus.getAccountStatusShort();
 		this.accountStatusDesc = accountStatus.getAccountStatusDesc();
 		this.accountType = accountType;
 		this.accountTypeShort = accountType.getAccountTypeShort();
 		this.accountTypeDesc = accountType.getAccountTypeDesc();
+		this.company = company2;
+		this.companyCode = company2.getCompanyCode();
+		this.companyName = company2.getCompanyName();
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public long getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(long companyCode) {
+		this.companyCode = companyCode;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public Date getFileDateUpload() {
@@ -599,22 +620,6 @@ public class BaseModel {
 
 	public void setAgentLicenseNumber(String agentLicenseNumber) {
 		this.agentLicenseNumber = agentLicenseNumber;
-	}
-
-	public String getAgentCompanyCode() {
-		return agentCompanyCode;
-	}
-
-	public void setAgentCompanyCode(String agentCompanyCode) {
-		this.agentCompanyCode = agentCompanyCode;
-	}
-
-	public String getAgentCompanyName() {
-		return agentCompanyName;
-	}
-
-	public void setAgentCompanyName(String agentCompanyName) {
-		this.agentCompanyName = agentCompanyName;
 	}
 
 	public Client getClient() {

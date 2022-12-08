@@ -109,6 +109,13 @@ public class ClientController {
 		}
 		if (errorList.size() > 0) {
 			ModelAndView mav = new ModelAndView("/client/createClient");
+			Client client = clientServiceImpl.findTopClientNumber();
+			if (client != null) {
+				model.setClientNumber(client.getClientNumber() + 1);
+			} else {
+				long id = 1;
+				model.setClientNumber(id);
+			}
 			System.out.println("-----------------" + errorList);
 			model.setErrorList(errorList);
 			System.out.println("-----------------" + model.getErrorList());
@@ -119,6 +126,7 @@ public class ClientController {
 			List<MaritalStatus> listMaritalStatus = maritalStatusServiceImpl.listAll();
 			mav.addObject("listMaritalStatus", listMaritalStatus);
 			mav.addObject("modelList", errorList);
+			mav.addObject("clientForm", model);
 			System.out.println(errorList.size());
 			return mav;
 		} else {
@@ -222,16 +230,6 @@ public class ClientController {
 	public String deleteClient(@RequestParam("clientNumber") long clientNumber) {
 		clientServiceImpl.deleteByNumber(clientNumber);
 		return "redirect:/viewClients";
-	}
-
-	@RequestMapping(value = "/client-multi-delete", method = RequestMethod.POST)
-	public String deleteClients(@RequestParam long[] ids, Model model) {
-		for (long l : ids) {
-			if (ids.length > 0) {
-				clientServiceImpl.deleteByNumber(l);
-			}
-		}
-		return "redirect:/viewPolicies";
 	}
 
 	@InitBinder

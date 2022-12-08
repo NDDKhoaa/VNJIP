@@ -145,15 +145,23 @@ public class SpringBootInitialData implements ApplicationRunner {
 			ErrorPf error181 = new ErrorPf("E181", "Expiry Date Must > Inception Date");
 			ErrorPf error182 = new ErrorPf("E182", "Must Be An Existing Client Number");
 			ErrorPf error183 = new ErrorPf("E183", "Combination Of Engine No And Chassis No Must Be Unique");
-			ErrorPf error184 = new ErrorPf("E184", "Must Not Be Negative");
-			ErrorPf error186 = new ErrorPf("E186", "Must Be Enter");
-			ErrorPf error189 = new ErrorPf("E189", "Is Error Type");
+			ErrorPf error184 = new ErrorPf("E184", "Cannot Be Negative");
+			ErrorPf error186 = new ErrorPf("E186", "Cannot Be Empty");
+			ErrorPf error189 = new ErrorPf("E189", "Have Invalid Characters");
+			ErrorPf error190 = new ErrorPf("E190", "Is Already Exists");
+			ErrorPf error191 = new ErrorPf("E191", "Contains Special Characters");
+			ErrorPf error192 = new ErrorPf("E192", "Cannot Be In Future");
+			ErrorPf error195 = new ErrorPf("E195", "Size Is Too Large");
 			errorPfImpl.save(error181);
 			errorPfImpl.save(error182);
 			errorPfImpl.save(error183);
 			errorPfImpl.save(error184);
 			errorPfImpl.save(error186);
 			errorPfImpl.save(error189);
+			errorPfImpl.save(error190);
+			errorPfImpl.save(error191);
+			errorPfImpl.save(error192);
+			errorPfImpl.save(error195);
 			/* Error End */
 
 			/* Admin Account Start */

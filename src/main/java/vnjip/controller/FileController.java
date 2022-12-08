@@ -75,12 +75,10 @@ public class FileController {
 	@RequestMapping(value = "/saveFile", method = RequestMethod.POST)
 	public ModelAndView saveFile(@ModelAttribute("fileForm") BaseModel model,
 			@RequestParam("file") MultipartFile multipartFile) throws IOException {
-
 		FileUpload file = fileServiceImpl.findTopFileNumber();
 		String fileFolderName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		long fileSize = multipartFile.getSize();
 		byte[] content = multipartFile.getBytes();
-
 		model.setFilefolderName(fileFolderName);
 		model.setFilesize(fileSize);
 		model.setFilecontent(content);
@@ -175,7 +173,7 @@ public class FileController {
 				model.setFilesize(fileSize);
 				model.setFilecontent(content);
 				model.setFileDateUpload(fileId.getDateUpload());
-				if (fileFolderName.equals(model.getFileName())) {
+				if (!fileFolderName.equals(fileId.getFileName())) {
 					model.setFileName(fileFolderName);
 					FileUpload file2 = new FileUpload(model);
 					file2.setFileNumber(fileId.getFileNumber());
@@ -198,7 +196,7 @@ public class FileController {
 				long fileSize = fileId.getSize();
 				byte[] content = fileId.getContent();
 				Date UploadedDate = fileId.getDateUpload();
-				if (fileName.equals(model.getFileName())) {
+				if (!fileName.equals(fileId.getFileName())) {
 					FileUpload file2 = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
 					file2.setFileNumber(fileId.getFileNumber());
 					fileServiceImpl.save(file2);
@@ -238,16 +236,6 @@ public class FileController {
 	public String deleteFile(@RequestParam("fileNumber") long fileNumber) {
 		fileServiceImpl.deleteByNumber(fileNumber);
 		return "redirect:/viewFiles";
-	}
-
-	@RequestMapping(value = "/file-multi-delete", method = RequestMethod.POST)
-	public String deleteFiles(@RequestParam long[] ids, Model model) {
-		for (long l : ids) {
-			if (ids.length > 0) {
-				fileServiceImpl.deleteByNumber(l);
-			}
-		}
-		return "redirect:/viewPolicies";
 	}
 
 	@InitBinder
@@ -302,10 +290,6 @@ public class FileController {
 	}
 
 	public void validate2010(BaseModel baseModel, List<String> errorList) {
-		if (checkSpecial(baseModel.getFileName().trim())) {
-			baseModel.setErrorCode("E191");
-			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
-		}
 		if (fileServiceImpl.findByFileName((baseModel.getFileName()))) {
 			baseModel.setErrorCode("E190");
 			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
@@ -317,10 +301,6 @@ public class FileController {
 	}
 
 	public void validate2011(BaseModel baseModel, List<String> errorList) {
-		if (checkSpecial(baseModel.getFileName().trim())) {
-			baseModel.setErrorCode("E191");
-			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
-		}
 		if (fileServiceImpl.findByFileNameModify((baseModel.getFileName()))) {
 			baseModel.setErrorCode("E190");
 			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());

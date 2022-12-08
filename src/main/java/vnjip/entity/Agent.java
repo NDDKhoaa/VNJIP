@@ -34,10 +34,6 @@ public class Agent {
 	private Date dateOfBirth;
 	@Column(name = "license_number", nullable = true, length = 20)
 	private String licenseNumber;
-	@Column(name = "company_code", nullable = true, length = 8)
-	private String companyCode;
-	@Column(name = "company_name", nullable = true, length = 60)
-	private String companyName;
 
 	@ManyToOne
 	@JoinColumn(name = "account_status_short", nullable = true)
@@ -47,37 +43,37 @@ public class Agent {
 	@JoinColumn(name = "account_type_short", nullable = true)
 	private AccountType accountType;
 
+	@ManyToOne
+	@JoinColumn(name = "company_code", nullable = true)
+	private Company company;
+
 	public Agent() {
 		super();
 	}
 
-	public Agent(BaseModel model, AccountType accountType2, AccountStatus accountStatus2) {
+	public Agent(BaseModel model, Company company2, AccountType accountType2, AccountStatus accountStatus2) {
 		this.agentName = model.getAgentName();
 		this.dateOfBirth = model.getAgentDOB();
 		this.licenseNumber = model.getAgentLicenseNumber();
-		this.companyCode = model.getAgentCompanyCode();
-		this.companyName = model.getAgentCompanyName();
 		this.accountStatus = accountStatus2;
 		this.accountType = accountType2;
+		this.company = company2;
 	}
 
 	public Agent(Agent updateAgent) {
 		this.agentName = updateAgent.getAgentName();
 		this.dateOfBirth = updateAgent.getDateOfBirth();
 		this.licenseNumber = updateAgent.getLicenseNumber();
-		this.companyCode = updateAgent.getCompanyCode();
-		this.companyName = updateAgent.getCompanyName();
 		this.accountStatus = getAccountStatus();
 	}
 
-	public Agent(Agent updateAgent, AccountStatus accountStatus2, AccountType accountType2) {
+	public Agent(Agent updateAgent, Company company, AccountStatus accountStatus2, AccountType accountType2) {
 		this.agentName = updateAgent.getAgentName();
 		this.dateOfBirth = updateAgent.getDateOfBirth();
 		this.licenseNumber = updateAgent.getLicenseNumber();
-		this.companyCode = updateAgent.getCompanyCode();
-		this.companyName = updateAgent.getCompanyName();
 		this.accountStatus = accountStatus2;
 		this.accountType = accountType2;
+		this.company = company;
 	}
 
 	public Long getAgentNumber() {
@@ -112,22 +108,6 @@ public class Agent {
 		this.licenseNumber = licenseNumber;
 	}
 
-	public String getCompanyCode() {
-		return companyCode;
-	}
-
-	public void setCompanyCode(String companyCode) {
-		this.companyCode = companyCode;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
 	public AccountStatus getAccountStatus() {
 		return accountStatus;
 	}
@@ -142,6 +122,14 @@ public class Agent {
 
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

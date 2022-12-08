@@ -128,7 +128,8 @@ a {
 										<div>
 
 											<div class="row tablesetting"
-												style="background-color: #5f249f; color: white">File Information</div>
+												style="background-color: #5f249f; color: white">File
+												Information</div>
 											<div class="row">
 												<div class="col-lg-2 tablesetting tablebackground">
 													File Number</div>
@@ -138,7 +139,7 @@ a {
 
 
 												<div class="col-lg-2 tablesetting tablebackground">File
-													Name</div>  
+													Name</div>
 												<input class="col-lg-4 datesetting" type="text"
 													th:field="${updateFile.fileName}" />
 											</div>
@@ -146,26 +147,27 @@ a {
 											<div class="row">
 												<div class="col-lg-2 tablesetting tablebackground">
 													File Folder</div>
-												<div class="col-lg-4 tablesetting">
-													<input style="display: none;" type="file" name="file"
-														id="file" /><label
-															for="file" style="margin-right: 30px;">Upload New
-															CV </label><a
-														th:href="@{/downloadFile(fileNumber=${updateFile.fileNumber})}"
-														th:text="${updateFile.fileName}"></a>
-												</div>
-
+												<input class="col-lg-4 tablesetting tablebackground" type="file" name="file" />
 												<div class="col-lg-2 tablesetting tablebackground">Date
 													Uploaded</div>
 												<input type="date" class="col-lg-4 tablesetting"
 													th:field="${updateFile.dateUpload}"></input>
-													
+
+											</div>
+											<div class="row">
+												<div class="col-lg-2 tablesetting tablebackground">
+													Uploaded File</div>
+												<div class="col-lg-10 tablesetting">
+													<a
+														th:href="@{/downloadFile(fileNumber=${updateFile.fileNumber})}"
+														th:text="${updateFile.fileName}"></a>
+												</div>
 											</div>
 
 											<div class="row" style="margin-top: 20px;">
 												<button class="submitbutton" type="submit">Submit</button>
 												<button class="closebutton" type="button"
-													onclick="history.back()">
+													onclick="window.location='/viewFiles'">
 													<i class="fas fa-arrow-left"></i> Close
 												</button>
 											</div>

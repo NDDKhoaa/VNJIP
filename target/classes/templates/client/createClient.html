@@ -116,95 +116,94 @@ a {
 							<h4 class="m-0">Create Client</h4>
 						</div>
 						<div class="content p-2 d-flex flex-column flex-grow-1">
-								<div class="col-lg-9"
+							<div class="col-lg-9"
 								style="margin-left: 20px; padding: 20px; margin-top: 5px; font-weight: 550;">
-									<form th:action="@{/saveClient}" th:object="${clientForm}"
-										method="POST">
-										<div>
-										
-											<div class="row tablesetting"
-												style="background-color: #5f249f; color: white">Client
-												Information</div>
-												
-											<div class="row">
-												<div class="col-lg-2 tablesetting tablebackground">
-													Client Number	</div>
-													<div class="col-lg-4 tablesetting inputedbackground">
-														<span th:text="*{clientNumber}"></span></div>
-												
-													
-													<div class="col-lg-2 tablesetting tablebackground">Date Of Birth</div>
-													<input class="col-lg-4 datesetting" type="date"
-														th:field="*{clientDOB}" placeholder="Date Of Birth" required />
-												</div>
+								<form th:action="@{/saveClient}" th:object="${clientForm}"
+									method="POST">
+									<div>
 
-												<div class="row">
-													<div class="col-lg-2 tablesetting tablebackground">
-														First Name</div>
-													<input class="col-lg-4 tablesetting" type="text"
-														th:field="*{clientFirstName}" placeholder="First Name"
-														required />
+										<div class="row tablesetting"
+											style="background-color: #5f249f; color: white">Client
+											Information</div>
 
-													<div class="col-lg-2 tablesetting tablebackground">Last
-														Name</div>
-													<input class="col-lg-4 tablesetting" type="text"
-														th:field="*{clientLastName}" placeholder="Last Name"
-														required />
-												</div>
-												<div class="row">
-													<div class="col-lg-2 tablesetting tablebackground">
-														Identity Number</div>
-													<input class="col-lg-4 tablesetting" type="text"
-														th:field="*{clientIdentityNumber}" placeholder="Identify Number"
-														required />
-
-												</div>
-
-												<div class="row">
-													<div class="col-lg-2 tablesetting tablebackground">Gender</div>
-													<select class="col-lg-4 selectsetting"
-														th:field="*{genderShort}" required="required">
-														<option value="" selected="selected">Select Gender</option>
-														<option th:each="g:${listGender}"
-															th:value="${g.genderShort }"
-															th:text="${g.genderName }"></option>
-													</select>
-
-													<div class="col-lg-2 tablesetting tablebackground">Marital Status</div>
-													<select class="col-lg-4 selectsetting"
-														th:field="*{maritalShort}" required="required">
-														<option value="" selected="selected">Select Marital Status</option>
-														<option th:each="m:${listMaritalStatus}"
-															th:value="${m.maritalShort }"
-															th:text="${m.maritalStatus }"></option>
-													</select>
-												</div>
-
-												<div class="row">
-													<div class="col-lg-2 tablesetting tablebackground">Address</div>
-													<input type="text" class="col-lg-4 tablesetting"
-														th:field="*{clientAddress}" required placeholder="Address"/>
-
-													<div class="col-lg-2 tablesetting tablebackground">Country</div>
-													<select class="col-lg-4 selectsetting"
-														th:field="*{countryShort}" required="required">
-														<option value="" selected="selected">Select Country</option>
-														<option th:each="c:${listCountry}"
-															th:value="${c.countryShort }"
-															th:text="${c.countryName }"></option>
-													</select>
-												</div>
-												
-												<div class="row" style="margin-top: 20px; margin-left: 20px;">
-													<button class="submitbutton" type="submit">Submit</button>
-													<button class="closebutton" type="button"
-														onclick="history.back()">
-														<i class="fas fa-arrow-left"></i> Close
-													</button>
-												</div>
+										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">
+												Client Number</div>
+											<div class="col-lg-4 tablesetting inputedbackground">
+												<span th:text="*{clientNumber}"></span>
 											</div>
-									</form>
-			
+
+
+											<div class="col-lg-2 tablesetting tablebackground">Date
+												Of Birth</div>
+											<input class="col-lg-4 datesetting" type="date"
+												th:field="*{clientDOB}" placeholder="Date Of Birth" />
+										</div>
+
+										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">
+												First Name</div>
+											<input class="col-lg-4 tablesetting" type="text"
+												th:field="*{clientFirstName}" placeholder="First Name" />
+
+											<div class="col-lg-2 tablesetting tablebackground">Last
+												Name</div>
+											<input class="col-lg-4 tablesetting" type="text"
+												th:field="*{clientLastName}" placeholder="Last Name" />
+										</div>
+										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">
+												Identity Number</div>
+											<input class="col-lg-4 tablesetting" type="text"
+												th:field="*{clientIdentityNumber}"
+												placeholder="Identify Number" />
+
+										</div>
+
+										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">Gender</div>
+											<select class="col-lg-4 selectsetting"
+												th:field="*{genderShort}">
+												<option value="" selected="selected">Select Gender</option>
+												<option th:each="g:${listGender}"
+													th:value="${g.genderShort }" th:text="${g.genderName }"></option>
+											</select>
+
+											<div class="col-lg-2 tablesetting tablebackground">Marital
+												Status</div>
+											<select class="col-lg-4 selectsetting"
+												th:field="*{maritalShort}">
+												<option value="" selected="selected">Select Marital
+													Status</option>
+												<option th:each="m:${listMaritalStatus}"
+													th:value="${m.maritalShort }" th:text="${m.maritalStatus }"></option>
+											</select>
+										</div>
+
+										<div class="row">
+											<div class="col-lg-2 tablesetting tablebackground">Address</div>
+											<input type="text" class="col-lg-4 tablesetting"
+												th:field="*{clientAddress}" placeholder="Address" />
+
+											<div class="col-lg-2 tablesetting tablebackground">Country</div>
+											<select class="col-lg-4 selectsetting"
+												th:field="*{countryShort}">
+												<option value="" selected="selected">Select Country</option>
+												<option th:each="c:${listCountry}"
+													th:value="${c.countryShort }" th:text="${c.countryName }"></option>
+											</select>
+										</div>
+
+										<div class="row" style="margin-top: 20px; margin-left: 20px;">
+											<button class="submitbutton" type="submit">Submit</button>
+											<button class="closebutton" type="button"
+												onclick="window.location='/viewClients'">
+												<i class="fas fa-arrow-left"></i> Close
+											</button>
+										</div>
+									</div>
+								</form>
+
 							</div>
 						</div>
 					</main>

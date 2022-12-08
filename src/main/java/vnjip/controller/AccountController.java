@@ -170,13 +170,4 @@ public class AccountController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 	}
 
-	@RequestMapping(value = "/account-multi-delete", method = RequestMethod.POST)
-	public String deleteAccounts(@RequestParam long[] ids, Model model) {
-		for (long l : ids) {
-			if (ids.length > 0) {
-				accountServiceImpl.deleteByNumber(l);
-			}
-		}
-		return "redirect:/viewPolicies";
-	}
 }
