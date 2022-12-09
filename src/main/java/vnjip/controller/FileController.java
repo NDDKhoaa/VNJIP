@@ -292,14 +292,14 @@ public class FileController {
 		}
 		if (baseModel.getFileDateUpload() == null) {
 			baseModel.setErrorCode("E186");
-			errorList.add("Agent DOB " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
 	}
 
 	public void validationNotNullModify(BaseModel baseModel, List<String> errorList) {
 		if (baseModel.getFileDateUpload() == null) {
 			baseModel.setErrorCode("E186");
-			errorList.add("Agent DOB " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
 		if (baseModel.getFilesize() > 20000000) {
 			baseModel.setErrorCode("E195");
