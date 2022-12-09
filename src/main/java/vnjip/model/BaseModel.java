@@ -108,8 +108,9 @@ public class BaseModel {
 	private Date fileDateUpload;
 
 	private Company company;
-	private long companyCode;
+	private String companyCode;
 	private String companyName;
+	private List<Agent> agents;
 
 	public BaseModel() {
 		super();
@@ -137,7 +138,7 @@ public class BaseModel {
 		this.accountTypeShort = accountType2.getAccountTypeShort();
 		this.accountTypeDesc = accountType2.getAccountTypeDesc();
 		this.company = company2;
-		this.companyCode = company2.getCompanyCode();
+		this.companyCode = String.valueOf(company2.getCompanyCode());
 		this.companyName = company2.getCompanyName();
 
 	}
@@ -338,7 +339,7 @@ public class BaseModel {
 		this.accountTypeShort = accountType.getAccountTypeShort();
 		this.accountTypeDesc = accountType.getAccountTypeDesc();
 		this.company = company2;
-		this.companyCode = company2.getCompanyCode();
+		this.companyCode = String.valueOf(company2.getCompanyCode());
 		this.companyName = company2.getCompanyName();
 	}
 
@@ -350,11 +351,11 @@ public class BaseModel {
 		this.company = company;
 	}
 
-	public long getCompanyCode() {
+	public String getCompanyCode() {
 		return companyCode;
 	}
 
-	public void setCompanyCode(long companyCode) {
+	public void setCompanyCode(String companyCode) {
 		this.companyCode = companyCode;
 	}
 
@@ -892,6 +893,14 @@ public class BaseModel {
 
 	public void setErrorList(List<String> errorList) {
 		this.errorList = errorList;
+	}
+
+	public List<Agent> getAgents() {
+		return agents;
+	}
+
+	public void setAgents(List<Agent> agents) {
+		this.agents = agents;
 	}
 
 }

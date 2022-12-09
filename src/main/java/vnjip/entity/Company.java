@@ -1,33 +1,43 @@
 package vnjip.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import vnjip.entity.base.AccountType;
 
 @Entity
 @Table(name = "company")
 public class Company {
 	@Id
-	@Column(name = "company_code", nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "company_id", nullable = false, unique = true)
+	private long companyId;
+
+	@Column(name = "company_code", nullable = true, length = 8)
 	private long companyCode;
+
 	@Column(name = "company_name", nullable = true, length = 200)
 	private String companyName;
 
-	@OneToMany(mappedBy = "company")
-	private List<Agent> agents;
+	@ManyToOne
+	@JoinColumn(name = "account_type_short", nullable = true)
+	private AccountType accountType;
 
 	public Company() {
 		super();
 	}
 
-	public Company(long companyCode, String companyName) {
+	public Company(long companyCode, String companyName, AccountType accountType) {
 		super();
 		this.companyCode = companyCode;
 		this.companyName = companyName;
+		this.accountType = accountType;
 	}
 
 	public long getCompanyCode() {
@@ -46,12 +56,20 @@ public class Company {
 		this.companyName = companyName;
 	}
 
-	public List<Agent> getAgents() {
-		return agents;
+	public long getCompanyId() {
+		return companyId;
 	}
 
-	public void setAgents(List<Agent> agents) {
-		this.agents = agents;
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
 	}
 
 }

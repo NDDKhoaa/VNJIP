@@ -37,4 +37,36 @@ public class CompanyServiceImpl implements CompanyService {
 		companyRepository.deleteById(companyCode);
 	}
 
+	public List<Company> findByCompanyCodeAndCompanyName(long companyCode, String companyName) {
+		return companyRepository.findByCompanyCodeAndCompanyName(companyCode, companyName);
+	}
+
+	public boolean checkFindCompany(List<Company> list, String accountType) {
+		int count = 0;
+		for (Company company : list) {
+			if (company.getAccountType().getAccountTypeShort().equals(accountType)) {
+				count++;
+			}
+		}
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean checkFindCompanyModify(List<Company> list, String accountType) {
+		int count = 0;
+		for (Company company : list) {
+			if (company.getAccountType().getAccountTypeShort().equals(accountType)) {
+				count++;
+			}
+		}
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

@@ -2,6 +2,7 @@ package vnjip.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -98,6 +99,7 @@ public class AgentController {
 	@RequestMapping(value = "/saveAgent", method = RequestMethod.POST)
 	public ModelAndView saveAgent(@ModelAttribute("agentForm") BaseModel model) {
 		List<String> errorList = new ArrayList<>();
+
 		validationNotNull(model, errorList);
 		if (errorList.size() == 0) {
 			validationType(model, errorList);
@@ -129,13 +131,15 @@ public class AgentController {
 			ModelAndView mav = new ModelAndView("redirect:/viewAgents");
 			AccountType accountType = accountTypeServiceImpl.findByShort(model.getAccountTypeShort());
 			AccountStatus accountStatus = accountStatusServiceImpl.findByShort(model.getAccountStatusShort());
-			Company company = companyServiceImpl.findByNumber(model.getCompanyCode());
+			Company company = companyServiceImpl.findByNumber(Long.parseLong(model.getCompanyCode()));
 			if (company != null) {
 				Agent agent = new Agent(model, company, accountType, accountStatus);
 				agent.setCompany(company);
 				agentServiceImpl.save(agent);
 			} else {
-				Company company2 = new Company(model.getCompanyCode(), model.getCompanyName());
+				AccountType accountTypetemp = accountTypeServiceImpl.findByShort(model.getAccountTypeShort());
+				Company company2 = new Company(Long.parseLong(model.getCompanyCode()), model.getCompanyName(),
+						accountTypetemp);
 				companyServiceImpl.save(company2);
 				Agent agent = new Agent(model, company2, accountType, accountStatus);
 				agent.setCompany(company2);
@@ -167,6 +171,7 @@ public class AgentController {
 
 	@RequestMapping(value = "/saveAgentModify", method = RequestMethod.POST)
 	public ModelAndView saveAgentModify(@ModelAttribute("updateAgent") Agent updateAgent,
+			@ModelAttribute("updateCompany") Company updateCompany,
 			@ModelAttribute("updateAccountStatus") AccountStatus updateAccountStatus,
 			@ModelAttribute("updateAccountType") AccountType updateAccountType,
 			@ModelAttribute("agentForm") BaseModel md, @RequestParam("agentNumber") long agentNumber) {
@@ -174,13 +179,21 @@ public class AgentController {
 		Agent agentID = agentServiceImpl.findByNumber(agentNumber);
 		AccountStatus accountStatus = accountStatusServiceImpl.findByShort(md.getAccountStatusShort());
 		AccountType accountType = accountTypeServiceImpl.findByShort(md.getAccountTypeShort());
-		Company company = companyServiceImpl.findByNumber(md.getCompanyCode());
-		if (company == null) {
-			Company company2 = new Company(md.getCompanyCode(), md.getCompanyName());
+		List<String> errorList = new ArrayList<>();
+		Company company = companyServiceImpl.findByNumber(agentID.getCompany().getCompanyId());
+		AccountType ac = accountTypeServiceImpl.findByShort(updateAccountType.getAccountTypeShort());
+
+		Company company2 = new Company(updateCompany.getCompanyCode(), updateCompany.getCompanyName(), ac);
+		System.out.println(company.getCompanyName() + "---------" + company2.getCompanyName());
+		System.out.println(company.getCompanyCode() + "---------" + company2.getCompanyCode());
+		System.out.println(company.getAccountType().getAccountTypeShort() + "---------"
+				+ company2.getAccountType().getAccountTypeShort());
+		if (company.getCompanyName() != company2.getCompanyName()
+				|| company.getCompanyCode() != company2.getCompanyCode()
+				|| company.getAccountType().getAccountTypeShort() != company2.getAccountType().getAccountTypeShort()) {
 			Agent agent = new Agent(updateAgent, company2, accountStatus, accountType);
 			agent.setAgentNumber(agentID.getAgentNumber());
 			BaseModel model = new BaseModel(updateAgent, company2, accountStatus, accountType);
-			List<String> errorList = new ArrayList<>();
 			validationNotNull(model, errorList);
 			if (errorList.size() == 0) {
 				validationType(model, errorList);
@@ -204,9 +217,18 @@ public class AgentController {
 				ModelAndView mav = new ModelAndView("redirect:/viewAgents");
 				Agent agentId = agentServiceImpl.findByNumber(agentNumber);
 				agent.setAgentNumber(agentId.getAgentNumber());
-				companyServiceImpl.save(company2);
-				agent.setCompany(company2);
-				agentServiceImpl.save(agent);
+				if (company2.getCompanyCode() != company.getCompanyCode()
+						|| company2.getCompanyName() != company.getCompanyName() || company2.getAccountType()
+								.getAccountTypeShort() != company.getAccountType().getAccountTypeShort()) {
+					company2.setCompanyId(agentID.getCompany().getCompanyId());
+					company2.setCompanyCode(updateCompany.getCompanyCode());
+					company2.setCompanyName(updateCompany.getCompanyName());
+					company2.setAccountType(
+							accountTypeServiceImpl.findByShort(updateAccountType.getAccountTypeShort()));
+					companyServiceImpl.save(company2);
+					agent.setCompany(company2);
+					agentServiceImpl.save(agent);
+				}
 
 				List<Agent> listAgent = agentServiceImpl.listAll();
 				List<BaseModel> listBaseModel = new ArrayList<BaseModel>();
@@ -226,7 +248,6 @@ public class AgentController {
 			Agent agent = new Agent(updateAgent, company, accountStatus, accountType);
 			agent.setAgentNumber(agentID.getAgentNumber());
 			BaseModel model = new BaseModel(updateAgent, company, accountStatus, accountType);
-			List<String> errorList = new ArrayList<>();
 			validationNotNull(model, errorList);
 			if (errorList.size() == 0) {
 				validationType(model, errorList);
@@ -268,12 +289,15 @@ public class AgentController {
 				return mav;
 			}
 		}
-
 	}
 
 	@RequestMapping("/deleteAgent")
 	public String deleteAgent(@RequestParam("agentNumber") long agentNumber) {
+		Company company = companyServiceImpl
+				.findByNumber(agentServiceImpl.findByNumber(agentNumber).getCompany().getCompanyId());
 		agentServiceImpl.deleteByNumber(agentNumber);
+		companyServiceImpl.delete(company);
+
 		return "redirect:/viewAgents";
 	}
 
@@ -289,7 +313,7 @@ public class AgentController {
 			baseModel.setErrorCode("E186");
 			errorList.add("Agent Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
-		if (baseModel.getCompanyCode() == 0) {
+		if (baseModel.getCompanyCode().trim().equals("")) {
 			baseModel.setErrorCode("E186");
 			errorList.add("Company Code " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
@@ -328,7 +352,10 @@ public class AgentController {
 		if (!isNumeric(baseModel.getAgentLicenseNumber().trim())) {
 			baseModel.setErrorCode("E189");
 			errorList.add("License Number " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
-
+		}
+		if (!isLong(baseModel.getCompanyCode().trim())) {
+			baseModel.setErrorCode("E189");
+			errorList.add("Company Code " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
 	}
 
@@ -345,6 +372,17 @@ public class AgentController {
 			baseModel.setErrorCode("E190");
 			errorList.add("License Number " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
+		if (companyServiceImpl.checkFindCompany(
+				companyServiceImpl.findByCompanyCodeAndCompanyName(Long.parseLong(baseModel.getCompanyCode()),
+						baseModel.getCompanyName()),
+				baseModel.getAccountTypeShort())) {
+			baseModel.setErrorCode("E190");
+			errorList.add("Account Type " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (daysBetween2Dates(baseModel.getAgentDOB()) < 0) {
+			baseModel.setErrorCode("E192");
+			errorList.add("Date of Birth " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
 	}
 
 	public void validate2011(BaseModel baseModel, List<String> errorList) {
@@ -360,6 +398,17 @@ public class AgentController {
 			baseModel.setErrorCode("E190");
 			errorList.add("License Number " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
+		if (daysBetween2Dates(baseModel.getAgentDOB()) < 0) {
+			baseModel.setErrorCode("E192");
+			errorList.add("Date of Birth " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
+		if (companyServiceImpl.checkFindCompanyModify(
+				companyServiceImpl.findByCompanyCodeAndCompanyName(Long.parseLong(baseModel.getCompanyCode()),
+						baseModel.getCompanyName()),
+				baseModel.getAccountTypeShort())) {
+			baseModel.setErrorCode("E190");
+			errorList.add("Account Type " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
+		}
 	}
 
 	public boolean isNumeric(String strNum) {
@@ -368,6 +417,18 @@ public class AgentController {
 		}
 		try {
 			double d = Double.parseDouble(strNum);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
+
+	public boolean isLong(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			long d = Long.parseLong((strNum));
 			return true;
 		} catch (NumberFormatException nfe) {
 			return false;
@@ -387,9 +448,26 @@ public class AgentController {
 	@RequestMapping(value = "/agent-multi-delete", method = RequestMethod.POST)
 	public String deleteAgents(@RequestParam long[] ids) {
 		for (long l : ids) {
+			Company company = companyServiceImpl
+					.findByNumber(agentServiceImpl.findByNumber(l).getCompany().getCompanyId());
 			agentServiceImpl.deleteByNumber(l);
+			companyServiceImpl.delete(company);
 		}
 		return "redirect:/viewAgents";
+
+	}
+
+	public long daysBetween2Dates(Date date1) {
+
+		Date date2 = new Date(System.currentTimeMillis());
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+
+		c1.setTime(date1);
+		c2.setTime(date2);
+
+		long noDay = (c2.getTime().getTime() - c1.getTime().getTime()) / (24 * 3600 * 1000);
+		return noDay;
 
 	}
 }

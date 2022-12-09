@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import vnjip.entity.Agent;
+import vnjip.entity.Company;
 
 @Entity
 @Table(name = "accounttype")
@@ -21,6 +22,9 @@ public class AccountType {
 
 	@OneToMany(mappedBy = "accountType")
 	private List<Agent> agents;
+
+	@OneToMany(mappedBy = "accountType")
+	private List<Company> companies;
 
 	public AccountType() {
 		super();

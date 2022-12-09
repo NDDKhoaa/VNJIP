@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,8 +44,8 @@ public class Agent {
 	@JoinColumn(name = "account_type_short", nullable = true)
 	private AccountType accountType;
 
-	@ManyToOne
-	@JoinColumn(name = "company_code", nullable = true)
+	@OneToOne
+	@JoinColumn(name = "company_id", nullable = true)
 	private Company company;
 
 	public Agent() {
