@@ -167,6 +167,28 @@ public class BaseModel {
 		this.policyStatusDesc = policy.getPolicyStatus().getPolicyStatusDesc();
 	}
 
+	public BaseModel(Policy policy, PolicyStatus policyStatus, BillingCurrency currency) {
+		super();
+		this.policyNumber = policy.getPolicyNumber();
+		this.policyOwner = policy.getPolicyOwner().getClientNumber();
+		this.inceptionDate = policy.getInceptionDate();
+		this.postedPremium = policy.getPostedPremium();
+		this.expiryDate = policy.getExpiryDate();
+		this.vehicleRegistrationNo = policy.getVehicleRegistrationNo();
+		this.sumInsured = policy.getSumInsured();
+		this.chassisNo = policy.getChassisNo();
+		this.engineNo = policy.getEngineNo();
+		this.rate = policy.getRate();
+		this.annualPremium = policy.getAnnualPremium();
+		this.postedPremium = policy.getPostedPremium();
+		this.policyStatus = policyStatus;
+		this.policyStatusShort = policyStatus.getPolicyStatusShort();
+		this.policyStatusDesc = policyStatus.getPolicyStatusDesc();
+		this.billingCurrency = currency;
+		this.currencyName = currency.getCurrencyName();
+		this.currencyShort = currency.getCurrencyShort();
+	}
+
 	public BaseModel(Account account2, AccountStatus accountStatus2, Set<Role> listRole, Client client2) {
 		this.account = account2;
 		this.accountNumber = account2.getAccountNumber();

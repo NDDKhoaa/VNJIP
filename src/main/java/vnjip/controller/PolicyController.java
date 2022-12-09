@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import vnjip.entity.Client;
 import vnjip.entity.Policy;
 import vnjip.entity.base.BillingCurrency;
+import vnjip.entity.base.PolicyStatus;
 import vnjip.model.BaseModel;
 import vnjip.services.PolicyStatusService;
 import vnjip.services.Impl.BillingCurrencyServiceImpl;
@@ -76,8 +77,12 @@ public class PolicyController {
 	public ModelAndView viewAgentDetails(@RequestParam(value = "policyNumber") long policyNumber) {
 		ModelAndView mav = new ModelAndView("/policy/viewPolicyDetails");
 		Policy policy = policyServiceImpl.findByNumber(policyNumber);
-		System.out.println(policy.toString());
-		mav.addObject("baseModel", policy);
+		PolicyStatus policyStatus = policyStatusServiceImpl
+				.findByShort(policy.getPolicyStatus().getPolicyStatusShort());
+		BillingCurrency billingCurrency = billingCurrencyServiceImpl
+				.findByShort(policy.getBillingCurrency().getCurrencyShort());
+		BaseModel baseModel = new BaseModel(policy, policyStatus, billingCurrency);
+		mav.addObject("baseModel", baseModel);
 		return mav;
 	}
 
@@ -355,6 +360,28 @@ public class PolicyController {
 	@RequestMapping("/deletePolicy")
 	public String deletePolicy(@RequestParam("policyNumber") long policyNumber) {
 		policyServiceImpl.deleteByNumber(policyNumber);
+		return "redirect:/viewPolicies";
+	}
+
+	@RequestMapping("/issuePolici")
+	public String issuePolici(@RequestParam("policyNumber") long policyNumber) {
+		Policy policy = policyServiceImpl.findByNumber(policyNumber);
+		PolicyStatus policyStatus = policyStatusServiceImpl.findByShort("IF");
+		policy.setPolicyStatus(policyStatus);
+		policyServiceImpl.save(policy);
+		return "redirect:/viewPolicies";
+	}
+
+	@RequestMapping("/issuePolicy")
+	public String issuePolicy(@RequestParam long[] ids) {
+		for (long l : ids) {
+			if (ids.length > 0) {
+				Policy policy = policyServiceImpl.findByNumber(l);
+				PolicyStatus policyStatus = policyStatusServiceImpl.findByShort("IF");
+				policy.setPolicyStatus(policyStatus);
+				policyServiceImpl.save(policy);
+			}
+		}
 		return "redirect:/viewPolicies";
 	}
 
