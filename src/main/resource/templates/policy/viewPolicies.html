@@ -32,7 +32,7 @@ td, th {
 
 th {
 	background-color: #5f249f;
-	color:white;
+	color: white;
 }
 
 tr:nth-child(even) {
@@ -206,6 +206,9 @@ tr:nth-child(even) {
 .fa-arrow-left {
 	color: #CF2A28;
 }
+.fa-circle-check {
+	color: #5f249f;
+}
 </style>
 <script type="text/javascript">
         $(document).ready(function() {
@@ -275,10 +278,11 @@ tr:nth-child(even) {
 											<i class="fas fa-plus-circle"></i> Create Policy
 										</button></a>
 								</div>
-								<div class="col-lg-2" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_AGENT')">
+								<div class="col-lg-2"
+									sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_AGENT')">
 									<a style="color: black;"><button style="width: 180px;"
-											class="updateButton" onClick="updatePolicy()" type="submit">
-											<i class="fas fa-arrow-alt-circle-up"></i> Modify Policy
+											class="updateButton" onClick="issueItems()" type="submit">
+											<i class="fa-solid fa-circle-check"></i> Issue Policy
 										</button></a>
 								</div>
 							</div>
@@ -318,15 +322,23 @@ tr:nth-child(even) {
             array.push(checkboxes[i].value);
         fetch("/multi-delete?ids=" + array, {method: "POST"}).then(() => location.reload())
     }
-    const updatePolicy = _ => {
+    </script>
+	<script>
+    $(document).ready(function() {
+        $('#chkCheckBoxAll').click(function() {
+            if ($(this).is(":checked"))
+                $('.chkCheckBoxId').prop('checked', true);
+            else
+                $('.chkCheckBoxId').prop('checked', false);
+        });
+    });
+    
+    const issueItems = _ => {
         const array = [];
         const checkboxes = document.querySelectorAll('input[name=chkCheckBoxId]:checked')
-        if(checkboxes.length == 1) {        	
-	        array.push(checkboxes[0].value)
-	        fetch("/modifyPolicy?policyNumber=" + array[0], {method: "POST"}).then(() => location.reload())
-        } else {
-        	alert("Modify can't munti select");
-        }
+        for (let i = 0; i < checkboxes.length; ++i){
+            array.push(checkboxes[i].value);}    
+	    fetch("/issuePolicy?ids=" + array, {method: "POST"}).then(() => location.reload())
     }
 </script>
 </body>

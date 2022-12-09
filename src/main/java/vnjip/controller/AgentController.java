@@ -347,7 +347,6 @@ public class AgentController {
 		if (isNumeric(baseModel.getAgentName().trim())) {
 			baseModel.setErrorCode("E189");
 			errorList.add("Agent Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
-
 		}
 		if (!isNumeric(baseModel.getAgentLicenseNumber().trim())) {
 			baseModel.setErrorCode("E189");

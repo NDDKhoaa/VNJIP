@@ -81,6 +81,10 @@
 	color: orange;
 }
 
+.fa-circle-check {
+	color: #5f249f;
+}
+
 .deletebutton {
 	position: relative;
 	margin-left: 430px;
@@ -128,8 +132,8 @@ a {
 									method="Get">
 									<div>
 										<div class="row tablesetting"
-											style="background-color: #5f249f;color: white;">Personal Information
-										</div>
+											style="background-color: #5f249f; color: white;">Personal
+											Information</div>
 										<div class="row">
 											<div class="col-lg-2 tablesetting tablebackground">Policy
 												Number</div>
@@ -226,20 +230,30 @@ a {
 												<i class="fas fa-plus-circle"></i> Create Policy
 											</button></a>
 									</div>
-									<div class="col-lg-2 updatebutton"
-										sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<div class="col-lg-2 updatebutton" th:if="${baseModel.policyStatusShort =='PN'}"
+										sec:authorize="hasAnyRole('ROLE_ADMIN')"> 
 										<a
 											th:href="@{/modifyPolicy(policyNumber=*{baseModel.policyNumber})}"
 											style="color: black;"><button style="width: 180px;">
 												<i class="fas fa-arrow-alt-circle-up"></i> Modify Policy
 											</button></a>
 									</div>
-									<div class="col-lg-2 deletebutton"
+								</div>
+								<div class="row" style="margin-top: 50px;">
+									<div class="col-lg-2 newbutton"
 										sec:authorize="hasAnyRole('ROLE_ADMIN')">
 										<a
 											th:href="@{/deletePolicy(policyNumber=*{baseModel.policyNumber})}"
 											style="color: black;"><button style="width: 160px;">
 												<i class="fas fa-times-circle"></i> Delete Policy
+											</button></a>
+									</div>
+									<div class="col-lg-2 updatebutton" th:if="${baseModel.policyStatusShort =='PN'}"
+										sec:authorize="hasAnyRole('ROLE_ADMIN')">
+										<a
+											th:href="@{/issuePolici(policyNumber=*{baseModel.policyNumber})}"
+											style="color: black;"><button style="width: 160px;">
+												<i class="fa-solid fa-circle-check"></i> Issue Policy
 											</button></a>
 									</div>
 								</div>
