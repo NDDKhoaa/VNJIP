@@ -136,8 +136,9 @@ public class FileController {
 	public ModelAndView modifyFile(@RequestParam("fileNumber") long fileNumber) {
 		ModelAndView mav = new ModelAndView("/file/modifyFile");
 		FileUpload file = fileServiceImpl.findByNumber(fileNumber);
+		BaseModel model = new BaseModel(file);
 		mav.addObject("updateFile", file);
-		mav.addObject("baseModel", new BaseModel());
+		mav.addObject("baseModel", model);
 		return mav;
 	}
 
@@ -173,45 +174,55 @@ public class FileController {
 				model.setFilesize(fileSize);
 				model.setFilecontent(content);
 				model.setFileDateUpload(fileId.getDateUpload());
-				if (!fileFolderName.equals(fileId.getFileName())) {
+				System.out.println(fileId.getFileName());
+				System.out.println(model.getFileName());
+				if ("".equals(model.getFileName())) {
 					model.setFileName(fileFolderName);
 					FileUpload file2 = new FileUpload(model);
 					file2.setFileNumber(fileId.getFileNumber());
 					fileServiceImpl.save(file2);
-
 				} else {
-					String fileFolderName1 = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-					String[] result2 = model.getFileName().split("\\.");
-					String[] result = fileFolderName1.split("\\.");
-					String newFileName = result2[0] + "." + result[1];
-					model.setFileName(newFileName);
-					FileUpload file2 = new FileUpload(model);
-					file2.setFileNumber(fileId.getFileNumber());
-					fileServiceImpl.save(file2);
+					if (model.getFileName().equals(fileFolderName)) {
+						model.setFileName(fileFolderName);
+						FileUpload file2 = new FileUpload(model);
+						file2.setFileNumber(fileId.getFileNumber());
+						fileServiceImpl.save(file2);
+					} else {
+						String[] result2 = model.getFileName().split("\\.");
+						String[] result = fileFolderName.split("\\.");
+						String newFileName = result2[0] + "." + result[1];
+						model.setFileName(newFileName);
+						FileUpload file2 = new FileUpload(model);
+						file2.setFileNumber(fileId.getFileNumber());
+						fileServiceImpl.save(file2);
+					}
 				}
 			} else {
 				FileUpload fileId = fileServiceImpl.findByNumber(fileNumber);
-				String fileFolderName = fileId.getFileName();
-				String fileName = fileId.getFileName();
-				long fileSize = fileId.getSize();
-				byte[] content = fileId.getContent();
-				Date UploadedDate = fileId.getDateUpload();
-				if (!fileName.equals(fileId.getFileName())) {
-					FileUpload file2 = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
+				model.setFilefolderName(fileId.getFileName());
+				model.setFilesize(fileId.getSize());
+				model.setFilecontent(fileId.getContent());
+				model.setFileDateUpload(fileId.getDateUpload());
+				if ("".equals(model.getFileName())) {
+					model.setFileName(fileId.getFileName());
+					FileUpload file2 = new FileUpload(model);
 					file2.setFileNumber(fileId.getFileNumber());
 					fileServiceImpl.save(file2);
-
 				} else {
-
-					String[] result = fileName.split("\\.");
-					String modelFileName = model.getFileName();
-					String[] result2 = modelFileName.split("\\.");
-					modelFileName = result2[0];
-					String newFileName = modelFileName + "." + result[1];
-					fileName = newFileName;
-					FileUpload file2 = new FileUpload(fileName, fileFolderName, content, fileSize, UploadedDate);
-					file2.setFileNumber(fileId.getFileNumber());
-					fileServiceImpl.save(file2);
+					if (model.getFileName().equals(fileId.getFileName())) {
+						model.setFileName(fileId.getFileName());
+						FileUpload file2 = new FileUpload(model);
+						file2.setFileNumber(fileId.getFileNumber());
+						fileServiceImpl.save(file2);
+					} else {
+						String[] result2 = model.getFileName().split("\\.");
+						String[] result = fileId.getFolderName().split("\\.");
+						String newFileName = result2[0] + "." + result[1];
+						model.setFileName(newFileName);
+						FileUpload file2 = new FileUpload(model);
+						file2.setFileNumber(fileId.getFileNumber());
+						fileServiceImpl.save(file2);
+					}
 				}
 			}
 			List<FileUpload> listFile = fileServiceImpl.listAll();
