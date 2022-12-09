@@ -82,6 +82,11 @@ public class FileController {
 		model.setFilefolderName(fileFolderName);
 		model.setFilesize(fileSize);
 		model.setFilecontent(content);
+
+		String[] resultTemp = fileFolderName.split("\\.");
+		String newFileNameTemp = model.getFileName() + "." + resultTemp[1];
+		String fileNameTemp = newFileNameTemp;
+
 		if (file != null) {
 			model.setFileNumber(file.getFileNumber() + 1);
 		} else {
@@ -94,7 +99,7 @@ public class FileController {
 			validationType(model, errorList);
 		}
 		if (errorList.size() == 0) {
-			validate2010(model, errorList);
+			validate2010(model, errorList, fileNameTemp);
 		}
 		if (errorList.size() > 0) {
 			ModelAndView mav = new ModelAndView("/file/createFile");
@@ -112,7 +117,7 @@ public class FileController {
 			model.setFilecontent(content);
 			if ("".equals(model.getFileName())) {
 				model.setFileName(fileFolderName);
-				validate2010(model, errorList);
+				validate2010(model, errorList, fileNameTemp);
 				if (errorList.size() > 0) {
 					return mav2;
 				} else {
@@ -150,11 +155,13 @@ public class FileController {
 		BaseModel model = new BaseModel(updateFile);
 		List<String> errorList = new ArrayList<>();
 		validationNotNullModify(model, errorList);
+		String fileNameTemp = model.getFileName();
+
 		if (errorList.size() == 0) {
 			validationType(model, errorList);
 		}
 		if (errorList.size() == 0) {
-			validate2011(model, errorList);
+			validate2011(model, errorList, fileNameTemp);
 		}
 
 		if (errorList.size() > 0) {
@@ -315,23 +322,24 @@ public class FileController {
 		}
 	}
 
-	public void validate2010(BaseModel baseModel, List<String> errorList) {
-		if (fileServiceImpl.findByFileName((baseModel.getFileName()))) {
+	public void validate2010(BaseModel baseModel, List<String> errorList, String fileNameTemp) {
+		System.out.println(fileNameTemp + "--------------------");
+		if (fileServiceImpl.findByFileName(fileNameTemp)) {
 			baseModel.setErrorCode("E190");
 			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
-		if (daysBetween2Dates(baseModel.getFileDateUpload()) <= 0) {
+		if (daysBetween2Dates(baseModel.getFileDateUpload()) < 0) {
 			baseModel.setErrorCode("E192");
 			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
 	}
 
-	public void validate2011(BaseModel baseModel, List<String> errorList) {
-		if (fileServiceImpl.findByFileNameModify((baseModel.getFileName()))) {
+	public void validate2011(BaseModel baseModel, List<String> errorList, String fileNameTemp) {
+		if (fileServiceImpl.findByFileNameModify(fileNameTemp)) {
 			baseModel.setErrorCode("E190");
 			errorList.add("File Name " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
-		if (daysBetween2Dates(baseModel.getFileDateUpload()) <= 0) {
+		if (daysBetween2Dates(baseModel.getFileDateUpload()) < 0) {
 			baseModel.setErrorCode("E192");
 			errorList.add("Date Upload " + errorPfImpl.findByShort(baseModel.getErrorCode()).getErrorDesc());
 		}
